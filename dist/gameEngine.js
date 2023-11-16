@@ -1,43 +1,15 @@
-class GameSettings {
-    // create settings
-    settings = {
-        debug: {
-            boundingBoxes: false,
-            fps: false,
-        },
-        game: {
-            active: true,
-        },
-        background: {
-            color: 'black',
-        },
-        physics: {
-            gravity: {
-                x: 0,
-                y: 0,
-            },
-        },
-    };
+// Description: GameEngine class
+// Dependencies: gameObject.js
+// Author: Ed Spurrier
 
-    constructor(settings) {
-        // create settings and update them
-        this.settings = {
-            ...settings,
-        };
-    }
+// preset gamesettings for being added to in constructor
 
-
-    updateSettings(settings)   {
-        // update settings
-        this.settings = {
-            ...this.settings,
-            ...settings,
-        };
-    }
-}
-
-
-
+const presetGameSettings = {
+    boundingBoxes: false,
+    fps: false,
+    backgroundColor: 'black',
+    gravity: 10,
+};
 
 
 class GameEngine {
@@ -46,15 +18,17 @@ class GameEngine {
         console.log('GameEngine');
         this.canvas = canvas;
         this.ctx = ctx;
-        this.gameSettings = gameSettings;
-
+        //  merge the presetGameSettings with the gameSettings passed in
+        this.gameSettings = Object.assign(presetGameSettings, gameSettings);
         this.canvas.width = innerWidth;
         this.canvas.height = innerHeight;
+
+        this.gameObjects = [];
+
     }
 
-
-
     
+
     calculateFps =  () => {
         //  calculate fps
         this.now = Date.now();
@@ -66,7 +40,7 @@ class GameEngine {
 
 
     renderFpsCounter = () => {
-        if (this.gameSettings.debug.fps) {
+        if (this.gameSettings.fps) {
             // Add black background to text
             this.ctx.fillStyle = "black";
             this.ctx.fillRect(this.canvas.width - 100, this.canvas.height - 40, 100, 40);
@@ -78,36 +52,55 @@ class GameEngine {
     }
 
 
-
+    resizeCanvas = () => {
+        this.canvas.width = innerWidth;
+        this.canvas.height = innerHeight;
+    }
 
     
 
-    renderDebug = () => {
-        //  render debug
-        rFpsCounter();
-    }
+    addGameObject = (gameObject) => {
+        gameObject.init(
+            this.ctx,
+        )
+        this.gameObjects.push(gameObject);
 
+    }
 
 
     updateSystem = () => {
         //  calculate fps
         this.calculateFps();
+
+        //  update gameObjects
+        this.gameObjects.forEach(gameObject => {
+            gameObject.update(this.gameObjects);
+        });
     }
 
     renderFrame = () => {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.fillStyle = this.gameSettings.background.color;
+        this.ctx.fillStyle = this.gameSettings.backgroundColor;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        //  render gameObjects
+        this.gameObjects.forEach(gameObject => {
+            gameObject.render();
+        });
+        
+
         this.renderFpsCounter();
     }
 
     loop = () => {
+        this.resizeCanvas();
         this.updateSystem();
         
         this.renderFrame();
 
         requestAnimationFrame(this.loop);
     }
+
 
 
     init = () => {

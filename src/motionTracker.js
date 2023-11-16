@@ -47,22 +47,10 @@ function runDetection() {
        /*  console.log("Predictions: ", predictions); */
         model.renderPredictions(predictions, canvas, context, video);
 
-        const htmlContent = predictions.map(p => 
-          `<div>
-            ${p.label} : ${p.landmarks} [${p.bbox[0] + p.bbox[2] / 2}, ${p.bbox[1] + p.bbox[3] / 2}]
-          </div>`).join("");
 
-          handData.innerHTML = htmlContent;
           
           predictions.forEach(p => {
-            if (p.label !== 'face') return;
-            
-            const x = p.bbox[0] + p.bbox[2] / 2;
-            const y = p.bbox[1] + p.bbox[3] / 2;
-            const radius = p.bbox[2] / 2;
-            const color = 'red';
-            new Ball(ctx, x, y, radius, color).update();
-            
+
           });
           
         if (isVideo) {
