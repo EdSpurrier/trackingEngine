@@ -41,17 +41,19 @@ function toggleVideo() {
 
 let handData = document.getElementById("handData");
 
+let trackedPredictions = [];
+
 
 function runDetection() {
     model.detect(video).then(predictions => {
        /*  console.log("Predictions: ", predictions); */
         model.renderPredictions(predictions, canvas, context, video);
 
-
+        trackedPredictions = predictions;
           
-          predictions.forEach(p => {
+/*           predictions.forEach(p => {
 
-          });
+          }); */
           
         if (isVideo) {
             requestAnimationFrame(runDetection);

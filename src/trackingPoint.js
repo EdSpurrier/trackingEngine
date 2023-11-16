@@ -5,11 +5,14 @@ class TrackingPoint {
         this.y = y
         this.radius = radius
         this.color = color
+    }
 
-        window.addEventListener('pointermove', (event) => {
-            this.x = event.clientX
-            this.y = event.clientY
-        })
+    setPosition = (
+        x,
+        y,
+    ) => {
+        this.x = x
+        this.y = y
     }
 
     update = () => {

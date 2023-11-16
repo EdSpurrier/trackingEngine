@@ -27,13 +27,36 @@ gameEngine.addGameObject(
     )
 )
 
-gameEngine.addGameObject(
-    new TrackingPoint(
-        500,
-        500,
-        20,
-        'red',
-        'green'
-    )
+
+const mouseTracker = new TrackingPoint(
+    500,
+    500,
+    20,
+    'red',
+    'green'
 )
+
+
+
+window.addEventListener('pointermove', (event) => {
+    mouseTracker.setPosition(
+        event.clientX,
+        event.clientY
+    )
+})
+
+
+gameEngine.addGameObject(
+    mouseTracker
+)
+
+
+
+gameEngine.addGameObject(
+    mouseTracker
+)
+
+
+
+
 gameEngine.init();

@@ -1,6 +1,6 @@
 {
-  "name": "canvas-detect-collision-over",
-  "version": "2023.11.16-04.05.04",
+  "name": "motion-tracking-engine",
+  "version": "1.0.0",
   "license": "MIT",
   "homepage": "https://codepen.io/edspurrier/pen/yLZPggG",
   "scripts": {
