@@ -1,22 +1,16 @@
-let gameSettings = {
+let sceneSettings = {
     fps: true,
     backgroundColor: 'black',
-    gravity: 10,
 };
 
-let gameCanvas = document.getElementById('game-canvas');
-let ctx = gameCanvas.getContext('2d');
 
-//  #game-canvas
-let gameEngine = new GameEngine(
-    gameCanvas,
-    ctx,
-    gameSettings,
+let sceneEngine = new SceneEngine(
+    sceneSettings,
 );
 
 
 
-gameEngine.addGameObject(
+sceneEngine.addSceneObject(
     new TriggerZone(
         {
             percentageX: 50,
@@ -30,7 +24,7 @@ gameEngine.addGameObject(
 
 
  
-gameEngine.addGameObject(
+sceneEngine.addSceneObject(
     new MotionTracker(
         {
             radius: 20,
@@ -38,10 +32,10 @@ gameEngine.addGameObject(
             trackingType: 'mouse',
         }
     )
-    
 )
 
 
 
-//  Init gameEngine after all gameObjects have been added
-gameEngine.init();
+//  Init sceneEngine after all sceneObjects have been added
+sceneEngine.init();
+

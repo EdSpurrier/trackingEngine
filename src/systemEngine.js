@@ -1,13 +1,3 @@
-// Insert HTML into body
-
-const systemHTML = `
-    <div 
-        id="system" 
-        class="layer layer-top flex flex-col justify-center items-center w-full h-full bg-gray-900 bg-opacity-70 hidden">
-    </div>
-`
-
-document.body.innerHTML += systemHTML;
 
 class SystemEngine {
     constructor() {
@@ -61,6 +51,15 @@ class SystemEngine {
         this.updateElements();
     }
 
+    systemError = () => {
+        this.errors.push({
+            className: 'ERROR', 
+            message: 'Please Check the Console in the Lower Left.<br />Remember ChatGPT is the best tool avaliable to solve your Errors.<br /><br /><a href="https://chat.openai.com/" class="underline" target="_blank">ChatGPT Click Here</a>',          
+            data: null, 
+        });
+        this.updateElements();
+    }
+
     updateElements = () => {
         console.log('SystemEngine updateElements');
 
@@ -68,24 +67,30 @@ class SystemEngine {
         if (this.errors.length > 0) {
             this.errorsEl.classList.remove('hidden');
             this.systemEl.classList.remove('hidden');
+            this.lessonEl.classList.add('hidden');
         } else {
             this.errorsEl.classList.add('hidden');
             this.systemEl.classList.add('hidden');
         }
+
+        console.log(this.errors)
         // update errors
         this.errorsEl.innerHTML = '<div class="text-lg">Errors</div>';
         this.errorsEl.innerHTML += this.errors.map(error => {
+            
             let html = `<div class="w-full p-2 border-y-2 border-slate-600 flex flex-col justify-center items-center gap-4 py-2">`;
+            console.log(html)
+
             html += `<div class="text-bold underline">${error.className}</div>`;
             
             html += `<div>${error.message}</div>`;
+            
             if (error.data) {
                 html += `<div class="text-xs">DATA = ${JSON.stringify(error.data)}</div>`;
             }
-            if (error.className) {
-                html += teacher.getLessonButton(error.className);
-            }
             html += `</div>`;
+            
+
             return html;
 
         }).join('');
@@ -112,3 +117,10 @@ class SystemEngine {
 let system = new SystemEngine();
 
 system.init();
+
+
+// capture every error in the console
+window.onerror = function (message, url, lineNumber) {
+    system.systemError();
+    return true;
+};

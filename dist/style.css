@@ -53,7 +53,7 @@ li {
   z-index: 0;
 }
 
-#game-canvas {
+#scene-canvas {
   height: 100vh;
   width: 100vw;
 }

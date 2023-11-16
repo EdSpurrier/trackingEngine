@@ -5,7 +5,6 @@ class TriggerZone {
     checkSetup = () => {
         if (this.percentageX > 100 || this.percentageX < 0) {
             system.error(this.name, `percentageX must be between 0 and 100`, this.percentageX)
-            
         }
 
         if (this.percentageY > 100 || this.percentageY < 0) {
@@ -53,14 +52,14 @@ class TriggerZone {
         this.percentageY = this.y / (this.canvas.height/100)
     }
 
-    checkCollisions = (gameObjects) => {
-        gameObjects.forEach((gameObject) => {
-            if (gameObject instanceof MotionTracker) {
-                let dx = gameObject.x - this.x
-                let dy = gameObject.y - this.y
+    checkCollisions = (sceneObjects) => {
+        sceneObjects.forEach((sceneObject) => {
+            if (sceneObject instanceof MotionTracker) {
+                let dx = sceneObject.x - this.x
+                let dy = sceneObject.y - this.y
                 let distance = Math.sqrt(dx * dx + dy * dy)
 
-                if (distance < gameObject.radius + this.radius) {
+                if (distance < sceneObject.radius + this.radius) {
                     this.color = this.activeColor
                 } else {
                     this.color = this.inactiveColor
@@ -70,8 +69,8 @@ class TriggerZone {
     }
 
 
-    update = (gameObjects) => {
-        this.checkCollisions(gameObjects)
+    update = (sceneObjects) => {
+        this.checkCollisions(sceneObjects)
         this.storePercentagePosition()
     }
 

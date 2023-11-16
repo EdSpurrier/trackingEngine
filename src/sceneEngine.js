@@ -1,30 +1,39 @@
-// Description: GameEngine class
-// Dependencies: gameObject.js
+// Description: SceneEngine class
+// Dependencies: SceneObjects, TriggerZone, MotionTracker
 // Author: Ed Spurrier
 
-// preset gamesettings for being added to in constructor
-
-const presetGameSettings = {
+// preset scenesettings for being added to in constructor
+const presetSceneSettings = {
     boundingBoxes: false,
     fps: false,
-    backgroundColor: 'black',
-    gravity: 10,
+    backgroundColor: '#39FF14',
 };
 
 
-class GameEngine {
+let sceneEngineCreated = false;
+let sceneEngineInit = false;
 
-    constructor(canvas, ctx, gameSettings) {
-        console.log('GameEngine');
-        this.canvas = canvas;
-        this.ctx = ctx;
-        //  merge the presetGameSettings with the gameSettings passed in
-        this.gameSettings = Object.assign(presetGameSettings, gameSettings);
+class SceneEngine {
+
+
+
+
+
+    constructor(sceneSettings) {
+        sceneEngineCreated = true;
+        console.log('SceneEngine Constructing');
+
+        this.canvas = document.getElementById('scene-canvas');
+        this.ctx = this.canvas.getContext('2d');
+
+        //  merge the presetSceneSettings with the sceneSettings passed in
+        this.sceneSettings = Object.assign(presetSceneSettings, sceneSettings);
         this.canvas.width = innerWidth;
         this.canvas.height = innerHeight;
 
-        this.gameObjects = [];
+        this.sceneObjects = [];
 
+        teacher.lessonCheckState(1, (this.sceneSettings.backgroundColor !== '#39FF14'));
     }
 
     
@@ -40,7 +49,7 @@ class GameEngine {
 
 
     renderFpsCounter = () => {
-        if (this.gameSettings.fps) {
+        if (this.sceneSettings.fps) {
             // Add black background to text
             this.ctx.fillStyle = "black";
             this.ctx.fillRect(this.canvas.width - 100, this.canvas.height - 40, 100, 40);
@@ -59,12 +68,12 @@ class GameEngine {
 
     
 
-    addGameObject = (gameObject) => {
-        gameObject.init(
+    addSceneObject = (sceneObject) => {
+        sceneObject.init(
             this.ctx,
             this.canvas,
         )
-        this.gameObjects.push(gameObject);
+        this.sceneObjects.push(sceneObject);
 
     }
 
@@ -73,20 +82,20 @@ class GameEngine {
         //  calculate fps
         this.calculateFps();
 
-        //  update gameObjects
-        this.gameObjects.forEach(gameObject => {
-            gameObject.update(this.gameObjects);
+        //  update sceneObjects
+        this.sceneObjects.forEach(sceneObject => {
+            sceneObject.update(this.sceneObjects);
         });
     }
 
     renderFrame = () => {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.fillStyle = this.gameSettings.backgroundColor;
+        this.ctx.fillStyle = this.sceneSettings.backgroundColor;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        //  render gameObjects
-        this.gameObjects.forEach(gameObject => {
-            gameObject.render();
+        //  render sceneObjects
+        this.sceneObjects.forEach(sceneObject => {
+            sceneObject.render();
         });
         
 
@@ -94,7 +103,8 @@ class GameEngine {
     }
 
     loop = () => {
-        teacher.checkLessonPoint(this);
+        teacher.lessonCheckState(2, lessonPoints[2].checkLessonPoint(this));
+        teacher.lessonCheckState(3, lessonPoints[3].checkLessonPoint(this));
         this.resizeCanvas();
         this.updateSystem();
         
@@ -108,10 +118,18 @@ class GameEngine {
     }
 
     init = () => {
+        sceneEngineInit = true;
         console.log('init');
         this.loop();
     }
 }
+
+
+
+//  Check after everyting in the whole site has finished loading and initiating and see if the sceneEngine is present
+setTimeout(() => {
+    teacher.lessonCheckState(0, sceneEngineCreated && sceneEngineInit);
+}, 5000);
 
 
 

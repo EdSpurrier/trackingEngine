@@ -3,6 +3,8 @@ const gulp = require('gulp');
 const concat = require('gulp-concat');
 
 const jsFiles = [
+    './src/htmlInjector.js',
+    
     './src/systemEngine.js',
     './src/teacherEngine.js',
     './src/userInterface.js',
