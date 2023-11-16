@@ -1,23 +1,45 @@
 
-class TargetPoint {
-    name = 'TargetPoint'
+class TriggerZone {
+    name = 'TriggerZone'
 
     checkSetup = () => {
         if (this.percentageX > 100 || this.percentageX < 0) {
-            system.error(`${this.name}: percentageX must be between 0 and 100`, this.percentageX)
+            system.error(this.name, `percentageX must be between 0 and 100`, this.percentageX)
+            
         }
+
         if (this.percentageY > 100 || this.percentageY < 0) {
-            system.error(`${this.name}: percentageY must be between 0 and 100`, this.percentageY)
+            system.error(this.name, `percentageY must be between 0 and 100`, this.percentageY)
         }
+
+        if (this.radius === undefined) {
+            system.error(this.name, `radius must be set`, this.radius)
+        }
+
+        if (this.inactiveColor === undefined) {
+            system.error(this.name, `inactiveColor must be set`, this.inactiveColor)
+        }
+
+        if (this.activeColor === undefined) {
+            system.error(this.name, `activeColor must be set`, this.activeColor)
+        }
+
+        if (this.color === undefined) {
+            system.error(this.name, `color must be set`, this.color)
+        }
+
     }
 
-    constructor(percentageX, percentageY, radius, inactiveColor, activeColor) {
-        this.percentageX = percentageX
-        this.percentageY = percentageY
-        this.radius = radius
-        this.inactiveColor = inactiveColor
-        this.color = inactiveColor
-        this.activeColor = activeColor
+    constructor(
+        settings = {
+            percentageX, percentageY, radius, inactiveColor, activeColor
+        }) {
+        this.percentageX = settings.percentageX
+        this.percentageY = settings.percentageY
+        this.radius = settings.radius
+        this.inactiveColor = settings.inactiveColor
+        this.color = settings.inactiveColor
+        this.activeColor = settings.activeColor
         this.checkSetup()
     }
 
@@ -33,7 +55,7 @@ class TargetPoint {
 
     checkCollisions = (gameObjects) => {
         gameObjects.forEach((gameObject) => {
-            if (gameObject instanceof TrackingPoint) {
+            if (gameObject instanceof MotionTracker) {
                 let dx = gameObject.x - this.x
                 let dy = gameObject.y - this.y
                 let distance = Math.sqrt(dx * dx + dy * dy)

@@ -16,45 +16,32 @@ let gameEngine = new GameEngine(
 
 
 
-
 gameEngine.addGameObject(
-    new TargetPoint(
-        50,
-        50,
-        50,
-        '#0d1636',
-        'green'
+    new TriggerZone(
+        {
+            percentageX: 50,
+            percentageY: 50,
+            radius: 50,
+            inactiveColor: '#0d1636',
+            activeColor: 'green'
+        }
     )
 )
 
 
-const mouseTracker = new TrackingPoint(
-    20,
-    'red',
-    'green'
-)
-
-
-
-window.addEventListener('pointermove', (event) => {
-    mouseTracker.setPosition(
-        event.clientX,
-        event.clientY
-    )
-})
-
-
-/* gameEngine.addGameObject(
-    mouseTracker
-)
-
-
-
+ 
 gameEngine.addGameObject(
-    mouseTracker
+    new MotionTracker(
+        {
+            radius: 20,
+            color: 'red',
+            trackingType: 'mouse',
+        }
+    )
+    
 )
 
- */
 
 
+//  Init gameEngine after all gameObjects have been added
 gameEngine.init();

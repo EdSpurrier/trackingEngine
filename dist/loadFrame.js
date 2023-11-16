@@ -1,8 +1,8 @@
 
 // Define an array of JavaScript file paths to load
 const jsFiles = [
-  '/trackingPoint.js',
-  '/targetPoint.js',
+  '/motionTracker.js',
+  '/triggerZone.js',
   '/gameEngine.js'
 ];
 
