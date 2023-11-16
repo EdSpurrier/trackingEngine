@@ -1,10 +1,21 @@
 
 class TrackingPoint {
-    constructor(x, y, radius, color) {
-        this.x = x
-        this.y = y
+    name = 'TrackingPoint'
+    constructor(radius, color) {
         this.radius = radius
         this.color = color
+    }
+
+
+
+    calculateCanvasPosition = () => {
+        this.x = ((this.canvas.width/100) * this.percentageX) + this.radius/2
+        this.y = ((this.canvas.height/100) * this.percentageY) + this.radius/2
+    }
+
+    storePercentagePosition = () => {
+        this.percentageX = this.x / (this.canvas.width/100)
+        this.percentageY = this.y / (this.canvas.height/100)
     }
 
     setPosition = (
@@ -16,11 +27,12 @@ class TrackingPoint {
     }
 
     update = () => {
-
     }
 
     render = () => {
-        this.draw()
+        if(this.x && this.y) {
+            this.draw()
+        }
     }
 
     draw = () => {
@@ -31,7 +43,8 @@ class TrackingPoint {
         this.ctx.closePath()
     }
 
-    init = (ctx) => {
+    init = (ctx, canvas) => {
+        this.canvas = canvas
         this.ctx = ctx
     }
 }

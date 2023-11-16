@@ -17,20 +17,18 @@ let gameEngine = new GameEngine(
 
 
 
-gameEngine.addGameObject(
+/* gameEngine.addGameObject(
     new TargetPoint(
-        700,
-        500,
+        50,
+        50,
         50,
         '#0d1636',
         'green'
     )
-)
+) */
 
 
 const mouseTracker = new TrackingPoint(
-    500,
-    500,
     20,
     'red',
     'green'
@@ -46,7 +44,7 @@ window.addEventListener('pointermove', (event) => {
 })
 
 
-gameEngine.addGameObject(
+/* gameEngine.addGameObject(
     mouseTracker
 )
 
@@ -56,7 +54,7 @@ gameEngine.addGameObject(
     mouseTracker
 )
 
-
+ */
 
 
 gameEngine.init();

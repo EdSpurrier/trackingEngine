@@ -58,6 +58,10 @@ li {
   width: 100vw;
 }
 
+#system {
+
+}
+
 .debug {
   border: 2px solid green;
 }

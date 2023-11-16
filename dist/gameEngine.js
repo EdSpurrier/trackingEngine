@@ -62,6 +62,7 @@ class GameEngine {
     addGameObject = (gameObject) => {
         gameObject.init(
             this.ctx,
+            this.canvas,
         )
         this.gameObjects.push(gameObject);
 
@@ -93,6 +94,7 @@ class GameEngine {
     }
 
     loop = () => {
+        if (!teacher.checkLessonPoint(this)) return;
         this.resizeCanvas();
         this.updateSystem();
         
