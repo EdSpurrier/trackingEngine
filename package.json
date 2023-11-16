@@ -7,7 +7,8 @@
     "build": "gulp -f ./build/gulpfile.js --cwd ./ --continue",
     "serve": "gulp serve -f ./build/gulpfile.js --cwd ./ --continue",
     "task": "gulp -f ./build/gulpfile.js --cwd ./ --continue",
-    "tasks": "gulp --tasks-simple -f ./build/gulpfile.js --cwd ./ --continue"
+    "tasks": "gulp --tasks-simple -f ./build/gulpfile.js --cwd ./ --continue",
+    "release": "gulp -f ./release/gulpfile.js --cwd ./ --continue"
   },
   "config": {
     "srcDir": "src/",
@@ -17,12 +18,12 @@
     "browser-sync": "^2.26.7",
     "del": "^4.1.1",
     "glob": "^7.1.4",
+    "gulp": "^4.0.2",
     "gulp-inject-partials": "^1.0.5",
     "gulp-rename": "^1.4.0",
-    "gulp": "^4.0.2",
+    "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.2.1",
-    "webpack": "^4.29.6"
+    "webpack-dev-server": "^3.2.1"
   },
   "browserslist": [
     "last 5 version"
@@ -54,5 +55,8 @@
         "**/*.template.html"
       ]
     }
+  },
+  "dependencies": {
+    "gulp-concat": "^2.6.1"
   }
 }

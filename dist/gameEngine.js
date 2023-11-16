@@ -94,7 +94,7 @@ class GameEngine {
     }
 
     loop = () => {
-        if (!teacher.checkLessonPoint(this)) return;
+        teacher.checkLessonPoint(this);
         this.resizeCanvas();
         this.updateSystem();
         
@@ -103,7 +103,9 @@ class GameEngine {
         requestAnimationFrame(this.loop);
     }
 
-
+    stop = () => {
+        this.loop = () => {};
+    }
 
     init = () => {
         console.log('init');

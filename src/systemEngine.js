@@ -24,7 +24,7 @@ class SystemEngine {
         console.log('SystemEngine createElements');
         this.errorsEl = this.createDiv('errors', this.systemEl, ['hidden', 'bg-red-500', 'p-3', 'text-white', 'text-sm', 'rounded-md', 'flex', 'flex-col', 'justify-center', 'items-center', 'gap-2']);
 
-        this.lessonEl = this.createDiv('errors', this.systemEl, ['z-100', 'hidden', 'bg-yellow-500', 'p-6', 'text-black', 'text-sm', 'rounded-md', 'flex', 'flex-col', 'justify-center', 'items-center', 'gap-4']);
+        this.lessonEl = this.createDiv('lesson', this.systemEl, ['z-100', 'text-center', 'hidden', 'bg-yellow-300', 'm-6', 'max-w-xl', 'text-black', 'text-sm', 'rounded-md', 'flex', 'flex-col', 'justify-center', 'items-center']);
     }
 
     lesson = (innerHTML) => {

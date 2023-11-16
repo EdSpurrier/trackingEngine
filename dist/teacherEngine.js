@@ -22,6 +22,16 @@ const lessonPoints = [
         'https://sites.google.com/view/adm6002/home',
         (gameEngine) => { return (gameEngine.gameObjects.length > 0) ? true : false },
     ),
+
+    new LessonPoint(
+        'TrackingPoints',
+        'How to add a Tracking Point to the scene.\nTracking Points are used to track the position of the mouse or a finger on a touch screen. Tracking Points can be used to trigger events when the mouse or finger is over a specific area of the screen.',
+        'https://sites.google.com/view/adm6002/home',
+        (gameEngine) => { return (gameEngine.gameObjects.filter(
+            (gameObject) => { return gameObject instanceof TrackingPoint }
+        ).length > 0) ? true : false },
+    ),
+
 ]
 
 
@@ -34,31 +44,35 @@ class TeacherEngine {
         console.log('TeacherEngine Constructed')
     }
 
-    showLesson = (lessonPoint) => {
+    showLesson = (lessonId, lessonPoint) => {
         const lessonHTML = `
-            <div class="text-xl">${lessonPoint.name}</div>
-            <div class="font-bold">${lessonPoint.description}</div>
-            <button class="bg-green-500 py-2 px-4 rounded-md font-bold mt-2"><a href="${lessonPoint.hyperLink}" target="_blank">Read More</a></button>
+            <div class="text-lg text-black border-2 bg-yellow-500 rounded-t-md border-yellow-600 w-full py-4">Lesson #${lessonId}: ${lessonPoint.name}</div>
+            <div class="mx-6 my-8">${lessonPoint.description}</div>
+            <button class="bg-slate-900 text-yellow-300 mb-10 py-3 px-6 rounded-md font-bold"><a href="${lessonPoint.hyperLink}" target="_blank">Read More</a></button>
         `
         system.lesson(lessonHTML)
     }
 
 
     checkLessonPoint = (gameEngine) => {
+        let lessonId = 1;
         lessonPoints.forEach(lessonPoint => {
             if (!lessonPoint.checkLessonPoint(gameEngine)) {
-                this.showLesson(lessonPoint);
+                gameEngine.stop();
+                this.showLesson(lessonId, lessonPoint);
                 console.log('Lesson Point Not Checked')
                 console.log(
                     'Lesson Point Name: ' + lessonPoint.name,
                     'Lesson Point Description: ' + lessonPoint.description,
                     'Lesson Point Lesson: ' + lessonPoint.lesson,
                 )
-                return true;
+                return false;
             }
+
+            lessonId++;
         })
 
-        return false;
+        return true;
 
     }
 

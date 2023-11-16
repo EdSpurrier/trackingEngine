@@ -17,7 +17,7 @@ let gameEngine = new GameEngine(
 
 
 
-/* gameEngine.addGameObject(
+gameEngine.addGameObject(
     new TargetPoint(
         50,
         50,
@@ -25,7 +25,7 @@ let gameEngine = new GameEngine(
         '#0d1636',
         'green'
     )
-) */
+)
 
 
 const mouseTracker = new TrackingPoint(
