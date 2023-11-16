@@ -40,120 +40,9 @@ class GameSettings {
 
 
 
-class TrackingObject {
-    constructor(
-            image,
-            position = {
-                x: 0,
-                y: 0,
-            },
-            size = {
-                width: 0,
-                height: 0,
-            },
-            physics = {
-                weight: 0,
-                gravity: {
-                    x: 0,
-                    y: 0,
-                },
-                velocity: {
-                    x: 0,
-                    y: 0,
-                },
-                acceleration: {
-                    x: 0,
-                    y: 0,
-                },
-            },
-        ) {
-        this.image = image;
-        this.position = position;
-        this.size = size;
-
-        this.debug = {
-            showBoundingRect: true,
-            color: 'red',
-            lineWidth: 1,
-        };
-
-        this.bounds = {
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-        };
-
-        this.physics = physics;
-    }
-
-    getCenterPoint() {
-    }
-
-    setPosition(x, y) {
-        
-
-    }
-
-    updateBounds(x, y, width, height) {
-        this.bounds = {
-            x,
-            y,
-            width,
-            height,
-        };
-    }
-
-    draw() {
-        console.log(this.ctx)
-        this.ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
-
-        if (this.debug.showBoundingRect) {
-            this.ctx.strokeStyle = this.debug.color;
-            this.ctx.lineWidth = this.debug.lineWidth;
-            this.ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
-        }
-    }
-
-    updatePhysics() {
-
-
-
-        //  calculate new acceleration
-        this.physics.acceleration.x = this.physics.weight * this.physics.gravity;
-        this.physics.acceleration.y = this.physics.weight * this.physics.gravity;
-
-        //  calculate new velocity
-        this.physics.velocity.x += this.physics.acceleration.x;
-        this.physics.velocity.y += this.physics.acceleration.y;
-
-        
-        //calculate new position
-        this.position.x += this.physics.velocity.x;
-        this.position.y += this.physics.velocity.y;
-
-        //  update bounds
-        this.updateBounds(this.position.x, this.position.y, this.width, this.height);
-       
-    }
-
-    update() {
-        this.updatePhysics();
-        this.draw();
-    }
-
-    init(ctx, worldPhysics) {
-        this.ctx = ctx;
-        this.updateBounds(this.position.x, this.position.y, this.width, this.height);
-        this.physics.gravity = worldPhysics.gravity;
-        this.draw(ctx);
-    }
-}
-
-
 class GameEngine {
 
-    constructor(canvas, ctx, gameSettings, gameObjects) {
+    constructor(canvas, ctx, gameSettings) {
         console.log('GameEngine');
         this.canvas = canvas;
         this.ctx = ctx;
@@ -161,12 +50,11 @@ class GameEngine {
 
         this.canvas.width = innerWidth;
         this.canvas.height = innerHeight;
-        this.gameObjects = gameObjects;
-
-        
     }
 
 
+
+    
     calculateFps =  () => {
         //  calculate fps
         this.now = Date.now();
@@ -177,9 +65,7 @@ class GameEngine {
     }
 
 
-    //  if active show counter in bottom right of screen in green
-    //  if not active hide counter
-    updateFpsCounter = () => {
+    renderFpsCounter = () => {
         if (this.gameSettings.debug.fps) {
             // Add black background to text
             this.ctx.fillStyle = "black";
@@ -191,30 +77,41 @@ class GameEngine {
         } 
     }
 
-    loop = () => {
+
+
+
+    
+
+    renderDebug = () => {
+        //  render debug
+        rFpsCounter();
+    }
+
+
+
+    updateSystem = () => {
         //  calculate fps
         this.calculateFps();
+    }
 
+    renderFrame = () => {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = this.gameSettings.background.color;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.renderFpsCounter();
+    }
 
-        this.gameObjects.forEach((gameObject) => {
-            gameObject.update();
-        });
-
-        this.updateFpsCounter();
+    loop = () => {
+        this.updateSystem();
+        
+        this.renderFrame();
 
         requestAnimationFrame(this.loop);
-        
     }
 
 
     init = () => {
         console.log('init');
-        // initialize game objects
-        this.gameObjects.forEach((gameObject) => {
-            gameObject.init(this.ctx, this.gameSettings.physics);
-        });
-
         this.loop();
     }
 }

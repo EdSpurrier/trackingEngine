@@ -1,35 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Handtrack.js : A library for prototyping realtime handtracking in the browser. </title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-
-<body class="">
+<div class="layer layer-top">
   <div id="tracking-container">
-    <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
-
-    <canvas id="canvas" class="border canvasbox"></canvas>
-
+    <video class="videobox canvasbox" autoplay="autoplay" id="webcam-video"></video>
+    <canvas id="canvas" class="canvasbox"></canvas>
     <div class="tracking-controls">
       <div id="updatenote" class="updatenote"> loading model ..</div>
-      <div onclick="toggleVideo()" id="trackbutton">
+      <button onclick="toggleVideo()" id="trackbutton">
         <i class="fa-solid fa-camera" style="color: #ffac38;"></i>
-      </div>
+      </button>
     </div>
-
-
   </div>
+</div>
 
-  <canvas id="game-canvas"></canvas>
-  <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
-  <script src="userInterface.js"></script>
-  <script src="motionTracker.js"></script>
-  <script src="gameEngine.js"></script>
-</body>
 
-</html>
+<div class="layer layer-middle">
+  layer-middle
+</div>
+https://github.com/EdSpurrier/facetracking.git
+
+<canvas id="game-canvas" class="layer layer-bottom"></canvas>
+<script src="https://raw.githubusercontent.com/EdSpurrier/facetracking/main/hello.js"></script>
+<script src="userInterface.js"></script>
+<script src="motionTracker.js"></script>
+<script src="gameEngine.js"></script>

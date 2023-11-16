@@ -1,4 +1,4 @@
-const video = document.getElementById("myvideo");
+const video = document.getElementById("webcam-video");
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
 let trackButton = document.getElementById("trackbutton");
