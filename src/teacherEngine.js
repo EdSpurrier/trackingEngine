@@ -46,14 +46,15 @@ const lessonPoints = [
         `,
 
         code: [
-            ` let sceneEngine = new SceneEngine();`,
+            `<span class="text-green-500">let sceneEngine = new SceneEngine();`,
             ``,
             ``,
-            ` sceneEngine.init()`
+            `sceneEngine.init()</span>`
         ],
 
         steps: [
             `Make these changes in the <b>'JS' panel (on the left)</b>`,
+            `sceneEngine.init() should  <b>always be the last</b> function to call at the end of your <b>'JS'</b>`,
             `Then Save & Reload`,
             `A green screen should appear`,
             `Modify these as you wish`,
@@ -74,14 +75,14 @@ const lessonPoints = [
         `,
 
         code: [
-            ` let sceneSettings = {`,
-            `     fps: true,`,
-            `     backgroundColor: 'black',`,
-            ` };`,
-            ` `,
-            ` let sceneEngine = new SceneEngine(`,
-            `     sceneSettings,`,
-            ` );`,
+            `let sceneSettings = {`,
+            `    fps: true,`,
+            `    backgroundColor: 'black',`,
+            `};`,
+            ``,
+            `let sceneEngine = new SceneEngine(`,
+            `    sceneSettings,`,
+            `);`,
         ],
 
         steps: [
@@ -174,6 +175,10 @@ class TeacherEngine {
     lessonActive = false
 
     showLesson = (lessonId, lessonPoint) => {
+        this.lessonActive = true;
+        if (app.sceneEngine) app.sceneEngine?.stop();
+        
+
         let lessonHTML = `
             <div class="text-lg text-black border-2 bg-yellow-500 rounded-t-md border-yellow-600 w-full py-4">Lesson #${lessonId}: ${lessonPoint.name}</div>
             <div class="mx-6 mt-8 mb-2">${lessonPoint.description}</div>
@@ -185,14 +190,14 @@ class TeacherEngine {
 
 
         lessonHTML += `<i><div class="text-slate-900 mb-10 py-6 px-6 mx-10 mt-8 bg-yellow-400 rounded-md text-left">`
-        lessonHTML += `<div class="text-lg text-black rounded-t-md font-bold pb-2">Steps:</div>`
+        lessonHTML += `<div class="text-lg text-black rounded-t-md font-bold pb-2">Steps:</div><div class="flex flex-col gap-1">`
         let stepId = 1;
         lessonPoint.steps.forEach(step => {
-            lessonHTML += `<b>${stepId}.</b>  ${step}</br>`
+            lessonHTML += `<div><b class="mb-3">${stepId}.</b>  ${step}</div>`
             stepId++;
         })
 
-        lessonHTML += `</i></div>`
+        lessonHTML += `</div></div></i>`
 
 
         /*   if (lessonHTML.hyperLink !== null) {
@@ -201,6 +206,9 @@ class TeacherEngine {
    */
         system.lesson(lessonHTML)
     }
+
+
+
 
     lessonCheckState = (id, state) => {
         if (!state) {
@@ -215,8 +223,6 @@ class TeacherEngine {
             if (this.lessonActive) return false;
 
             if (!lessonPoint.checkLessonPoint(sceneEngine)) {
-                this.lessonActive = true;
-                sceneEngine.stop();
                 this.showLesson(lessonId, lessonPoint);
                 console.log(lessonPoint.name, 'Lesson Point Not Done')
                 console.log(

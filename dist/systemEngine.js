@@ -23,9 +23,9 @@ class SystemEngine {
 
     createElements = () => {
         console.log('SystemEngine createElements');
-        this.errorsEl = this.createDiv('errors', this.systemEl, ['z-100', 'hidden', 'bg-red-500', 'm-6', 'py-5', 'text-white', 'text-sm', 'max-w-md', 'rounded-md', 'flex', 'flex-col', 'justify-center', 'items-center', 'gap-4', 'w-full']);
+        this.errorsEl = this.createDiv('errors', this.systemEl, ['absolute', 'top-0', 'z-100', 'hidden', 'bg-red-500', 'm-6', 'py-5', 'text-white', 'text-sm', 'max-w-md', 'rounded-md', 'flex', 'flex-col', 'justify-center', 'items-center', 'gap-4', 'w-full']);
 
-        this.lessonEl = this.createDiv('lesson', this.systemEl, ['z-100', 'text-center', 'hidden', 'bg-yellow-300', 'm-6', 'max-w-xl', 'text-black', 'text-sm', 'rounded-md', 'flex', 'flex-col', 'justify-center', 'items-center']);
+        this.lessonEl = this.createDiv('lesson', this.systemEl, ['absolute', 'top-0', 'z-100', 'text-center', 'hidden', 'bg-yellow-300', 'm-10', 'max-w-xl', 'text-black', 'text-sm', 'rounded-md', 'flex', 'flex-col', 'justify-center', 'items-center']);
     }
 
     lesson = (innerHTML) => {
@@ -123,7 +123,14 @@ system.init();
 
 
 // capture every error in the console
+
 window.onerror = function (message, url, lineNumber) {
+    //   check if it is a serious error or can continue
+
+
+
+
+
     console.log(message, url, lineNumber);
     system.systemError([message, url, lineNumber]);
     return true;

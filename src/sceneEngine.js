@@ -12,6 +12,8 @@ const presetSceneSettings = {
 
 let sceneEngineCreated = false;
 let sceneEngineInit = false;
+let app = {};
+
 
 class SceneEngine {
 
@@ -20,6 +22,7 @@ class SceneEngine {
 
 
     constructor(sceneSettings) {
+        app.sceneEngine = this;
         sceneEngineCreated = true;
         console.log('SceneEngine Constructing');
 
@@ -129,7 +132,7 @@ class SceneEngine {
 //  Check after everyting in the whole site has finished loading and initiating and see if the sceneEngine is present
 setTimeout(() => {
     teacher.lessonCheckState(0, sceneEngineCreated && sceneEngineInit);
-}, 5000);
+}, 2500);
 
 
 

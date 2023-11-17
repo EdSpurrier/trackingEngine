@@ -3,11 +3,9 @@ let sceneSettings = {
     backgroundColor: 'black',
 };
 
-
 let sceneEngine = new SceneEngine(
     sceneSettings,
 );
-
 
 
 sceneEngine.addSceneObject(
@@ -22,8 +20,6 @@ sceneEngine.addSceneObject(
     )
 )
 
-
- 
 sceneEngine.addSceneObject(
     new MotionTracker(
         {
@@ -33,8 +29,6 @@ sceneEngine.addSceneObject(
         }
     )
 )
-
-
 
 //  Init sceneEngine after all sceneObjects have been added
 sceneEngine.init();

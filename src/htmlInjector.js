@@ -62,7 +62,8 @@ li {
 }
 
 #system {
-
+  overflow: auto;
+  position: fixed;
 }
 
 .debug {

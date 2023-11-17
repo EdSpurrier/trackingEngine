@@ -4,6 +4,7 @@
   "license": "MIT",
   "homepage": "https://codepen.io/edspurrier/pen/yLZPggG",
   "scripts": {
+    "start": "gulp serve -f ./build/gulpfile.js --cwd ./ --continue",
     "build": "gulp -f ./build/gulpfile.js --cwd ./ --continue",
     "serve": "gulp serve -f ./build/gulpfile.js --cwd ./ --continue",
     "task": "gulp -f ./build/gulpfile.js --cwd ./ --continue",
