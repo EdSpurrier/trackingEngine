@@ -1,6 +1,10 @@
 {
     "files.exclude": {
-        "dist": false
+        "dist": false,
+        "node_modules": false,
+        ".vscode": false,
+        "build": false,
+        "dev-tools": false
     },
     "editor.inlineSuggest.showToolbar": "onHover"
 }
