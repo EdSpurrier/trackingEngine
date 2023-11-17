@@ -3,30 +3,36 @@ class TriggerZone {
     name = 'TriggerZone'
 
     checkSetup = () => {
+        let error = false;
         if (this.percentageX > 100 || this.percentageX < 0) {
             system.error(this.name, `percentageX must be between 0 and 100`, this.percentageX)
+            error = true;
         }
 
         if (this.percentageY > 100 || this.percentageY < 0) {
             system.error(this.name, `percentageY must be between 0 and 100`, this.percentageY)
+            error = true;
         }
-
         if (this.radius === undefined) {
             system.error(this.name, `radius must be set`, this.radius)
+            error = true;
         }
-
         if (this.inactiveColor === undefined) {
             system.error(this.name, `inactiveColor must be set`, this.inactiveColor)
+            error = true;
         }
-
         if (this.activeColor === undefined) {
             system.error(this.name, `activeColor must be set`, this.activeColor)
+            error = true;
         }
-
         if (this.color === undefined) {
             system.error(this.name, `color must be set`, this.color)
+            error = true;
         }
 
+        /* if (error) {
+            teacher.pushLesson(this.name)
+        } */
     }
 
     constructor(
