@@ -4,13 +4,12 @@ const concat = require('gulp-concat');
 
 const jsFiles = [
     './src/htmlInjector.js',
-    
     './src/systemEngine.js',
     './src/teacherEngine.js',
-    './src/userInterface.js',
-    './src/trackingPoint.js',
-    './src/targetPoint.js',
-    './src/gameEngine.js',
+    './src/trackingEngine.js',
+    './src/sceneEngine.js',
+    './src/motionTracker.js',
+    './src/triggerZone.js',
 ];
 
 function concatJs() {
