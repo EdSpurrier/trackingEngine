@@ -33,3 +33,6 @@ sceneEngine.addSceneObject(
 //  Init sceneEngine after all sceneObjects have been added
 sceneEngine.init();
 
+let trackingEngine = new TrackingEngine();
+
+trackingEngine.init();

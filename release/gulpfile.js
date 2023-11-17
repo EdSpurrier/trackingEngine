@@ -10,6 +10,7 @@ const jsFiles = [
     './src/sceneEngine.js',
     './src/motionTracker.js',
     './src/triggerZone.js',
+    './src/handtrack.min.js',
 ];
 
 function concatJs() {

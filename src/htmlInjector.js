@@ -79,16 +79,6 @@ li {
     background: #333;
 }
 
-.tracking-controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-}
 
 #tracking-container {
   position: fixed;
@@ -99,19 +89,7 @@ li {
   height: 200px;
 }
 
-.updatenote {
-  padding: 5px;
-  background: rgba(245, 147, 20, 0.25);
-  color: white;
-  display: flex;
-  font-size: 10px;
-}
 
-#trackbutton{
-  padding: 7px 10px;
-  text-align: right;
-  cursor: pointer;
-}
 
 .outputData {
   position: absolute;
@@ -134,13 +112,7 @@ const motionEngineHTML = `
     <div class="layer layer-middle">
         <div id="tracking-container">
             <video class="videobox canvasbox" autoplay="autoplay" id="webcam-video"></video>
-            <canvas id="canvas" class="canvasbox"></canvas>
-            <div class="tracking-controls">
-            <div id="updatenote" class="updatenote"> loading model ..</div>
-            <button onclick="toggleVideo()" id="trackbutton">
-                <i class="fa-solid fa-camera" style="color: #ffac38;"></i>
-            </button>
-            </div>
+            <canvas id="tracking-canvas" class="canvasbox"></canvas>
         </div>
     </div>
 
