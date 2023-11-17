@@ -32,6 +32,9 @@ class SystemEngine {
         console.log('TeacherEngine lesson');
 
         this.lessonEl.innerHTML = innerHTML;
+        if(this.errors.length > 0) {
+            return;
+        }
         this.lessonEl.classList.remove('hidden');
         this.systemEl.classList.remove('hidden');
     }
@@ -51,11 +54,11 @@ class SystemEngine {
         this.updateElements();
     }
 
-    systemError = () => {
+    systemError = (data) => {
         this.errors.push({
             className: 'ERROR', 
             message: 'Please Check the Console in the Lower Left.<br />Remember ChatGPT is the best tool avaliable to solve your Errors.<br /><br /><a href="https://chat.openai.com/" class="underline" target="_blank">ChatGPT Click Here</a>',          
-            data: null, 
+            data: data, 
         });
         this.updateElements();
     }
@@ -121,6 +124,7 @@ system.init();
 
 // capture every error in the console
 window.onerror = function (message, url, lineNumber) {
-    system.systemError();
+    console.log(message, url, lineNumber);
+    system.systemError([message, url, lineNumber]);
     return true;
 };

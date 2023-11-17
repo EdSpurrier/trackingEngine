@@ -148,4 +148,9 @@ const motionEngineHTML = `
     <canvas id="scene-canvas" class="layer layer-bottom"></canvas>
 `;
 
-document.body.innerHTML += motionEngineHTML;
+
+//  Add HTML to #scene-engine
+const sceneEngineHTML = document.getElementById('scene-engine');
+
+sceneEngineHTML.innerHTML = motionEngineHTML;
+
