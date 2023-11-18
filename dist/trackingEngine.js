@@ -17,11 +17,15 @@ const modelParams = {
 let trackingEngineCreated = false;
 let trackingEngineInit = false;
 
+
+
 class TrackingEngine {
     model = null
     running = false
     trackedPredictions = []
     handTrack = null
+
+    bodyParts = []
 
     constructor(
         trackingSettings
@@ -32,6 +36,14 @@ class TrackingEngine {
         this.trackingSettings = Object.assign(presetTrackingSettings, trackingSettings);
         
         this.modelType = this.trackingSettings.modelType;
+        this.bodyParts = [
+            new BodyPart({
+                name: 'hand-1',
+                radius: 15,
+                color: 'red',
+                trackingType: 'hand',
+            }),            
+        ]
 
         this.video      = document.getElementById("webcam-video");
         this.canvas     = document.getElementById('tracking-canvas');

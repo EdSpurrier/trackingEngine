@@ -2,10 +2,15 @@
 class BodyPart {
   name = 'BodyPart'
   tracking = false
-  constructor(type, radius, color) {
-    this.type = type
-    this.radius = radius
-    this.color = color
+  constructor(
+    settings = {
+      type, radius, color, trackingType
+    }
+    ) {
+    this.type = settings.type
+    this.radius = settings.radius
+    this.color = settings.color
+    this.trackingType = settings.trackingType
   }
 
   calculateCanvasPosition = () => {

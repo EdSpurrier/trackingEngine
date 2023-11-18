@@ -30,6 +30,16 @@ sceneEngine.addSceneObject(
     )
 )
 
+/* sceneEngine.addSceneObject(
+    new MotionTracker(
+        {
+            radius: 30,
+            color: 'gold',
+            trackingType: 'hand',
+        }
+    )
+) */
+
 //  Init sceneEngine after all sceneObjects have been added
 sceneEngine.init();
 
