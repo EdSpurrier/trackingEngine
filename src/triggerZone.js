@@ -34,9 +34,6 @@ class TriggerZone {
             error = true;
         }
 
-        /* if (error) {
-            teacher.pushLesson(this.name)
-        } */
     }
 
     constructor(
@@ -70,7 +67,7 @@ class TriggerZone {
 
     checkCollisions = (sceneObjects) => {
         sceneObjects.forEach((sceneObject) => {
-            if (sceneObject instanceof MotionTracker) {
+            if (sceneObject instanceof MotionTracker && sceneObject.trackingType === this.triggerType) {
                 let dx = sceneObject.x - this.x
                 let dy = sceneObject.y - this.y
                 let distance = Math.sqrt(dx * dx + dy * dy)

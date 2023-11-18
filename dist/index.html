@@ -3,53 +3,132 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - canvas detect collision over</title>
+  <title>AR App Engine</title>
   <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+
+
+  
+  
+    <!-- START - ADD TO LOADING - ON LIVE -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
-  <script src="./handtrack.min.js"> </script>
+      <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <!-- END - ADD TO LOADING - ON LIVE -->
+
+  <!-- START - REMOVE THIS - ON LIVE -->
+  <link rel="stylesheet" href="./style.css">
+  <!-- END - REMOVE THIS - ON LIVE -->
 </head>
 
 <body>
-  <!-- <div class="layer layer-middle">
-  <div id="tracking-container">
-    <video class="videobox canvasbox" autoplay="autoplay" id="webcam-video"></video>
-    <canvas id="canvas" class="canvasbox"></canvas>
-    <div class="tracking-controls">
-      <div id="updatenote" class="updatenote"> loading model ..</div>
-      <button onclick="toggleVideo()" id="trackbutton">
-        <i class="fa-solid fa-camera" style="color: #ffac38;"></i>
-      </button>
+  
+
+
+  <!-- START - TRACKING SYSTEM -->
+<!--   <div class="layer layer-middle">
+    <div id="tracking-container">
+      <video class="videobox canvasbox" autoplay="autoplay" id="webcam-video"></video>
+      <canvas id="tracking-canvas" class="canvasbox"></canvas>
     </div>
+  </div> -->
+  <!-- END - TRACKING SYSTEM -->
+
+
+
+
+
+
+
+
+<!-- START OF CODE-PEN -->
+  <div id="app">
+    <!--|--------------------------|-->
+    <!--|-[START OF HTML-INJECTOR]-|-->
+    <!--|--------------------------|-->
+
+    <div id="app-wrap" class="text-white">
+
+      <!-- START - SYSTEM -->
+        <div id="system" class="layer">
+          <div id="error-console" class="hidden"></div>
+          <div id="debug" class="hidden"></div>
+          <div id="loading-screen" class="layer flex flex-col justify-center items-center bg-gray-900 gap-4">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <div class="font-mono">
+              Loading...
+            </div>
+          </div>
+        </div>
+      <!-- END - SCENE -->
+
+      <!-- START - TEACHER -->
+        <div id="teacher" class="hidden">
+          
+
+          <div id="course">
+            <div id="course-title"></div>
+            <div id="lesson-list"></div>
+            <div id="course-footer"></div>
+          </div>
+
+          <div id="lesson">
+            <div id="lesson-title"></div>
+            <div id="lesson-content">
+              <div id="lesson-description"></div>
+              <div id="task">
+                <div id="task-title"></div>
+                <div id="task-content">
+                  <div id="task-description"></div>
+                  <div id="task-steps"></div>
+                </div>
+                <div id="task-footer"></div>
+              </div>
+              <div id="lesson-controls"></div>
+            </div>
+            <div id="lesson-footer"></div>
+          </div>
+        </div>
+      <!-- END - TEACHER -->
+
+      <!-- START - APP -->
+        <div id="runtime" class="hidden">
+          
+          <div id="screen">
+            <div id="screen-title"></div>
+            <div id="screen-content"></div>
+            <div id="screen-footer"></div>
+          </div>
+          <canvas id="scene"></canvas>
+        </div>
+      <!-- END - SCENE -->
+
+    </div>
+
+    <!--|------------------------|-->
+    <!--|-[END OF HTML-INJECTOR]-|-->
+    <!--|------------------------|-->
+
   </div>
-</div>
+<!-- END OF CODE-PEN  -->
 
 
-<div 
-  id="system" 
-  class="layer layer-top flex flex-col justify-center items-center w-full h-full bg-gray-900 bg-opacity-50"
-></div>
 
-<canvas id="scene-canvas" class="layer layer-bottom"></canvas> -->
 
-<!-- <script src="https://cdn.jsdelivr.net/gh/EdSpurrier/facetracking/src/sceneEngine.js"></script> -->
-<div id="scene-engine"></div>
-
-<script src="htmlInjector.js"></script>
-<script src="systemEngine.js"></script>
-<script src="teacherEngine.js"></script>
-<script src="bodyPart.js"></script>
-<script src="trackingEngine.js"></script>
-<script src="sceneEngine.js"></script>
-<script src="motionTracker.js"></script>
-<script src="triggerZone.js"></script>
-
-<!-- <script src="loadFrame.js"></script> -->
-
-<!-- <script src="https://cdn.jsdelivr.net/gh/EdSpurrier/facetracking/src/sceneEngine.js"></script> -->
+<!-- START OF trackerEngine.js RELEASE -->
+  <script src="handtrack.min.js"></script>
+  <script src="animations.js"></script>
+  <script src="domEngine.js"></script>
+  <script src="timeline.js"></script>
+  <script src="system.js"></script>
+  <script src="runtime.js"></script>
+  <script src="appCore.js"></script>
+<!-- END OF trackerEngine.js RELEASE -->
   
   <script src="./script.js"></script>
 

@@ -1,43 +1,76 @@
-// Description: SceneEngine class
-// Dependencies: SceneObjects, TriggerZone, MotionTracker
-// Author: Ed Spurrier
-
 // preset scenesettings for being added to in constructor
 const presetSceneSettings = {
-    boundingBoxes: false,
     fps: false,
     backgroundColor: '#39FF14',
 };
 
+class SceneObject {
+    name = 'SceneObject'
+    object = null; // the object that is being rendered (TriggerZone or MotionTracker)
+    layer = 0; // the layer that the object is rendered on
+    constructor({
+        name,
+        object,
+        layer,
+    }) {
+        this.name = name;
+        this.object = object;
+        this.layer = layer;
+        this.init();
+    }
 
-let sceneEngineCreated = false;
-let sceneEngineInit = false;
-let app = {};
+    init = () => {
+        system.log(`SceneObject ${this.name} init`);
+        this.object.init();
+    }
+
+    update = () => {
+        system.log(`SceneObject ${this.name} update`);
+        this.object.update();
+    }
+
+    render = () => {
+        system.log(`SceneObject ${this.name} render`);
+        this.object.render();
+    }
+
+}
 
 
 class SceneEngine {
+    background = {
+        color : '#39FF14',
+        image,
+        video,
+    }
 
 
+    constructor({
+        sceneSettings,
+        sceneObjects,
+    }) {
+        system.log('SceneEngine Constructing');
 
+        const [ canvas, ctx ] = system.domEngine.getCanvas('scene-canvas');
+        
+        this.canvas = canvas;
+        this.ctx = ctx;
 
-
-    constructor(sceneSettings) {
-        app.sceneEngine = this;
-        sceneEngineCreated = true;
-        console.log('SceneEngine Constructing');
-
-        this.canvas = document.getElementById('scene-canvas');
-        this.ctx = this.canvas.getContext('2d');
+        this.background = {
+            color : sceneSettings.backgroundColor || null,
+            image : sceneSettings.image || null,
+            video : sceneSettings.video || null,
+        }
 
         //  merge the presetSceneSettings with the sceneSettings passed in
         this.sceneSettings = Object.assign(presetSceneSettings, sceneSettings);
-        this.canvas.width = innerWidth;
-        this.canvas.height = innerHeight;
 
-        this.sceneObjects = [];
+        this.sceneObjects = sceneObjects;
 
-        teacher.lessonCheckState(1, (this.sceneSettings.backgroundColor !== '#39FF14'));
+        system.domEngine.onWindowResize(this.resizeCanvas);
     }
+
+    
 
     
 
@@ -65,11 +98,19 @@ class SceneEngine {
 
 
     resizeCanvas = () => {
-        this.canvas.width = innerWidth;
-        this.canvas.height = innerHeight;
+
     }
 
-    
+    refreshSceneObjects = () => {
+        this.orderSceneObjects();
+    }
+
+
+    orderSceneObjects = () => {
+        this.sceneObjects.sort((a, b) => {
+            return a.layer - b.layer;
+        })
+    }
 
     addSceneObject = (sceneObject) => {
         sceneObject.init(
@@ -77,8 +118,36 @@ class SceneEngine {
             this.canvas,
         )
         this.sceneObjects.push(sceneObject);
-
+        this.refreshSceneObjects();
     }
+
+    destroyObject = (objectName) => {
+        this.sceneObjects.forEach((sceneObject, index) => {
+            if (sceneObject.name === objectName) {
+                sceneObject.destroy();
+                this.sceneObjects.splice(index, 1);
+            }
+        })
+        this.refreshSceneObjects();
+    }
+
+    renderBackground = () => {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        if (this.background.color && this.background.color !== '') {
+            this.ctx.fillStyle = this.background.color;
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        };
+        if (this.background.image && this.background.image !== '') {
+            const imageCoverSize = system.domEngine.getImageCoverSize(this.background.image, this.canvas.width, this.canvas.height);
+            this.ctx.drawImage(this.background.image, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
+        };
+        if (this.background.video && this.background.video !== '') {
+            const imageCoverSize = system.domEngine.getImageCoverSize(this.background.video, this.canvas.width, this.canvas.height);
+            this.ctx.drawImage(this.background.video, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
+        };
+    }
+
 
 
     updateSystem = () => {
@@ -92,23 +161,21 @@ class SceneEngine {
     }
 
     renderFrame = () => {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.fillStyle = this.sceneSettings.backgroundColor;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.renderBackground();
 
-        //  render sceneObjects
+
+        //  render sceneObjects in layer order
         this.sceneObjects.forEach(sceneObject => {
             sceneObject.render();
         });
         
-
         this.renderFpsCounter();
     }
 
     loop = () => {
-        teacher.lessonCheckState(2, lessonPoints[2].checkLessonPoint(this));
+        teacher.lessonCheckState('MotionTracker', lessonPoints['MotionTracker'].checkLessonPoint(this));
         
-        teacher.lessonCheckState(3, lessonPoints[3].checkLessonPoint(this));
+        teacher.lessonCheckState('TriggerZone', lessonPoints['TriggerZone'].checkLessonPoint(this));
         this.resizeCanvas();
         this.updateSystem();
         
@@ -128,12 +195,13 @@ class SceneEngine {
     }
 }
 
+sceneEngine = new SceneEngine(app.sceneSettings);
 
 
 //  Check after everyting in the whole site has finished loading and initiating and see if the sceneEngine is present
-setTimeout(() => {
-    teacher.lessonCheckState(0, sceneEngineCreated && sceneEngineInit);
+/* setTimeout(() => {
+    teacher.lessonCheckState('sceneEngine', sceneEngineCreated && sceneEngineInit);
 }, 2500);
-
+ */
 
 

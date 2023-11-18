@@ -1,3 +1,5 @@
+
+/* SITE */
 *,
 ::before,
 ::after {
@@ -15,104 +17,78 @@ html, body {
 }
 
 body {
-  min-height: 100%;
-  font-size: 12px;
-  font-family: CurseCasual, Arial, Helvetica, sans-serif;
-  background-color: rgb(31, 31, 31);
-  color: #333;
   overflow: hidden;
-  touch-action: none;
 }
 
-a {
-  text-decoration: none;
+/*
+ *  HEIRARCHY
+*/
+#app {
+  z-index: 1;
 }
 
-li {
-  list-style-type: none;
+
+
+/* TEACHER */
+#course {
+  z-index: 1000;
+}
+
+#lesson {
+  z-index: 500;
+}
+
+#teacher {
+  z-index: 100;
+}
+/* ------- */
+
+
+
+/* RUNTIME */
+#debug {
+  z-index: 90;
+}
+
+#screen {
+  z-index: 90;
+}
+
+#scene {
+  z-index: 90;
+}
+
+#runtime {
+  z-index: 10;
+}
+/* ------- */
+
+#app {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
 }
 
 .layer {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
   bottom: 0;
-}
-
-.layer-top {
-  z-index: 100;
-
-}
-
-.layer-middle {
-  z-index: 50;
-}
-
-.layer-back {
-  z-index: 0;
-}
-
-#scene-canvas {
+  right: 0;
   height: 100vh;
   width: 100vw;
+  box-sizing: border-box;
 }
+
+#app-wrap {
+  position: relative;
+}
+
 
 #system {
-
-}
-
-.debug {
-  border: 2px solid green;
-}
-
-.canvasbox {
-    position: absolute;
-    border-radius: 3px;
-    width: 250px;
-    height: 200px;
-    box-shadow: 0 2px 3px 0 rgb(0, 0, 0), 0 4px 10px 0 #00000030;
-    background: #333;
-}
-
-.tracking-controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-}
-
-#tracking-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  opacity: 1;
-  width: 250px;
-  height: 200px;
-}
-
-.updatenote {
-  padding: 5px;
-  background: rgba(245, 147, 20, 0.25);
-  color: white;
-  display: flex;
-  font-size: 10px;
-}
-
-#trackbutton{
-  padding: 7px 10px;
-  text-align: right;
-  cursor: pointer;
-}
-
-.outputData {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 5px;
-  background: rgba(0, 0, 0, 0.2);
+  
 }

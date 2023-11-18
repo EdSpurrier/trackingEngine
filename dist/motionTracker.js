@@ -8,6 +8,12 @@ const trackingTypes = [
 
 class MotionTracker {
     name = 'MotionTracker'
+    settings = {
+        hideCursor: false,
+        alwaysDisplay: false,
+    }
+    tracked = false
+
 
     checkSetup = () => {
         console.log('trackingType', this.trackingType)
@@ -29,15 +35,19 @@ class MotionTracker {
             radius,
             color,
             trackingType,
+            settings,
         }) {
         this.radius = settings.radius
         this.color = settings.color
         this.trackingType = settings.trackingType
         
+        this.settings = Object.assign(this.settings, settings)
+
         this.checkSetup()
     }
 
 
+    
     
 
 
@@ -57,13 +67,14 @@ class MotionTracker {
     ) => {
         this.x = x
         this.y = y
+        this.tracked = true
     }
 
     update = () => {
     }
 
     render = () => {
-        if(this.x && this.y) {
+        if(this.x && this.y && this.tracked) {
             this.draw()
         }
     }
@@ -74,6 +85,7 @@ class MotionTracker {
         this.ctx.fillStyle = this.color
         this.ctx.fill()
         this.ctx.closePath()
+        this.tracked = false
     }
 
     init = (ctx, canvas) => {
