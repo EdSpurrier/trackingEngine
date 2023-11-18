@@ -8,19 +8,21 @@ let sceneEngine = new SceneEngine(
 );
 
 
-sceneEngine.addSceneObject(
+/* sceneEngine.addSceneObject(
     new TriggerZone(
         {
             percentageX: 50,
             percentageY: 50,
             radius: 50,
             inactiveColor: '#0d1636',
-            activeColor: 'green'
+            activeColor: 'green',
+            triggerType: 'mouse',
+
         }
     )
-)
+) */
 
-sceneEngine.addSceneObject(
+/* sceneEngine.addSceneObject(
     new MotionTracker(
         {
             radius: 20,
@@ -30,7 +32,7 @@ sceneEngine.addSceneObject(
     )
 )
 
-/* sceneEngine.addSceneObject(
+sceneEngine.addSceneObject(
     new MotionTracker(
         {
             radius: 30,

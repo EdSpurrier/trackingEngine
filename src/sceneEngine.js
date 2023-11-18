@@ -107,6 +107,7 @@ class SceneEngine {
 
     loop = () => {
         teacher.lessonCheckState(2, lessonPoints[2].checkLessonPoint(this));
+        
         teacher.lessonCheckState(3, lessonPoints[3].checkLessonPoint(this));
         this.resizeCanvas();
         this.updateSystem();

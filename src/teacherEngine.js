@@ -17,7 +17,7 @@ class LessonPoint {
     }
 }
 
-
+var converter = new showdown.Converter();
 
 const lessonPoints = [
 
@@ -175,19 +175,38 @@ class TeacherEngine {
     lessonActive = false
 
     showLesson = (lessonId, lessonPoint) => {
+        if (this.lessonActive) return
         this.lessonActive = true;
         if (app.sceneEngine) app.sceneEngine?.stop();
         
-
         let lessonHTML = `
             <div class="text-lg text-black border-2 bg-yellow-500 rounded-t-md border-yellow-600 w-full py-4">Lesson #${lessonId}: ${lessonPoint.name}</div>
             <div class="mx-6 mt-8 mb-2">${lessonPoint.description}</div>
         `
+        /* var converter = new showdown.Converter(),
+        text      = '# hello, markdown!',
+        html      = converter.makeHtml(`
+        sceneEngine.addSceneObject(
+            new MotionTracker(
+                {
+                    radius: 20,
+                    color: 'red',
+                    trackingType: 'mouse',
+                }
+            )
+        )
+        `);
+        console.log(html) */
+
+        var converter = new showdown.Converter()
+
 
         if (lessonPoint.code !== null) {
+/*              lessonHTML += `<div class="mx-4"><div class="text-lg text-black bg-yellow-500 rounded-t-lg mt-4 py-3">Code:</div><div class="bg-gray-900 text-yellow-300 rounded-b-lg p-4 text-left">${lessonPoint.markdownCode}</div></div>
+            ` */
             lessonHTML += `<div class="mx-4"><div class="text-lg text-black bg-yellow-500 rounded-t-lg mt-4 py-3">Code:</div><div class="bg-gray-900 text-yellow-300 rounded-b-lg p-8 text-left"><pre>${lessonPoint.code.join('\n')}</pre></div></div>`
         }
-
+        //converter.makeHtml(lessonPoint.code)
 
         lessonHTML += `<i><div class="text-slate-900 mb-10 py-6 px-6 mx-10 mt-8 bg-yellow-400 rounded-md text-left">`
         lessonHTML += `<div class="text-lg text-black rounded-t-md font-bold pb-2">Steps:</div><div class="flex flex-col gap-1">`
@@ -204,6 +223,7 @@ class TeacherEngine {
               lessonHTML += `<button class="bg-yellow-300 text-slate-900 py-3 px-6 rounded-md font-bold"><a href="${lessonPoint.hyperLink}" target="_blank">Read More</a></button>`
           }
    */
+          
         system.lesson(lessonHTML)
     }
 

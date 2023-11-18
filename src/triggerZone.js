@@ -29,6 +29,10 @@ class TriggerZone {
             system.error(this.name, `color must be set`, this.color)
             error = true;
         }
+        if (this.triggerType === undefined) {
+            system.error(this.name, `triggerType must be set`, this.triggerType)
+            error = true;
+        }
 
         /* if (error) {
             teacher.pushLesson(this.name)
@@ -37,7 +41,12 @@ class TriggerZone {
 
     constructor(
         settings = {
-            percentageX, percentageY, radius, inactiveColor, activeColor
+            percentageX,
+            percentageY,
+            radius,
+            inactiveColor,
+            activeColor,
+            triggerType
         }) {
         this.percentageX = settings.percentageX
         this.percentageY = settings.percentageY
@@ -45,6 +54,7 @@ class TriggerZone {
         this.inactiveColor = settings.inactiveColor
         this.color = settings.inactiveColor
         this.activeColor = settings.activeColor
+        this.triggerType = settings.triggerType
         this.checkSetup()
     }
 
