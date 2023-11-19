@@ -23,6 +23,8 @@ const elementsToStore = [
     "app-wrap",
     "system",
     "error-console",
+    "error-content",
+    "error-button",
     "debug",
     "loading-screen",
     "course",
@@ -46,7 +48,7 @@ const elementsToStore = [
     "screen",
     "screen-title",
     "screen-content",
-    "screen-footer",
+    "screen-button",
     "scene"
 ]
 
@@ -71,6 +73,7 @@ class DomEngine {
             this.windowResize();
         });
         
+        system.log('DomEngine Constructed');
     }
 
     windowResize = () => {
@@ -86,9 +89,14 @@ class DomEngine {
     }
 
     loading = (state, callBack = () => {}) => {
-        console.log(this.elements)
+        if (state){
+            system.log('Loading...');
+        } else {
+            system.log('Loading Complete');
+        }
+        
         Animations.fade({
-            state: true,
+            state: false,
             duration: 0.5,
             delay: 1,
             elements: [this.elements['loading-screen']],
@@ -99,8 +107,19 @@ class DomEngine {
         });
     }
 
+    showLesson = (lesson) => {
+        this.insertText('lesson-title', lesson.name);
+        this.insertMarkup('lesson-content', lesson.content);
+        this.insertMarkup('lesson-description', lesson.description);
+    }
+
+    renderScreen = (screen) => {
+        this.insertText('screen-title', screen.content.title);
+        this.insertMarkup('screen-content', screen.content.body);
+        this.insertText('screen-button', screen.content.button);
+    }
+
     setElementState = (element, state) => {
-        console.log('setElementState', element, state);
         if(state) {
             this.elements[element].classList.remove('hidden');
         } else if(!this.elements[element].classList.contains('hidden')){
@@ -173,5 +192,23 @@ class DomEngine {
 
     onWindowResize = (callBack) => {
         this.resizeCallBacks.push(callBack);
+    }
+
+    addEventListener = (element, event, callBack) => {
+        this.elements[element].addEventListener(event, callBack);
+    }
+
+    showLesson = (lesson) => {
+        this.insertText('lesson-title', lesson.name);
+        this.insertMarkup('lesson-content', lesson.content);
+        this.insertMarkup('lesson-description', lesson.description);
+
+        this.setElementState('error-console', false);
+        this.setElementState('lesson', true);
+    }
+
+    showError = (name, message) => {
+        this.insertText('error-content', `${name} - ${message} - Missing or Incorrect\n`);
+        this.setElementState('error-console', true);
     }
 }

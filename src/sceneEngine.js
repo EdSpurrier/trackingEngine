@@ -47,10 +47,8 @@ class SceneEngine {
 
     constructor({
         sceneSettings,
-        sceneObjects,
+        sceneObjects
     }) {
-        system.log('SceneEngine Constructing');
-
         const [ canvas, ctx ] = system.domEngine.getCanvas('scene-canvas');
         
         this.canvas = canvas;
@@ -68,6 +66,8 @@ class SceneEngine {
         this.sceneObjects = sceneObjects;
 
         system.domEngine.onWindowResize(this.resizeCanvas);
+
+        system.log('SceneEngine Constructed');
     }
 
     
@@ -96,8 +96,14 @@ class SceneEngine {
         } 
     }
 
-
+    // On resize of canvas recalculate positions of objects
     resizeCanvas = () => {
+        this.canvas.width = innerWidth;
+        this.canvas.height = innerHeight;
+        this.sceneObjects.forEach(sceneObject => {
+            sceneObject.object.calculateCanvasPosition();
+        })
+
 
     }
 
@@ -173,14 +179,11 @@ class SceneEngine {
     }
 
     loop = () => {
-        teacher.lessonCheckState('MotionTracker', lessonPoints['MotionTracker'].checkLessonPoint(this));
-        
-        teacher.lessonCheckState('TriggerZone', lessonPoints['TriggerZone'].checkLessonPoint(this));
         this.resizeCanvas();
         this.updateSystem();
         
         this.renderFrame();
-
+        this.scene.update();
         requestAnimationFrame(this.loop);
     }
 
@@ -188,10 +191,10 @@ class SceneEngine {
         this.loop = () => {};
     }
 
-    init = () => {
-        sceneEngineInit = true;
-        console.log('init');
+    init = (scene) => {
+        this.scene = scene;
         this.loop();
+        system.log('SceneEngine Initiated');
     }
 }
 

@@ -18,9 +18,12 @@ class System {
         elapsed: 0,
         deltaTime: 0,
     };
+    active = false;
     
+
     constructor() {
         this.time.start = new Date();
+        this.log('System Constructed')
     }
     
     calculateTime = () => {
@@ -36,13 +39,20 @@ class System {
         }
     }
 
-    error = (name, message, data) => {
+    error = (name, message, lesson) => {
         this.errorLog.push({
             name: name,
             message: message,
-            data: data,
+            lesson: lesson,
         })
-        this.log(`ERROR: ${name} - ${message} - ${data}`)
+        this.log(`ERROR: ${name} - ${message} - ${lesson}`)
+        
+        if (lesson) {
+            this.teacherEngine.setActiveLesson(lesson);
+        }
+
+        this.domEngine.showError(name, message, lesson);
+
     }
 
     start = () => {
@@ -51,33 +61,32 @@ class System {
 
     systemReady = () => {
         this.log('System Ready');
+        this.active = true;
         this.domEngine.loading(false, this.start());
     }
 
+
     isSystemReady = () => {
-        if (this.domEngine) {
-            return true;
+        if (
+            this.domEngine &&
+            this.teacherEngine
+            ) {
+            this.systemReady();
         } else {
-            return false;
+            setTimeout(() => {
+                this.isSystemReady();
+            }, 100);
         }
     }
 
-    startSystemReadyCheck = () => {
-        let systemReady = false;
-        let systemReadyCheck = setInterval(() => {
-            if (this.isSystemReady()) {
-                systemReady = true;
-                clearInterval(systemReadyCheck);
-                this.systemReady();
-            }
-        }, 100);
-    }
 
     init = () => {
         this.domEngine = new DomEngine();
-        this.timeline = new Timeline();
+        this.teacherEngine = new TeacherEngine();
+        system.log('System Initialized');
+        this.isSystemReady();
 
-        this.startSystemReadyCheck();
+        this.log('-----------------------------');
     }
 
 }

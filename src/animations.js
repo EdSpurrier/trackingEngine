@@ -14,7 +14,6 @@ const Animations = {
 
         if (state) {
             elements.forEach(element => {
-                console.log(elements)
                 if(element.classList?.contains('hidden')) {
                     element.classList.remove('hidden');
                     anime.set(elements, {
@@ -40,15 +39,15 @@ const Animations = {
             duration: duration * 1000,
             easing: easing,
             update: function(anim) {
-                system.log('animating : '+(anim.progress.toFixed(2))+'%');
+                /* system.log('animating : '+(anim.progress.toFixed(2))+'%'); */
                 update(anim);
             },
             begin: function(anim) {
-                system.log('began : ' + anim.began)
+                system.log('animation > began : ' + anim.began)
                 begin(anim);
             },
             complete: function(anim) {
-                system.log('completed : ' + anim.completed);
+                system.log('animation > completed : ' + anim.completed);
                 complete(anim);
             }
         }).add({

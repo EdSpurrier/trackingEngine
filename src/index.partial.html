@@ -27,7 +27,17 @@
 
       <!-- START - SYSTEM -->
         <div id="system" class="layer">
-          <div id="error-console" class="hidden"></div>
+          
+
+          
+          <div id="error-console" class="layer hidden flex flex-col justify-center items-center">
+            <div id="error-window" class="bg-red-900 rounded-lg overflow-hidden flex flex-col">
+              <div id="error-title" class="text-xl bg-red-600 p-4">Error</div>
+              <div id="error-content" class="p-8">
+              </div>
+              <button id="error-button" class="p-4 rounded-lg bg-black self-center m-6 text-sm cursor-pointer">Goto Lesson <i class="ml-2 fa-solid fa-arrow-right fa-sm" style="color: #ffffff;"></i></button>
+            </div>
+          </div>
           <div id="debug" class="hidden"></div>
           <div id="loading-screen" class="layer flex flex-col justify-center items-center bg-gray-900 gap-4">
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -74,9 +84,12 @@
         <div id="runtime" class="hidden">
           
           <div id="screen">
-            <div id="screen-title"></div>
-            <div id="screen-content"></div>
-            <div id="screen-footer"></div>
+            <div id="screen-container">
+              <div id="screen-title"></div>
+              <div id="screen-content"></div>
+              <button id="screen-button"></button>
+            </div>
+            
           </div>
           <canvas id="scene"></canvas>
         </div>
@@ -98,8 +111,11 @@
   <script src="handtrack.min.js"></script>
   <script src="animations.js"></script>
   <script src="domEngine.js"></script>
+  <script src="teacherEngine.js"></script>
+  <script src="course.js"></script>
   <script src="timeline.js"></script>
-  <script src="system.js"></script>
   <script src="runtime.js"></script>
   <script src="appCore.js"></script>
+  <script src="system.js"></script>
+
 <!-- END OF trackerEngine.js RELEASE -->
