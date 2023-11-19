@@ -5,11 +5,9 @@
 //  Tasks
 
 
-//  Lesson: Introduction to the Application Core                    DONE
-//  Task:   Create a new application                                DONE      
-//  Task:   Add the meta data to the application                    DONE
-//  Task:   Add settings to the application                 
-//  Task:   Add the loading screen to the application
+//  Lesson: Introduction to the Application Core                    
+//  Task:   Create a new application                                
+//  Task:   Add the meta data to the application                    
 
 
 //  Lesson: Introduction to the Timeline
@@ -18,13 +16,9 @@
 
 
 //  Lesson: Introduction to the App Screen
-//  Task:   Add a new app screen to the timeline
-//  Task:   Modify and add settings to the App Screen
+//  Task:   Create a new app screen and give it settings
+//  Task:   Add the new app screen to the timeline
 
-
-//  Lesson: Introduction to the Scene Engine
-//  Task:   Create a new scene and add it to the timeline
-//  Task:   Add settings to the scene
 
 
 //  Lesson: Introduction to the Motion Tracker
@@ -37,6 +31,14 @@
 //  Task:   Add a new trigger zone to the scene that triggers when the mouse enters the zone
 //  Task:   Modify and add settings to the Trigger Zone
 //  Task:   Test the Trigger Zone
+
+
+//  Lesson: Introduction to the Scene Engine
+//  Task:   Create a new scene and give it settings
+//  Task:   Add Motion Tracker to the scene
+//  Task:   Add Trigger Zone to the scene
+//  Task:   Add the new scene to the timeline
+
 
 //  Lesson: Introduction to the Event
 //  Task:   Add a new event to the timeline that triggers when the Trigger Zone is triggered
@@ -71,6 +73,139 @@
 
 
 const course = {
+    name: 'Application Core',
+    description: 'Learn how to create an application core',
+    lessons: [
+        {
+            name: 'Introduction to the Application Core',
+            className: 'AppCore',
+            description: 'Learn how to create an application core',
+            tasks: [
+                {
+                    name: 'Create a new application',
+                    description: 'Learn how to create a new application',
+                    code: `
+                            // Create a new application
+                            const app = new App(
+                                metaData = {
+                                    name: 'Application Name',
+                                    version: '0.0.1',
+                                    description: 'Description of the application',
+                                    developer: 'Developer Name',
+                                    company: 'Company Name',
+                                },
+                            );
+                        `,
+                },
+            ],
+        },
+        {
+            name: 'Introduction to the Timeline',
+            className: 'Timeline',
+            description: 'Learn how to create a timeline',
+            tasks: [
+                {
+                    name: 'Create a new timeline',
+                    description: 'Learn how to create a new timeline',
+                    code: `
+                            // Create a new timeline
+                            const timeline = new Timeline();
+                        `,
+                },
+                {
+                    name: 'Add the timeline to the application',
+                    description: 'Learn how to add the timeline to the application',
+                    code: `
+                            // Add the timeline to the application
+                            app.addTimeline(timeline);
+                        `,
+                },
+            ],
+        },
 
-    
+        {
+            name: 'Introduction to the App Screen',
+            className: 'Screen',
+            description: 'Learn how to create an app screen',
+            tasks: [
+                {
+                    name: 'Create a new app screen and give it settings',
+                    description: 'Learn how to create a new app screen and give it settings',
+                    code: `
+                            // Create a new app screen and give it settings
+                            
+                        `,
+                },
+                {
+                    name: 'Add the new app screen to the timeline',
+                    description: 'Learn how to add the new app screen to the timeline',
+                    code: `
+                            // Add the new app screen to the timeline
+                            timeline.addTimelineStep(
+                                new Screen({
+                                    name: 'Screen Name',
+                                    settings: {
+                                        backgroundColor: '#39FF14',
+                                    },
+                                    content: {
+                                        title: 'Screen Title',
+                                        body: 'Screen Body',
+                                        button: 'Screen Button',
+                                    }
+                                })
+                            );
+                        `,
+                }
+            ],
+        },
+
+
+        {
+            name: 'Introduction to the Scene Engine',
+            description: 'Learn how to create a scene engine',
+            tasks: [
+                {
+                    name: 'Add a new scene and add it to the timeline',
+                    description: 'Learn how to add a new scene and add it to the timeline',
+                    code: `
+                            // Add a new scene and add it to the timeline
+                            timeline.addTimelineStep(
+                                new Scene({
+                                    name: 'Scene Name',
+                                    settings: {
+                                        backgroundColor: '#39FF14',
+                                    },
+                                    content: {
+                                        title: 'Scene Title',
+                                        body: 'Scene Body',
+                                        button: 'Scene Button',
+                                    }
+                                })
+                            );
+                        `,
+                },
+                {
+                    name: 'Add settings to the scene',
+                    description: 'Learn how to add settings to the scene',
+                    code: `
+                            // Add settings to the scene
+                            timeline.addTimelineStep(
+                                new Scene({
+                                    name: 'Scene Name',
+                                    settings: {
+                                        backgroundColor: '#39FF14',
+                                    },
+                                    content: {
+                                        title: 'Scene Title',
+                                        body: 'Scene Body',
+                                        button: 'Scene Button',
+                                    }
+                                })
+                            );
+                        `,
+                }
+            ]
+
+        }
+    ]
 }

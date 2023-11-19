@@ -113,11 +113,40 @@ class DomEngine {
         this.insertMarkup('lesson-description', lesson.description);
     }
 
-    renderScreen = (screen) => {
+    updateSceen = (screen) => {
         this.insertText('screen-title', screen.content.title);
-        this.insertMarkup('screen-content', screen.content.body);
+        this.insertHtml('screen-content', screen.content.body);
         this.insertText('screen-button', screen.content.button);
     }
+
+    renderScreen = (screen, callBack) => {
+        this.updateSceen(screen);
+
+        Animations.fade({
+            state: true,
+            duration: 0.5,
+            delay: 1,
+            elements: [this.elements['screen']],
+            callBack: () => {
+                callBack();
+                console.log(`screen faded-${true? 'in' : 'out'}`);
+            }
+        });
+    }
+
+    hideScreen = (callBack) => {
+        Animations.fade({
+            state: false,
+            duration: 0.5,
+            delay: 1,
+            elements: [this.elements['screen']],
+            callBack: () => {
+                callBack();
+                console.log(`screen faded-${false? 'in' : 'out'}`);
+            }
+        });
+    }
+    
 
     setElementState = (element, state) => {
         if(state) {
@@ -131,10 +160,23 @@ class DomEngine {
         this.elements[element].innerHTML = html;
     }
 
-    insertMarkup = (element, markup) => {
+    appendHtml = (element, html) => {
+        this.elements[element].innerHTML += html;
+    }
+
+    prependHtml = (element, html) => {
+        this.elements[element].innerHTML = html + this.elements[element].innerHTML;
+    }
+
+    convertMarkup = (markup) => {
         var converter = new showdown.Converter(),
             html      = converter.makeHtml(markup);
-        this.insertHtml(element, html);
+            
+        return html;
+    }
+
+    insertMarkupIntoHtml = (element, markup) => {
+        this.insertHtml(element, convertMarkup(markup));
     }
 
     insertText = (element, text) => {
@@ -202,6 +244,13 @@ class DomEngine {
         this.elements[element].addEventListener(event, callBack);
     }
 
+    hideTeacher = () => {
+        this.setElementState('teacher', false);
+    }
+
+    showTeacher = () => {
+        this.setElementState('teacher', true);
+    }
 
 
     showLesson = (lesson) => {
@@ -214,12 +263,18 @@ class DomEngine {
         this.setElementState('course', false);
 
         this.setElementState('lesson', true);
-        this.setElementState('task', true);
-        this.setElementState('teacher', true);
+
+        this.setElementState('task', false);
+        this.showTeacher();
     }
 
     showError = (name, message) => {
-        this.appendText('error-content', `${name} - ${message} - Missing or Incorrect\n`);
+
+        this.appendHtml(
+            'error-content',
+            `<div class=""><i class="fa-solid fa-bug fa-shake fa-xl mr-2" style="color: #ffffff;"></i> [${name}] ${message} - Missing or Incorrect</div>`
+        );
+
         this.setElementState('error-console', true);
     }
 }

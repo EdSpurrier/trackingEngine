@@ -43,8 +43,6 @@ class Course {
 
 
 
-
-
 class TeacherEngine {
     activeLesson = null;
 

@@ -1,9 +1,7 @@
 //  App Core 
 
-
 // Create Class of AppCore
 class App {
-
     metaData = {
         name: 'Application Name',
         version: '0.0.1',
@@ -28,11 +26,12 @@ class App {
 
     init = () => {
         system.log('App Core Init');
+        system.setAppReady();
     }
 
 
     start = () => {
-        
+        system.log('App Start');
         this.timeline.start();   
     }
 

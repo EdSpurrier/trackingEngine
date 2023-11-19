@@ -56,13 +56,20 @@ class System {
     }
 
     start = () => {
+        app.start();
+    }
 
+    trySystemStart = () => {
+        if (this.active && this.appReady) {
+            this.log('-----------------------------');
+            this.start();
+        }
     }
 
     systemReady = () => {
         this.log('System Ready');
         this.active = true;
-        this.domEngine.loading(false, this.start());
+        this.domEngine.loading(false, this.trySystemStart());
     }
 
 
@@ -79,15 +86,26 @@ class System {
         }
     }
 
+    setAppReady = () => {
+        this.log('App Ready');
+        this.appReady = true; 
+        this.trySystemStart();
+    }
+
 
     init = () => {
         this.domEngine = new DomEngine();
-        this.teacherEngine = new TeacherEngine();
+        this.teacherEngine = new TeacherEngine({
+            course: course,
+        });
+        this.errorEngine = new ErrorEngine();
         system.log('System Initialized');
         this.isSystemReady();
 
         this.log('-----------------------------');
     }
+
+
 
 }
 
