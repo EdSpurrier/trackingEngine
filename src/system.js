@@ -45,7 +45,7 @@ class System {
             message: message,
             lesson: lesson,
         })
-        this.log(`ERROR: ${name} - ${message} - ${lesson}`)
+        this.log(`ERROR: ${name} - ${message}`)
         
         if (lesson) {
             this.teacherEngine.setActiveLesson(lesson);

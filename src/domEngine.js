@@ -141,6 +141,10 @@ class DomEngine {
         this.elements[element].innerText = text;
     }
 
+    appendText = (element, text) => {
+        this.elements[element].innerText += text;
+    }
+
     insertValue = (element, value) => {
         this.elements[element].value = value;
     }
@@ -198,17 +202,24 @@ class DomEngine {
         this.elements[element].addEventListener(event, callBack);
     }
 
+
+
     showLesson = (lesson) => {
         this.insertText('lesson-title', lesson.name);
         this.insertMarkup('lesson-content', lesson.content);
         this.insertMarkup('lesson-description', lesson.description);
 
         this.setElementState('error-console', false);
+
+        this.setElementState('course', false);
+
         this.setElementState('lesson', true);
+        this.setElementState('task', true);
+        this.setElementState('teacher', true);
     }
 
     showError = (name, message) => {
-        this.insertText('error-content', `${name} - ${message} - Missing or Incorrect\n`);
+        this.appendText('error-content', `${name} - ${message} - Missing or Incorrect\n`);
         this.setElementState('error-console', true);
     }
 }
