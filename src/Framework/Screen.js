@@ -4,6 +4,7 @@ class Screen {
     constructor({
         name,
         buttonColor,
+        textColor,
         popupBackgroundColor,
         backgroundColor,
         content,
@@ -11,17 +12,22 @@ class Screen {
 
         this.name = name;
         
+        this.textColor = textColor,
         this.buttonColor = buttonColor,
         this.backgroundColor = backgroundColor,
         this.popupBackgroundColor = popupBackgroundColor,
-        
         this.content = content;
-        system.errorEngine.checkDefinedProperties({
-            classObject: this,
-            lesson: 'Screen',
-            properties: ['name', 'content', 'buttonColor', 'backgroundColor', 'popupBackgroundColor'],
-        });
 
+        if(
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'Screen',
+                properties: ['name', 'textColor', 'content', 'buttonColor', 'backgroundColor', 'popupBackgroundColor'],
+            })
+        ) {
+            return false;
+        };
+        
         system.log('Screen Constructed')
     }
 

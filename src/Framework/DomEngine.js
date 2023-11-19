@@ -119,12 +119,40 @@ class DomEngine {
         this.insertMarkup('lesson-description', lesson.description);
     }
 
+
+    hideScene = (callBack) => {
+        Animations.fade({
+            state: false,
+            duration: 0.5,
+            delay: 1,
+            elements: [this.elements['scene']],
+            callBack: () => {
+                callBack();
+                console.log(`screen faded-${false? 'in' : 'out'}`);
+            }
+        });
+    }
+
+    showScene = () => {
+        Animations.fade({
+            state: true,
+            duration: 0.5,
+            delay: 1,
+            elements: [this.elements['scene']],
+            callBack: () => {
+                console.log(`screen faded-${true? 'in' : 'out'}`);
+            }
+        });
+    }
+
     updateSceen = (screen) => {
+        this.insertStyle('screen-container', 'color', screen.textColor)
         this.insertStyle('screen', 'background-color', screen.backgroundColor);
         this.insertStyle('screen-container', 'background-color', screen.popupBackgroundColor);
         this.insertStyle('screen-button', 'background-color', screen.buttonColor);
         this.insertText('screen-title', screen.content.title);
         this.insertHtml('screen-content', screen.content.body);
+        this.setElementState('screen-button', screen.content.button != '');
         this.insertText('screen-button', screen.content.button);
     }
 

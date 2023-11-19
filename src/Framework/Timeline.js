@@ -66,8 +66,6 @@ class Timeline {
                 states: [(this.timeline.length !== 0)],
             })
         ) {
-
-            system.log('Timeline Error')
             return false;
         }
 

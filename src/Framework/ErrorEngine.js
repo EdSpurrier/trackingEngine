@@ -42,8 +42,14 @@ class ErrorEngine {
         lesson,
         states
     }) => {
-        const className = classObject.constructor.name;
-        system.log(`[ErrorEngine] Check States 🠪 (${className} ⇋ ${lesson})`)
+        let className = '';
+        if (classObject === null) {
+            className = lesson;
+        } else {
+            className = classObject.constructor.name;
+        }
+         
+        system.log(`Checking States 🠪 (${className} ⇋ ${lesson})`)
 
         let noErrors = true;
 
@@ -54,6 +60,9 @@ class ErrorEngine {
             }
         });
 
+        if (!noErrors) {
+            system.classError(className, 'checkStates')
+        }
         return noErrors;
     }
 
@@ -64,21 +73,25 @@ class ErrorEngine {
         properties
     }) => {
         const className = classObject.constructor.name;
-        console.log(classObject)
-        system.log(`[ErrorEngine] Check Defined Properties 🠪 (${className} ⇋ ${lesson})`)
+        system.log(`Checking Defined Properties 🠪 (${className} ⇋ ${lesson})`)
 
-
-        console.log(properties);
         let noErrors = true;
 
         properties.forEach((property) => {
             const definedState = classObject[property] !== undefined;
-            system.log(`[ErrorEngine] Property (${property} ⇋ ${definedState})`);
+            
             if (!definedState) {
+
+                system.log(`[ErrorEngine] Property (${property} ⇋ ${definedState})`);
+
                 system.error(className, property, lesson);
                 noErrors = false;
             }
         });
+
+        if (!noErrors) {
+            system.classError(classObject, 'checkDefinedProperties')
+        }
 
         return noErrors;
     }

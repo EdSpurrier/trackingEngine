@@ -19,12 +19,16 @@ class App {
     }) {
         this.metaData = metaData;
         this.backgroundColor = backgroundColor;
-        console.log(this.metaData);
-        system.errorEngine.checkDefinedProperties({
-            classObject: this,
-            lesson: 'App',
-            properties: ['metaData', 'backgroundColor'],
-        });
+
+        if(
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'App',
+                properties: ['metaData', 'backgroundColor'],
+            })
+        ) {
+            return false;
+        };
 
         system.domEngine.setAppBackgroundColor(this.backgroundColor);
         system.log('App Core Constructed');

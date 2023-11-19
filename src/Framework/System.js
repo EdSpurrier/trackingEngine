@@ -39,6 +39,14 @@ class System {
         }
     }
 
+    classError = (className, message) => {
+        let errorColor = "color:#d63118; font-weight:bold;";
+        let classColor = "color:#18d6d6;";
+        let messageColor = "color:#d69d18;";
+        console.log(`%cERROR  %c${className} %c${message}`, errorColor, classColor, messageColor);
+
+    }
+
     error = (name, message, lesson) => {
         this.errorLog.push({
             name: name,

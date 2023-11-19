@@ -16,6 +16,18 @@ class SceneEvent {
         this.type = type;
         this.scene = scene;
         this.eventData = eventData;
+
+        if (
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'SceneEvent',
+                properties: ['type', 'scene', 'eventData'],
+            }) 
+        ) {
+            return false;
+        };
+
+        system.log('SceneEvent Constructed');
     }
 
     playSoundEffect = () => {
