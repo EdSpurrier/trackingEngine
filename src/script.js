@@ -33,6 +33,32 @@ const screen = new Screen({
 timeline.addTimelineStep(screen);
 
 
+
+//  Create a new motion tracker
+const motionTracker = new MotionTracker({
+    radius: 10,
+    color: '#00b7ff',
+    trackingType: 'mouse',
+    settings: {
+        hideCursor: false,
+        alwaysDisplay: false,
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //  Create a new scene
 
 //  Create new app screen
@@ -52,12 +78,13 @@ const screen2 = new Screen({
 timeline.addTimelineStep(screen2);
 
 
+
+
+
+
+
 // Add timeline to application
 app.addTimeline(timeline);
-
-
-
-
 
 // Initialize application
 app.init();

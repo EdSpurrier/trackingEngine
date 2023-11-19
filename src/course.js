@@ -20,6 +20,10 @@
 //  Task:   Add the new app screen to the timeline
 
 
+//  Lesson: Introduction to the Scene Engine
+//  Task:   Create a new scene and give it settings
+//  Task:   Add the new scene to the timeline
+
 
 //  Lesson: Introduction to the Motion Tracker
 //  Task:   Add a new Motion Tracker to the scene that tracks the mouse
@@ -32,12 +36,6 @@
 //  Task:   Modify and add settings to the Trigger Zone
 //  Task:   Test the Trigger Zone
 
-
-//  Lesson: Introduction to the Scene Engine
-//  Task:   Create a new scene and give it settings
-//  Task:   Add Motion Tracker to the scene
-//  Task:   Add Trigger Zone to the scene
-//  Task:   Add the new scene to the timeline
 
 
 //  Lesson: Introduction to the Event

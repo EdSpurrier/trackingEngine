@@ -14,36 +14,28 @@ class MotionTracker {
     }
     tracked = false
 
+    constructor({
+        radius,
+        color,
+        trackingType,
+        settings,
+    }) {
+        this.radius = radius,
+        this.color = color,
+        this.trackingType = trackingType,
 
-    checkSetup = () => {
-        console.log('trackingType', this.trackingType)
 
-
-        if(trackingTypes.includes(this.trackingType) === false) {
-            system.error(this.name, `trackingType must be set`, this.trackingType)
-        }
-        if(this.radius === undefined) {
-            system.error(this.name, `radius must be set`, this.radius)
-        }
-        if(this.color === undefined) {
-            system.error(this.name, `color must be set`, this.color)
-        }
-    }
-
-    constructor(
-        settings = {
-            radius,
-            color,
-            trackingType,
-            settings,
-        }) {
-        this.radius = settings.radius
-        this.color = settings.color
-        this.trackingType = settings.trackingType
         
+
+        system.errorEngine.checkDefinedProperties({
+            classObject: this,
+            lesson: 'MotionTracker',
+            properties: ['radius', 'color', 'trackingType', 'settings'],
+        });
+
         this.settings = Object.assign(this.settings, settings)
 
-        this.checkSetup()
+        system.log('MotionTracker Constructed')
     }
 
 

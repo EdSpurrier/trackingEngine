@@ -19,6 +19,8 @@ class Timeline {
 
     constructor() {
         system.log('Timeline Constructed')
+
+        //  Add screen-button event listener
         system.domEngine.addEventListener('screen-button', 'click', ()=> { 
             if (this.clickState) {
                 return;
