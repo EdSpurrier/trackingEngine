@@ -27,19 +27,22 @@ body {
   z-index: 1;
 }
 
+#system {
+  z-index: 1000;
+}
 
 
 /* TEACHER */
 #course {
-  z-index: 1000;
+  z-index: 300;
 }
 
 #lesson {
-  z-index: 500;
+  z-index: 250;
 }
 
 #teacher {
-  z-index: 100;
+  z-index: 200;
 }
 /* ------- */
 

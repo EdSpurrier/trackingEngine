@@ -15,11 +15,16 @@ class Timeline {
         active: false,
         complete: false,
     }
+    clickState = false;
 
     constructor() {
         system.log('Timeline Constructed')
         system.domEngine.addEventListener('screen-button', 'click', ()=> { 
-            this.next();
+            if (this.clickState) {
+                return;
+            }
+            this.clickState = true;
+            system.domEngine.hideScreen(this.next.bind(this));
         });
     }
 
@@ -41,6 +46,12 @@ class Timeline {
         }
         system.log('Timeline Next Step ' + this.timelineStep + ' of ' + this.timeline.length)
         this.timelineStep++;
+        if (this.timelineStep === this.timeline.length) {
+            this.state.complete = true;
+            system.log('Timeline Complete')
+            return;
+        }
+        this.clickState = false;
         this.timeline[this.timelineStep].init();
     }
 

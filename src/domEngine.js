@@ -46,6 +46,7 @@ const elementsToStore = [
     "teacher",
     "runtime",
     "screen",
+    "screen-container",
     "screen-title",
     "screen-content",
     "screen-button",
@@ -97,14 +98,19 @@ class DomEngine {
         
         Animations.fade({
             state: false,
-            duration: 0.5,
-            delay: 1,
+            duration: 1,
+            delay: 0.5,
             elements: [this.elements['loading-screen']],
             callBack: () => {
                 callBack();
+                this.setElementState('loading-screen', false);
                 console.log(`loading screen faded-${state? 'in' : 'out'}`);
             }
         });
+    }
+
+    setAppBackgroundColor = (color) => {
+        this.elements['app'].style.backgroundColor = color;
     }
 
     showLesson = (lesson) => {
@@ -114,6 +120,9 @@ class DomEngine {
     }
 
     updateSceen = (screen) => {
+        this.insertStyle('screen', 'background-color', screen.backgroundColor);
+        this.insertStyle('screen-container', 'background-color', screen.popupBackgroundColor);
+        this.insertStyle('screen-button', 'background-color', screen.buttonColor);
         this.insertText('screen-title', screen.content.title);
         this.insertHtml('screen-content', screen.content.body);
         this.insertText('screen-button', screen.content.button);

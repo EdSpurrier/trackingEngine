@@ -26,16 +26,16 @@
     <div id="app-wrap" class="text-white">
 
       <!-- START - SYSTEM -->
-        <div id="system" class="layer">
+        <div id="system" class="layer pointer-events-none">
           
 
           
           <div id="error-console" class="layer hidden flex flex-col justify-center items-center">
-            <div id="error-window" class="bg-red-900 rounded-lg overflow-hidden flex flex-col">
+            <div id="error-window" class="bg-red-900 rounded-lg overflow-hidden flex flex-col pointer-events-auto">
               <div id="error-title" class="text-xl bg-red-600 p-4">Error</div>
               <div id="error-content" class="p-8 flex flex-col gap-4">
               </div>
-              <button id="error-button" class="p-4 rounded-lg bg-black self-center mx-6 mb-6 text-sm cursor-pointer">Goto Lesson <i class="ml-2 fa-solid fa-arrow-right fa-sm" style="color: #ffffff;"></i></button>
+              <button id="error-button" class="p-4 rounded-lg bg-black self-center mx-6 mb-6 text-md cursor-pointer">Goto Lesson <i class="ml-2 fa-solid fa-arrow-right fa-sm" style="color: #ffffff;"></i></button>
             </div>
           </div>
           <div id="debug" class="hidden"></div>
@@ -52,7 +52,7 @@
       <!-- END - SCENE -->
 
       <!-- START - TEACHER -->
-        <div id="teacher" class="hidden">
+        <div id="teacher" class="layer hidden">
           
 
           <div id="course">
@@ -81,17 +81,18 @@
       <!-- END - TEACHER -->
 
       <!-- START - APP -->
-        <div id="runtime" class="hidden">
+        <div id="runtime" class="layer">
           
-          <div id="screen">
-            <div id="screen-container">
-              <div id="screen-title"></div>
-              <div id="screen-content"></div>
-              <button id="screen-button"></button>
+          <div id="screen" class="layer hidden flex flex-col justify-center items-center">
+            <div id="screen-container" class="text-center flex flex-col justify-center items-center gap-6 p-6 rounded-lg">
+              <div id="screen-title" class="text-center text-xl"></div>
+              <div id="screen-content" class="text-center text-md"></div>
+              <button id="screen-button" class="text-center p-4 rounded-lg self-center mx-6 mb-6 text-md cursor-pointer"></button>
             </div>
-            
           </div>
-          <canvas id="scene"></canvas>
+
+          <canvas id="scene" class="layer hidden"></canvas>
+
         </div>
       <!-- END - SCENE -->
 

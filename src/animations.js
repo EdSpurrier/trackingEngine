@@ -51,7 +51,7 @@ const Animations = {
                 complete(anim);
             }
         }).add({
-            opacity: state?0:1,
+            opacity: state?1:0,
         });
 
         animation.finished.then(onComplete);

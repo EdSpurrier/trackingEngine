@@ -9,13 +9,24 @@ class App {
         developer: 'Developer Name',
         company: 'Company Name',
     };
+    backgroundColor = '#0a4100';
     
 
     
     constructor({
-        metaData
+        metaData,
+        backgroundColor,
     }) {
         this.metaData = metaData;
+        this.backgroundColor = backgroundColor;
+        console.log(this.metaData);
+        system.errorEngine.checkDefinedProperties({
+            classObject: this,
+            lesson: 'App',
+            properties: ['metaData', 'backgroundColor'],
+        });
+
+        system.domEngine.setAppBackgroundColor(this.backgroundColor);
         system.log('App Core Constructed');
     }
 
@@ -26,7 +37,9 @@ class App {
 
     init = () => {
         system.log('App Core Init');
-        system.setAppReady();
+        setTimeout(() => {
+            system.setAppReady();
+        }, 750);
     }
 
 

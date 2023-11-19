@@ -3,24 +3,31 @@ class Screen {
 
     constructor({
         name,
-        settings,
+        buttonColor,
+        popupBackgroundColor,
+        backgroundColor,
         content,
     }) {
 
         this.name = name;
-        this.settings = settings;
+        
+        this.buttonColor = buttonColor,
+        this.backgroundColor = backgroundColor,
+        this.popupBackgroundColor = popupBackgroundColor,
+        
         this.content = content;
         system.errorEngine.checkDefinedProperties({
             classObject: this,
             lesson: 'Screen',
-            properties: ['name', 'settings', 'content'],
+            properties: ['name', 'content', 'buttonColor', 'backgroundColor', 'popupBackgroundColor'],
         });
+
         system.log('Screen Constructed')
     }
 
-    settings = {
-        backgroundColor: '#39FF14',
-    }
+    
+    backgroundColor= '#39FF14'
+    buttonColor= '#c300ff'
 
     screenStateActive = () => {
         system.log(`Screen[${this.name}] Active`)
@@ -36,5 +43,4 @@ class Screen {
         this.render();
     }
     
-
 }
