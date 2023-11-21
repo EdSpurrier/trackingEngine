@@ -90,9 +90,23 @@ class SceneEngine {
 
     // On resize of canvas recalculate positions of objects
     resizeCanvas = () => {
-/*         this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        this.sceneObjects.forEach(sceneObject => {
+        return;
+        /* this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight; */
+        this.canvas.relativeSize = {
+            width: this.canvas.width / 100,
+            height: this.canvas.height / 100,
+        }
+        this.canvas.center = {
+            x: this.canvas.width / 2,
+            y: this.canvas.height / 2,
+        }
+
+        this.canvas.ratio = this.canvas.width / this.canvas.height;
+
+
+
+       /*  this.sceneObjects.forEach(sceneObject => {
             sceneObject.calculateCanvasPosition();
         }) */
 

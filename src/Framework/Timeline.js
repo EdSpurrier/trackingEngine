@@ -26,11 +26,14 @@ class Timeline {
                 return;
             }
             this.clickState = true;
-            system.domEngine.hideScreen(this.next.bind(this));
+            system.domEngine.hideScreen(() => {
+                this.next();
+            });
         });
     }
 
     addTimelineStep(step) {
+        step.timeline = this;
         this.timeline.push(step);
         if(step instanceof Scene) {
             system.log('Timeline Add Scene')
@@ -41,11 +44,12 @@ class Timeline {
     }
 
     next() {
+/*         
         if (this.timelineStep === this.timeline.length) {
             this.state.complete = true;
             system.log('Timeline Complete')
             return;
-        }
+        } */
         system.log('Timeline Next Step ' + this.timelineStep + ' of ' + this.timeline.length)
         this.timelineStep++;
         if (this.timelineStep === this.timeline.length) {
@@ -69,6 +73,7 @@ class Timeline {
             return false;
         }
 
+        this.timelineStep = 0;
         system.log('Timeline Good')
         this.timeline[0].init();
     }

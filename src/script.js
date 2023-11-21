@@ -15,7 +15,7 @@ const app = new App({
 
 
 const timeline = new Timeline();
-/* 
+
 //  Create new app screen
 const screen = new Screen({
     name: 'Screen Name',
@@ -32,7 +32,7 @@ const screen = new Screen({
 
 // Add new app screen to timeline
 timeline.addTimelineStep(screen);
- */
+
 
 
 //  Create a new motion tracker
@@ -61,7 +61,7 @@ const triggerZone = new TriggerZone({
 const scene = new Scene({
     name: 'Scene Name',
     background: {
-        color: '#000000',
+        color: '#fff',
     },
     motionTrackers: [
         motionTracker,

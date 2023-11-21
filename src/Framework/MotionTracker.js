@@ -35,19 +35,17 @@ class MotionTracker {
     }
 
 
-    
-    
-
-
     calculateCanvasPosition = () => {
         this.x = ((this.canvas.width/100) * this.percentageX) + this.radius/2
         this.y = ((this.canvas.height/100) * this.percentageY) + this.radius/2
     }
 
+
     storePercentagePosition = () => {
         this.percentageX = this.x / (this.canvas.width/100)
         this.percentageY = this.y / (this.canvas.height/100)
     }
+
 
     setPosition = (
         x,
@@ -58,14 +56,17 @@ class MotionTracker {
         this.tracked = true
     }
 
+
     update = () => {
         this.render();
         this.storePercentagePosition()
     }
 
+
     render = () => {
         this.draw()
     }
+
 
     draw = () => {
         this.ctx.beginPath()
@@ -75,6 +76,7 @@ class MotionTracker {
         this.ctx.closePath()
     }
 
+    
     init = (ctx, canvas) => {
         this.canvas = canvas
         this.ctx = ctx

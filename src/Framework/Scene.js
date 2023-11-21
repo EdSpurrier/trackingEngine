@@ -67,7 +67,11 @@ class Scene {
     update = () => {
         if (this.checkAllTriggersTriggered()) {
             this.sceneEngine.stop();
-            system.domEngine.hideScene(timeline.next);
+
+            console.log(this.timeline);
+            system.domEngine.hideScene(() => {
+                this.timeline.next();
+            });
         }
     }
     
