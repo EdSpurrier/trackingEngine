@@ -3,14 +3,7 @@ const gulp = require('gulp');
 const concat = require('gulp-concat');
 
 const jsFiles = [
-    './src/htmlInjector.js',
-    './src/systemEngine.js',
-    './src/teacherEngine.js',
-    './src/trackingEngine.js',
-    './src/sceneEngine.js',
-    './src/motionTracker.js',
-    './src/triggerZone.js',
-    './src/handtrack.min.js',
+    './src/Framework/*.js',
 ];
 
 function concatJs() {
