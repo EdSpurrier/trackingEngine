@@ -1,5 +1,6 @@
 
 const Animations = {
+    debug: false,
     fade: ({
         state,
         elements, 
@@ -39,15 +40,15 @@ const Animations = {
             duration: duration * 1000,
             easing: easing,
             update: function(anim) {
-                /* system.log('animating : '+(anim.progress.toFixed(2))+'%'); */
+                /* system.log(this.constructor.name,'animating : '+(anim.progress.toFixed(2))+'%'); */
                 update(anim);
             },
             begin: function(anim) {
-                system.log('animation > began : ' + anim.began)
+                if(debug) system.log(this.constructor.name,'animation > began : ' + anim.began)
                 begin(anim);
             },
             complete: function(anim) {
-                system.log('animation > completed : ' + anim.completed);
+                if(debug) system.log(this.constructor.name,'animation > completed : ' + anim.completed);
                 complete(anim);
             }
         }).add({

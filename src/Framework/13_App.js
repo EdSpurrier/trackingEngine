@@ -16,41 +16,43 @@ class App {
     constructor({
         metaData,
         backgroundColor,
+        debug
     }) {
         this.metaData = metaData;
         this.backgroundColor = backgroundColor;
+        this.debug = debug;
 
         if(
             !system.errorEngine.checkDefinedProperties({
                 classObject: this,
                 lesson: 'App',
-                properties: ['metaData', 'backgroundColor'],
+                properties: ['metaData', 'backgroundColor', 'debug'],
             })
         ) {
             return false;
         };
 
         system.domEngine.setAppBackgroundColor(this.backgroundColor);
-        system.log('App Core Constructed');
+        system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Constructed`);
     }
 
     addTimeline = (timeline) => {
         this.timeline = timeline;
-        system.log('Timeline Added');
+        system.debugConsoleLog(this.constructor.name, 'Timeline Added');
     }
 
 
 
     init = () => {
-        system.log('App Core Init');
+        system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Init`);
         setTimeout(() => {
-            system.setAppReady();
+            system.setAppReady(this);
         }, 750);
     }
 
 
     start = () => {
-        system.log('App Start');
+        system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Start`);
         this.timeline.start();   
     }
 

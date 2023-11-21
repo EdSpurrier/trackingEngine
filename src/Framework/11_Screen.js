@@ -28,7 +28,7 @@ class Screen {
             return false;
         };
         
-        system.log('Screen Constructed')
+        system.debugConsoleLog(this.constructor.name, `Screen ${this.name} Constructed`)
     }
 
     
@@ -36,16 +36,29 @@ class Screen {
     buttonColor= '#c300ff'
 
     screenStateActive = () => {
-        system.log(`Screen[${this.name}] Active`)
+        system.log(this.constructor.name,`Screen[${this.name}] Active`)
+    }
+
+
+    complete = (callBack) => {
+        system.debugConsoleLog(this.constructor.name, `Screen[${this.name}] Complete`)
+        system.domEngine.hideScreen(() => {
+            callBack();
+        });
+    }
+
+    reset = () => {
+        system.log(this.constructor.name,`Screen[${this.name}] Reset`)
+
     }
 
     render = () => {
-        system.log(`Screen[${this.name}] Render`)
+        system.debugConsoleLog(this.constructor.name, `Screen[${this.name}] Render`)
         system.domEngine.renderScreen(this, this.screenStateActive);
     }
 
     init = () => {
-        system.log(`Screen[${this.name}] Init`)
+        system.debugConsoleLog(this.constructor.name, `Screen[${this.name}] Init`)
         this.render();
     }
     

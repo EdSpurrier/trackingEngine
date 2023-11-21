@@ -50,11 +50,19 @@ const elementsToStore = [
     "screen-title",
     "screen-content",
     "screen-button",
-    "scene"
+    "scene",
+    "debug-console-toggle-button",
+    "teacher-toggle-button",
+    "debug-console",
+    "debug-console-content",
+    "debug-timeline-title",
+    'debug-timeline-button-left',
+    'debug-timeline-button-right'
 ]
 
 
 class DomEngine {
+    debug = false;
     elements = {
         head: document.head,
         html: document.documentElement,
@@ -70,18 +78,25 @@ class DomEngine {
             this.storeElementById(element, element);
         });
 
+        this.addEventListener('debug-console-toggle-button', 'click', ()=> { 
+            this.openConsole();
+        });
+
         window.addEventListener('resize', () => {
             this.windowResize();
         });
         
-        system.log('DomEngine Constructed');
+
+        
+
+        system.log(this.constructor.name,'DomEngine Constructed');
     }
 
     windowResize = () => {
         this.resizeCallBacks.forEach((callBack) => {
             callBack();
         });
-        system.log('resizeCallBacks Triggered: ', this.resizeCallBacks.length);
+        system.log(this.constructor.name,'resizeCallBacks Triggered: ', this.resizeCallBacks.length);
 
     }
 
@@ -91,9 +106,9 @@ class DomEngine {
 
     loading = (state, callBack = () => {}) => {
         if (state){
-            system.log('Loading...');
+            system.debugConsoleLog(this.constructor.name, 'Loading...');
         } else {
-            system.log('Loading Complete');
+            system.debugConsoleLog(this.constructor.name, 'Loading Complete');
         }
         
         Animations.fade({
@@ -104,7 +119,7 @@ class DomEngine {
             callBack: () => {
                 callBack();
                 this.setElementState('loading-screen', false);
-                console.log(`loading screen faded-${state? 'in' : 'out'}`);
+                system.log(this.constructor.name, `loading screen faded-${state? 'in' : 'out'}`);
             }
         });
     }
@@ -128,7 +143,7 @@ class DomEngine {
             elements: [this.elements['scene']],
             callBack: () => {
                 callBack();
-                console.log(`screen faded-${false? 'in' : 'out'}`);
+                system.log(this.constructor.name, `screen faded-${false? 'in' : 'out'}`);
             }
         });
     }
@@ -140,7 +155,7 @@ class DomEngine {
             delay: 1,
             elements: [this.elements['scene']],
             callBack: () => {
-                console.log(`screen faded-${true? 'in' : 'out'}`);
+                system.log(this.constructor.name, `screen faded-${true? 'in' : 'out'}`);
             }
         });
     }
@@ -166,7 +181,7 @@ class DomEngine {
             elements: [this.elements['screen']],
             callBack: () => {
                 callBack();
-                console.log(`screen faded-${true? 'in' : 'out'}`);
+                system.log(this.constructor.name, `screen faded-${true? 'in' : 'out'}`);
             }
         });
     }
@@ -179,7 +194,7 @@ class DomEngine {
             elements: [this.elements['screen']],
             callBack: () => {
                 callBack();
-                console.log(`screen faded-${false? 'in' : 'out'}`);
+                system.log(this.constructor.name, `screen faded-${false? 'in' : 'out'}`);
             }
         });
     }
@@ -303,6 +318,30 @@ class DomEngine {
 
         this.setElementState('task', false);
         this.showTeacher();
+    }
+
+    openConsole = () => {
+        this.toggleClass('debug-console', 'active');
+    }
+
+    consoleLogUpdate = (consoleLog) => {
+        this.elements['debug-console-content'].innerHTML = '';
+        // reverse consoleLog
+        consoleLog.reverse();
+        let consoleLineNumber = 0;
+        consoleLog.forEach((log) => {
+            this.appendHtml('debug-console-content', `<div class="debug-console-log"><span class='text-orange-500'>[${consoleLog.length-consoleLineNumber}]</span> <span class='text-cyan-500'>[${log.className}]</span> - ${log.message}</div>`);
+            consoleLineNumber++;
+        });
+        
+    }
+
+    timelineTitleUpdate = (title) => {
+        this.insertText('debug-timeline-title', title);
+    }
+
+    setDebugState = (state) => {
+        this.setElementState('debug', state);
     }
 
     showError = (name, message) => {

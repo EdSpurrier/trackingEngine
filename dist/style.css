@@ -27,16 +27,17 @@ body {
   z-index: 1;
 }
 
-#teacher-toggle-button {
+#teacher-toggle-button, #debug-console-toggle-button {
   z-index: 1010;
-  width: 30px;
-  height: 30px;
 }
 
 #system {
   z-index: 1000;
 }
 
+#debug-console {
+  z-index: 1005;
+}
 
 /* TEACHER */
 #course {
@@ -99,5 +100,18 @@ body {
 
 
 #system {
-  
+    
+}
+
+#debug-console {
+  opacity: 0;
+  height: calc(100vh-250px);
+  width: 400px;
+  left: -400px;
+  overflow-y: auto;
+}
+
+#debug-console.active {
+  opacity: 1;
+  left: 0;
 }

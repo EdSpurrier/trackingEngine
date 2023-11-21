@@ -27,11 +27,11 @@ class SceneEvent {
             return false;
         };
 
-        system.log('SceneEvent Constructed');
+        system.debugConsoleLog(this.constructor.name, 'SceneEvent Constructed');
     }
 
     playSoundEffect = () => {
-        system.log('Play Sound Effect');
+        system.debugConsoleLog(this.constructor.name, 'Play Sound Effect');
         const soundEffect = new Audio(this.eventData);
         soundEffect.play();
     }

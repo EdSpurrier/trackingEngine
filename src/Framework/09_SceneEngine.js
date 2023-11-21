@@ -1,36 +1,3 @@
-/* 
-class SceneObject {
-    name = 'SceneObject'
-    object = null; // the object that is being rendered (TriggerZone or MotionTracker)
-    layer = 0; // the layer that the object is rendered on
-    constructor({
-        name,
-        object,
-        layer,
-    }) {
-        this.name = name;
-        this.object = object;
-        this.layer = layer;
-        this.init();
-    }
-
-    init = () => {
-        system.log(`SceneObject ${this.name} init`);
-        this.object.init();
-    }
-
-    update = () => {
-        system.log(`SceneObject ${this.name} update`);
-        this.object.update();
-    }
-
-    render = () => {
-        system.log(`SceneObject ${this.name} render`);
-        this.object.render();
-    }
-
-} */
-
 
 class SceneEngine {
     fps = 0;
@@ -48,7 +15,6 @@ class SceneEngine {
         this.scene = scene;
         this.debug = debug;
 
-
         const { canvas, ctx } = system.domEngine.getCanvas('scene');
         
         this.canvas = canvas;
@@ -59,7 +25,7 @@ class SceneEngine {
         
         system.domEngine.onWindowResize(this.resizeCanvas);
 
-        system.log('SceneEngine Constructed');
+        system.debugConsoleLog(this.constructor.name, 'SceneEngine Constructed');
     }
 
     
@@ -90,9 +56,9 @@ class SceneEngine {
 
     // On resize of canvas recalculate positions of objects
     resizeCanvas = () => {
-        return;
-        /* this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight; */
+        /* return; */
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
         this.canvas.relativeSize = {
             width: this.canvas.width / 100,
             height: this.canvas.height / 100,
@@ -185,6 +151,8 @@ class SceneEngine {
     }
 
     loop = () => {
+        if (this.pause) return;
+
         this.resizeCanvas();
         this.updateSystem();
         
@@ -193,8 +161,10 @@ class SceneEngine {
         requestAnimationFrame(this.loop);
     }
 
+    pause = false;
+
     stop = () => {
-        this.loop = () => {};
+        this.pause = true;
     }
 
     init = (scene) => {
@@ -206,8 +176,9 @@ class SceneEngine {
                 this.canvas,
             )
         });
+        this.pause = false;
         this.loop();
-        system.log('SceneEngine Initiated');
+        system.debugConsoleLog(this.constructor.name, 'SceneEngine Initiated');
     }
 }
 

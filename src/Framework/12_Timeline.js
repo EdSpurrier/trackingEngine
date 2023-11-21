@@ -18,7 +18,37 @@ class Timeline {
     clickState = false;
 
     constructor() {
-        system.log('Timeline Constructed')
+        system.debugConsoleLog(this.constructor.name, 'Timeline Constructed')
+
+        
+        system.domEngine.addEventListener('debug-timeline-button-right', 'click', ()=> { 
+            if (this.clickState) {
+                return;
+            }
+            if (this.timelineStep >= (this.timeline.length-1)) {
+                return;
+            };
+
+            this.clickState = true;
+            this.timeline[this.timelineStep].complete(() => {
+                this.next();
+            });
+        });
+
+        
+        system.domEngine.addEventListener('debug-timeline-button-left', 'click', ()=> { 
+            if (this.clickState) {
+                return;
+            }
+            if (this.timelineStep === 0) {
+                return;
+            };
+
+            this.clickState = true;
+            this.timeline[this.timelineStep].complete(() => {
+                this.previous();
+            });
+        });
 
         //  Add screen-button event listener
         system.domEngine.addEventListener('screen-button', 'click', ()=> { 
@@ -36,33 +66,52 @@ class Timeline {
         step.timeline = this;
         this.timeline.push(step);
         if(step instanceof Scene) {
-            system.log('Timeline Add Scene')
+            system.debugConsoleLog(this.constructor.name, `Timeline Add Scene ${step.name}}`)
+            step.connectTimeline(this)
         } else if (step instanceof Screen) {
-            system.log('Timeline Add Screen')
+            system.debugConsoleLog(this.constructor.name, `Timeline Add Screen ${step.name}}`)
         }
         
     }
 
-    next() {
-/*         
-        if (this.timelineStep === this.timeline.length) {
-            this.state.complete = true;
-            system.log('Timeline Complete')
-            return;
-        } */
-        system.log('Timeline Next Step ' + this.timelineStep + ' of ' + this.timeline.length)
-        this.timelineStep++;
-        if (this.timelineStep === this.timeline.length) {
-            this.state.complete = true;
-            system.log('Timeline Complete')
-            return;
-        }
-        this.clickState = false;
+
+    setTimelineStepActive = () => {
+
+        system.domEngine.timelineTitleUpdate(`${this.timelineStep+1}: ${this.timeline[this.timelineStep].name}`);
+        this.timeline[this.timelineStep].reset();
         this.timeline[this.timelineStep].init();
     }
 
+    previous() {
+        this.clickState = false;
+        if (this.timelineStep === 0) {
+            return;
+        }
+        system.debugConsoleLog(this.constructor.name, 'Timeline Previous Step ' + this.timelineStep + ' of ' + (this.timeline.length-1))
+        this.timelineStep--;
+        this.setTimelineStepActive();
+    }
+
+
+    next() {
+
+        this.clickState = false;
+        
+        if (this.timelineStep >= (this.timeline.length-1)) {
+            system.debugConsoleLog(this.constructor.name, 'Timeline Complete')
+            return;
+        };
+
+        this.timelineStep++;
+
+        system.debugConsoleLog(this.constructor.name, 'Timeline Next Step ' + this.timelineStep + ' of ' + (this.timeline.length-1))
+
+        this.setTimelineStepActive();
+
+    }
+
     start() {
-        system.log('Timeline Start')
+        system.debugConsoleLog(this.constructor.name, 'Timeline Start')
         if(
             !system.errorEngine.checkStates({
                 classObject: this,
@@ -74,8 +123,7 @@ class Timeline {
         }
 
         this.timelineStep = 0;
-        system.log('Timeline Good')
-        this.timeline[0].init();
+        this.setTimelineStepActive();
     }
 
 }

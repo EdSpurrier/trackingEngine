@@ -1,6 +1,6 @@
 
 
-
+//  Create a new Application
 const app = new App({
     metaData : {
         name: 'Application Name',
@@ -10,15 +10,23 @@ const app = new App({
         company: 'Company Name',
     },
     backgroundColor : '#000000',
+    debug: true
 });
 
 
+//  Create the tracking engine
+const trackingEngine = new TrackingEngine({
+    modelType: 'handTrack',
+});
 
+
+// Create a new Timeline
 const timeline = new Timeline();
+
 
 //  Create new app screen
 const screen = new Screen({
-    name: 'Screen Name',
+    name: 'Title Screen',
     backgroundColor: '#39FF14',
     popupBackgroundColor: '#003636',
     buttonColor: '#c300ff',
@@ -30,9 +38,9 @@ const screen = new Screen({
     }
 });
 
-// Add new app screen to timeline
-timeline.addTimelineStep(screen);
 
+/* // Add new app screen to timeline
+timeline.addTimelineStep(screen); */
 
 
 //  Create a new motion tracker
@@ -59,9 +67,9 @@ const triggerZone = new TriggerZone({
 
 //  Create a new scene
 const scene = new Scene({
-    name: 'Scene Name',
+    name: 'Simple Mouse Tracking Scene',
     background: {
-        color: '#fff',
+        color: '#1f1f22',
     },
     motionTrackers: [
         motionTracker,
@@ -84,7 +92,7 @@ timeline.addTimelineStep(scene);
 
 //  Create new app screen
 const screen2 = new Screen({
-    name: 'Screen Name',
+    name: 'Complete',
     textColor: '#0d0053',
     backgroundColor: '#0d0053',
     popupBackgroundColor: '#00ff6a',
@@ -96,11 +104,9 @@ const screen2 = new Screen({
     }
 });
 
+/* 
 // Add new app screen to timeline
-timeline.addTimelineStep(screen2);
-
-
-
+timeline.addTimelineStep(screen2); */
 
 
 

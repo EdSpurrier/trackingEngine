@@ -15,6 +15,7 @@ class MotionTracker {
         color,
         trackingType,
         settings,
+        
     }) {
         this.radius = radius,
         this.color = color,
@@ -31,7 +32,14 @@ class MotionTracker {
             return false;
         };
 
-        system.log('MotionTracker Constructed');
+        system.debugConsoleLog(this.constructor.name, 'MotionTracker Constructed');
+    }
+
+    
+
+    calculateCanvasPosition = () => {
+        this.x = ((this.canvas.width/100) * this.percentageX) + this.radius/2
+        this.y = ((this.canvas.height/100) * this.percentageY) + this.radius/2
     }
 
 
@@ -51,6 +59,7 @@ class MotionTracker {
         x,
         y,
     ) => {
+        console.log();
         this.x = x
         this.y = y
         this.tracked = true
@@ -64,6 +73,9 @@ class MotionTracker {
 
 
     render = () => {
+        if (this.x === null || this.y === null || !this.tracked) {
+            return;
+        };
         this.draw()
     }
 
@@ -74,15 +86,28 @@ class MotionTracker {
         this.ctx.fillStyle = this.color
         this.ctx.fill()
         this.ctx.closePath()
+        /* this.tracked = false */
     }
 
-    
+    initialized = false;
+
+    reset = () => {
+        this.tracked = false
+        this.x = -1000;
+        this.y = -1000;
+        this.initialized = false;
+    }
+
     init = (ctx, canvas) => {
         this.canvas = canvas
         this.ctx = ctx
+        this.initialized = true;
 
         if(this.trackingType === 'mouse') {
             window.addEventListener('pointermove', (event) => {
+                if (!this.initialized) {
+                    return;
+                }
                 this.setPosition(
                     event.clientX,
                     event.clientY

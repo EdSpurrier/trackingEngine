@@ -16,11 +16,11 @@ class Error {
             defined: [],   //  List of properties that must be defined
         }
         
-        system.log('Error Constructed')
+        system.log(this.constructor.name,'Error Constructed')
     }
 
     check = () => {
-        system.log('Error Check')
+        system.log(this.constructor.name,'Error Check')
         system.errorEngine.checkError(this);
     }
 
@@ -34,7 +34,7 @@ class ErrorEngine {
     errors = []
 
     constructor() {
-        system.log('ErrorEngine Constructed')
+        system.debugConsoleLog(this.constructor.name, 'ErrorEngine Constructed')
     }
 
     checkStates = ({
@@ -49,7 +49,7 @@ class ErrorEngine {
             className = classObject.constructor.name;
         }
          
-        system.log(`Checking States 🠪 (${className} ⇋ ${lesson})`)
+        system.log(this.constructor.name,`Checking States 🠪 (${className} ⇋ ${lesson})`)
 
         let noErrors = true;
 
@@ -73,7 +73,7 @@ class ErrorEngine {
         properties
     }) => {
         const className = classObject.constructor.name;
-        system.log(`Checking Defined Properties 🠪 (${className} ⇋ ${lesson})`)
+        system.log(this.constructor.name,`Checking Defined Properties 🠪 (${className} ⇋ ${lesson})`)
 
         let noErrors = true;
 
@@ -82,7 +82,7 @@ class ErrorEngine {
             
             if (!definedState) {
 
-                system.log(`[ErrorEngine] Property (${property} ⇋ ${definedState})`);
+                system.log(this.constructor.name,`[ErrorEngine] Property (${property} ⇋ ${definedState})`);
 
                 system.error(className, property, lesson);
                 noErrors = false;

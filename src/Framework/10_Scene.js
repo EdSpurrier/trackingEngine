@@ -8,11 +8,13 @@ class Scene {
     sceneError = false;
 
     constructor({
+        name,
         background,
         triggerZones = [],
         motionTrackers = [],
         debug,
     }) {
+        this.name = name;
         this.triggerZones = triggerZones;
         this.motionTrackers = motionTrackers;
         this.background = background;
@@ -22,7 +24,7 @@ class Scene {
             !system.errorEngine.checkDefinedProperties({
                 classObject: this,
                 lesson: 'Scene',
-                properties: ['background', 'triggerZones', 'motionTrackers', 'debug'],
+                properties: ['name', 'background', 'triggerZones', 'motionTrackers', 'debug'],
             })
         ) {
             this.sceneError = true;
@@ -54,7 +56,7 @@ class Scene {
             debug,
         });
 
-        system.log('Scene Constructed');
+        system.debugConsoleLog(this.constructor.name, `Scene ${this.name} Constructed`);
     }
 
 
@@ -65,19 +67,40 @@ class Scene {
     }
 
     update = () => {
-        if (this.checkAllTriggersTriggered()) {
-            this.sceneEngine.stop();
-
-            console.log(this.timeline);
-            system.domEngine.hideScene(() => {
-                this.timeline.next();
-            });
+        if (!this.state.active) {
+            return;
         }
+        if (this.checkAllTriggersTriggered()) {
+            this.state.active = false;
+            this.complete();         
+        }
+    }
+
+    complete = () => {
+        system.debugConsoleLog(this.constructor.name, `Scene[${this.name}] Complete`)
+        system.domEngine.hideScene(() => {
+            this.timeline.next();
+        });
     }
     
     render = () => {
-        system.log(`Scene[${this.name}] Render`)
+        system.debugConsoleLog(this.constructor.name, `Scene[${this.name}] Render`)
         system.domEngine.showScene();
+    }
+
+    reset = () => {
+        system.debugConsoleLog(this.constructor.name, `Scene[${this.name}] Reset`)
+        this.triggerZones.forEach((triggerZone) => {
+            triggerZone.reset();
+        });
+        this.motionTrackers.forEach((motionTracker) => {
+            motionTracker.reset();
+        });
+        this.state.active = true;
+    }
+
+    connectTimeline = (timeline) => {
+        this.timeline = timeline;
     }
 
     init = () => {
@@ -85,7 +108,7 @@ class Scene {
             return false;
         }
 
-        system.log(`Scene[${this.name}] Init`)
+        system.debugConsoleLog(this.constructor.name, `Scene[${this.name}] Init`)
         this.render();
         this.sceneEngine.init(this);
     }

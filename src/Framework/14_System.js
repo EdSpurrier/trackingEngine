@@ -5,10 +5,26 @@
  * - Manage Loading Screen
 */
 
+const debugConsoleOutput = {
+    System: false,
+    ErrorEngine: false,
+    TeacherEngine: false,
+    App: false,
+    DomEngine: false,
+    Object: false,
+    Timeline: false,
+    Screen: false,
+    Scene: false,
+    MotionTracker: false,
+    TriggerZone: false,
+    SceneEngine: false,
+}
+
 
 class System {
     settings = {
         debug: true,
+
     };
     consoleLog = [];
     errorLog = [];
@@ -23,7 +39,7 @@ class System {
 
     constructor() {
         this.time.start = new Date();
-        this.log('System Constructed')
+        this.debugConsoleLog(this.constructor.name, 'System Constructed')
     }
     
     calculateTime = () => {
@@ -32,11 +48,25 @@ class System {
         this.time.deltaTime = this.time.elapsed / 1000;
     }
 
-    log = (message) => {
-        if (this.settings.debug) {
-            this.consoleLog.push(message);
-            console.log(message);
+    debugConsoleLog = (className, message) => {
+        this.consoleLog.push({
+            className: className,
+            message: message
+        });
+        this.log(className, message);
+        if(this.domEngine) {
+            this.domEngine.consoleLogUpdate(this.consoleLog);
         }
+    }
+
+    log = (className, message) => {
+
+        if (debugConsoleOutput[className] === false) {
+            return;
+        }
+
+        // get the name of the function that called log
+        console.log(`%c[${className}] %c${message}`, "color:#18d6d6;", "color:#d69d18;");
     }
 
     classError = (className, message) => {
@@ -69,13 +99,13 @@ class System {
 
     trySystemStart = () => {
         if (this.active && this.appReady) {
-            this.log('-----------------------------');
+            this.log(this.constructor.name, '-----------------------------');
             this.start();
         }
     }
 
     systemReady = () => {
-        this.log('System Ready');
+        this.debugConsoleLog(this.constructor.name, 'System Ready');
         this.active = true;
         this.domEngine.loading(false, this.trySystemStart());
     }
@@ -94,9 +124,12 @@ class System {
         }
     }
 
-    setAppReady = () => {
-        this.log('App Ready');
-        this.appReady = true; 
+    setAppReady = (app) => {
+        this.debugConsoleLog(this.constructor.name, 'App Ready');
+        this.app = app;
+        this.appReady = true;
+        this.settings.debug = this.app.debug;
+        this.domEngine.setDebugState(this.app.debug);
         this.trySystemStart();
     }
 
@@ -107,10 +140,10 @@ class System {
             course: course,
         });
         this.errorEngine = new ErrorEngine();
-        system.log('System Initialized');
+        system.debugConsoleLog(this.constructor.name, 'System Initialized');
         this.isSystemReady();
 
-        this.log('-----------------------------');
+        this.log(this.constructor.name, '-----------------------------');
     }
 
 

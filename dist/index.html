@@ -53,9 +53,12 @@
 
       <!-- START - SYSTEM -->
         <div id="system" class="layer pointer-events-none">
-          <div id="teacher-toggle-button" class="rounded-md bg-yellow-500 fixed top-2 right-2 opacity-100 hover:scale-110 pointer-events-auto cursor aspect-square flex justify-center items-center duration-100 cursor-pointer">
-            <i class="fa-solid fa-graduation-cap" style="color: #000;"></i>
+          <div id="teacher-toggle-button" class="rounded-md bg-yellow-500 fixed h-9 w-9 top-2 right-2 opacity-100 hover:scale-110 pointer-events-auto cursor aspect-square flex justify-center items-center duration-100 cursor-pointer">
+            <i class="fa-solid fa-graduation-cap " style="color: #000;"></i>
           </div>
+
+
+
           <div id="error-console" class="layer hidden flex flex-col justify-center items-center bg-black bg-opacity-80">
             <div id="error-window" class="bg-red-900 rounded-lg overflow-hidden flex flex-col pointer-events-auto">
               <div id="error-title" class="text-xl bg-red-600 p-4">Error</div>
@@ -66,7 +69,41 @@
               </button>
             </div>
           </div>
-          <div id="debug" class="hidden"></div>
+
+
+          <div id="debug-console" class="fixed bottom-0 bg-slate-700 text-xs rounded-r-lg overflow-hidden duration-500 pointer-events-auto">
+            <div id="debug-console-title" class="text-md text-white bg-slate-500 font-bold px-2 py-3 border-b-1 border-slate-900">Debug Console</div>
+            <div id="debug-console-content" class="flex flex-col p-2 pb-12">
+            </div>
+          </div>
+
+          
+
+
+          <div id="debug" class="hidden">
+            <div id="tracking-engine">
+              <video class="videobox canvasbox" autoplay="autoplay" id="webcam-video"></video>
+              <canvas id="tracking-canvas" class="canvasbox"></canvas>
+            </div>
+
+            <div id="debug-console-toggle-button" class="rounded-md bg-green-500 fixed h-7 w-7 bottom-2 left-2 opacity-100 hover:scale-110 pointer-events-auto cursor aspect-square flex justify-center items-center duration-100 cursor-pointer">
+              <i class="fa-solid fa-terminal fa-xs" style="color: #000;"></i>
+            </div>
+
+            <div id="debug-timeline" class="fixed bottom-0 right-0 left-0 overflow-hidden duration-500 flex align-center justify-center p-6">
+
+              <div id="debug-timeline-button-left" class="left-button px-3 bg-cyan-500 pointer-events-auto cursor-pointer hover:scale-110 rounded-lg flex align-center justify-center duration-300">
+                <div><i class="fa-solid fa-chevron-left text-sm mt-1" style="color: #ffffff;"></i></div>
+              </div>
+
+              <div id="debug-timeline-title" class="bg-blue-500 text-sm rounded-lg py-1 px-4 mx-2">
+              </div>
+
+              <div id="debug-timeline-button-right" class="right-button px-3 bg-cyan-500 pointer-events-auto cursor-pointer hover:scale-110 rounded-lg flex align-center justify-center duration-300">
+                <div><i class="fa-solid fa-chevron-right text-sm mt-1" style="color: #ffffff;"></i></div>
+              </div>
+            </div>
+          </div>
           <div id="loading-screen" class="layer flex flex-col justify-center items-center bg-gray-900 gap-4">
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -144,7 +181,9 @@
   <script src="Framework/04_TeacherEngine.js"></script>
   <script src="Framework/05_course.js"></script>
   <script src="Framework/06_ErrorEngine.js"></script>
-  <script src="Framework/07_MotionTracker.js"></script>
+  <script src="Framework/07A_BodyPart.js"></script>
+  <script src="Framework/07B_TrackingEngine.js"></script>
+  <script src="Framework/07X_MotionTracker.js"></script>
   <script src="Framework/08_TriggerZone.js"></script>
   <script src="Framework/09_SceneEngine.js"></script>
   <script src="Framework/10_Scene.js"></script>
@@ -152,6 +191,7 @@
   <script src="Framework/12_Timeline.js"></script>
   <script src="Framework/13_App.js"></script>
   <script src="Framework/14_System.js"></script>
+  <script src="Framework/15_SceneEvent.js"></script>
 <!-- END OF trackerEngine.js RELEASE -->
   
   <script src="./script.js"></script>

@@ -4,6 +4,7 @@ class TriggerZone {
     triggered = false
 
     constructor({
+            name,
             percentageX,
             percentageY,
             radius,
@@ -11,6 +12,7 @@ class TriggerZone {
             activeColor,
             triggerType
         }) {
+        this.name = name? name : this.name
         this.percentageX = percentageX
         this.percentageY = percentageY
         this.radius = radius
@@ -36,7 +38,7 @@ class TriggerZone {
             return false;
         };
 
-        system.log('TriggerZone Constructed');
+        system.debugConsoleLog(this.constructor.name, `TriggerZone ${this.name} Constructed`);
 
     }
 
@@ -48,6 +50,11 @@ class TriggerZone {
     storePercentagePosition = () => {
         this.percentageX = this.x / (this.canvas.width/100)
         this.percentageY = this.y / (this.canvas.height/100)
+    }
+
+    reset = () => {
+        this.triggered = false
+        this.color = this.inactiveColor
     }
 
     trigger = () => {
@@ -95,6 +102,7 @@ class TriggerZone {
     init = (ctx, canvas) => {
         this.ctx = ctx
         this.canvas = canvas
+        this.reset()
         this.calculateCanvasPosition()
     }
 }

@@ -47,24 +47,30 @@ class TeacherEngine {
     activeLesson = null;
 
     constructor() {
-        system.log('Teacher Engine Constructed');
+        system.log(this.constructor.name,'Teacher Engine Constructed');
+
+        system.domEngine.addEventListener('debug-console-toggle-button', 'click', ()=> { 
+            this.openTeacher();
+        });
+
         system.domEngine.addEventListener('error-button', 'click', ()=> { 
             this.showLesson();
         });
+        
     }
 
     loadCourse = (course) => {
-        system.log('Loading Course');
+        system.log(this.constructor.name,'Loading Course');
         system.domEngine.loadCourse(courseJSON);
     }
 
     renderLessonList = (lessonList) => {
-        system.log('Rendering Lesson List');
+        system.log(this.constructor.name,'Rendering Lesson List');
         system.domEngine.renderLessonList(lessonList);
     }
 
     setActiveLesson = (lesson) => {
-        system.log(`Setting Active Lesson ${lesson.name} ${lesson.task?`Task ${lesson.task}`:``}`);
+        system.log(this.constructor.name,`Setting Active Lesson ${lesson.name} ${lesson.task?`Task ${lesson.task}`:``}`);
         this.activeLesson = lesson;
     }
 
@@ -75,6 +81,6 @@ class TeacherEngine {
     }
 
     start = () => {
-        system.log('Teacher Engine Start');
+        system.log(this.constructor.name,'Teacher Engine Start');
     }
 }
