@@ -27,8 +27,16 @@ body {
   z-index: 1;
 }
 
+#loading-screen {
+  z-index: 10000;
+
+}
+
 #teacher-toggle-button, #debug-console-toggle-button, #debug-webcam-toggle-button {
   z-index: 1010;
+}
+#tracking-engine-webcam-blocked {
+  z-index: 1006;
 }
 
 #tracking-engine {
@@ -141,6 +149,14 @@ body {
   position: relative;
   width: 250px;
   height: 200px;
+}
+
+#webcam-blocked {
+
+}
+
+#icon-camera-block {
+  font-size: 25px;
 }
 
 .tracking-video {

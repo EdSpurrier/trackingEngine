@@ -61,7 +61,9 @@ const elementsToStore = [
     'tracking-engine-webcam-video',
     'tracking-engine-canvas',
     'tracking-engine',
-    'debug-webcam-toggle-button'
+    'debug-webcam-toggle-button',
+    'webcam-blocked',
+    "tracking-engine-webcam-blocked"
 ]
 
 
@@ -211,6 +213,25 @@ class DomEngine {
         });
     }
     
+    getImageCoverSize = (image, width, height) => {
+        const imageRatio = image.width / image.height;
+        const canvasRatio = width / height;
+        let renderWidth = width;
+        let renderHeight = height;
+        if (imageRatio > canvasRatio) {
+            renderHeight = width / imageRatio;
+        } else {
+            renderWidth = height * imageRatio;
+        }
+        return {
+            x: (width - renderWidth) / 2,
+            y: (height - renderHeight) / 2,
+            width: renderWidth,
+            height: renderHeight,
+        }
+    }
+
+
 
     setElementState = (element, state) => {
         if(state) {
@@ -359,6 +380,13 @@ class DomEngine {
 
     setDebugState = (state) => {
         this.setElementState('debug', state);
+    }
+
+    showWebcamBlocked = () => {
+        this.setElementState('webcam-blocked', true);
+        this.setElementState('tracking-engine-webcam-blocked', true);
+        
+
     }
 
     showError = (name, message) => {

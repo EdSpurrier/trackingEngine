@@ -121,6 +121,7 @@ class System {
             this.teacherEngine &&
             this.errorEngine &&
             this.trackingEngine) {
+                
             if (this.trackingEngine.isLoaded()) {
                 ready = true;
             }
@@ -133,7 +134,7 @@ class System {
                 this.isSystemReady();
             }, 100);
         }
-        
+
     }
 
     setAppReady = (app) => {

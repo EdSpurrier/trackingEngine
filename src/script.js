@@ -41,7 +41,7 @@ timeline.addTimelineStep(screen); */
 
 
 //  Create a new motion tracker
-const motionTracker = new MotionTracker({
+/* const motionTracker = new MotionTracker({
     radius: 30,
     color: '#00b7ff',
     trackingType: 'mouse',
@@ -49,7 +49,19 @@ const motionTracker = new MotionTracker({
         hideCursor: false,
         alwaysDisplay: false,
     }
+}); */
+
+const motionTracker = new MotionTracker({
+    radius: 30,
+    color: '#00b7ff',
+    trackingType: 'hand',
+    settings: {
+        hideCursor: false,
+        alwaysDisplay: false,
+    }
 });
+
+
 
 //  Create a new trigger zone
 const triggerZone = new TriggerZone({
@@ -58,7 +70,7 @@ const triggerZone = new TriggerZone({
     radius: 40,
     inactiveColor: '#ff0000',
     activeColor: '#00ff00',
-    triggerType: 'mouse',
+    triggerType: 'hand',
 });
 
 
@@ -67,6 +79,7 @@ const scene = new Scene({
     name: 'Simple Mouse Tracking Scene',
     background: {
         color: '#1f1f22',
+        video: true,
     },
     motionTrackers: [
         motionTracker,

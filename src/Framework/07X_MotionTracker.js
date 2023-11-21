@@ -38,13 +38,13 @@ class MotionTracker {
     
 
     calculateCanvasPosition = () => {
-        this.x = ((this.canvas.width/100) * this.percentageX) + this.radius/2
+        this.x = (((this.canvas.width/100) * this.percentageX) + this.radius/2)
         this.y = ((this.canvas.height/100) * this.percentageY) + this.radius/2
     }
 
 
     calculateCanvasPosition = () => {
-        this.x = ((this.canvas.width/100) * this.percentageX) + this.radius/2
+        this.x = (((this.canvas.width/100) * this.percentageX) + this.radius/2)
         this.y = ((this.canvas.height/100) * this.percentageY) + this.radius/2
     }
 
@@ -59,14 +59,40 @@ class MotionTracker {
         x,
         y,
     ) => {
-        console.log();
+        console.log(x, y, this.trackingType);
         this.x = x
         this.y = y
         this.tracked = true
     }
 
+    getBodyPartTracking = () => {
+
+        if (this.trackingType === 'hand') {
+            
+            if (system.trackingEngine.trackedBodyParts['hand-1'].tracked) {
+                const trackerPositionInBackgroundVideo = this.sceneEngine.getTrackerPositionInBackgroundVideo(system.trackingEngine.trackedBodyParts['hand-1'].centerPoint)
+
+                this.setPosition(
+                    trackerPositionInBackgroundVideo.x,
+                    trackerPositionInBackgroundVideo.y,
+                )
+                system.trackingEngine.trackedBodyParts['hand-1'].tracked = false;
+            } else if (system.trackingEngine.trackedBodyParts['hand-2'].tracked) {
+                const trackerPositionInBackgroundVideo = this.sceneEngine.getTrackerPositionInBackgroundVideo(system.trackingEngine.trackedBodyParts['hand-2'].centerPoint)
+
+                this.setPosition(
+                    trackerPositionInBackgroundVideo.x,
+                    trackerPositionInBackgroundVideo.y,
+                )
+                system.trackingEngine.trackedBodyParts['hand-2'].tracked = false;
+            }
+
+        }
+    }
+
 
     update = () => {
+        this.getBodyPartTracking()
         this.render();
         this.storePercentagePosition()
     }
@@ -98,7 +124,8 @@ class MotionTracker {
         this.initialized = false;
     }
 
-    init = (ctx, canvas) => {
+    init = (ctx, canvas, sceneEngine) => {
+        this.sceneEngine = sceneEngine
         this.canvas = canvas
         this.ctx = ctx
         this.initialized = true;
@@ -113,6 +140,7 @@ class MotionTracker {
                     event.clientY
                 )
             })
-        }
+        } 
+            
     }
 }

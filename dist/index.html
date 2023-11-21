@@ -78,9 +78,25 @@
           </div>
 
 
-          <div id="tracking-engine" class="flex align-start duration-500">
+          <div id="webcam-blocked" class="hidden fixed top-2  pointer-events-auto left-0 right-0 flex align-center justify-center ">
+            <div class="bg-red-900 rounded-lg py-2 px-4 mx-2 cursor-pointer">
+            <a href="https://www.youtube.com/watch?v=guv6kkVcxdU" target="_blank">
+              <div> <i class="fa-solid fa-triangle-exclamation mr-2 animate-ping"></i>  Web-Cam Blocked  <i class="fa-solid fa-triangle-exclamation ml-2 animate-ping"></i> </div>
+            </a>
+          </div>
+          </div>
+
+          <div id="tracking-engine" class="flex align-start duration-500 pointer-events-auto">
             <div id="tracking-engine-debug-view">
-              <video id="tracking-engine-webcam-video" autoplay="autoplay" class="tracking-video"></video>
+              <div id="tracking-engine-webcam-blocked" class="text-red-500 absolute h-full w-full flex items-center justify-center tracking-video hidden">
+                <a href="https://www.youtube.com/watch?v=guv6kkVcxdU" target="_blank">
+                  <div class="text-center mb-3"><i id="icon-camera-block"  class="fa-solid fa-triangle-exclamation animate-ping"></i></div>
+                  <div>Web-Cam Blocked</div>
+                </a>
+              </div>
+              <video id="tracking-engine-webcam-video" autoplay="autoplay" class="tracking-video">
+                
+              </video>
               <canvas id="tracking-engine-canvas" class="tracking-video"></canvas>  
             </div>
             
@@ -107,7 +123,7 @@
               </div>
 
               <div id="debug-timeline-button-right" class="right-button px-3 bg-cyan-500 pointer-events-auto cursor-pointer hover:scale-110 rounded-lg flex align-center justify-center duration-300">
-                <div><i class="fa-solid fa-chevron-right text-sm mt-1" style="color: #ffffff;"></i></div>
+                  <div><i class="fa-solid fa-chevron-right text-sm mt-1" style="color: #ffffff;"></i></div>
               </div>
             </div>
           </div>

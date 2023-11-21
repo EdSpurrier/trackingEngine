@@ -25,6 +25,19 @@ class SceneEngine {
         
         system.domEngine.onWindowResize(this.resizeCanvas);
 
+        if (this.background.video) {
+            this.background.videoStream = system.domEngine.getElement('tracking-engine-webcam-video');
+            /* this.background.videoStream.addEventListener('play', function() {
+                var $this = this; //cache
+                (function loop() {
+                    if (!$this.paused && !$this.ended) {
+                        this.ctx.drawImage($this, 0, 0);
+                        setTimeout(loop, 1000 / 30); // drawing at 30fps
+                    }
+                })();
+            }, 0); */
+        }
+
         system.debugConsoleLog(this.constructor.name, 'SceneEngine Constructed');
     }
 
@@ -109,6 +122,14 @@ class SceneEngine {
         this.refreshSceneObjects();
     }
 
+
+    getTrackerPositionInBackgroundVideo = (motionTracker) => {
+        const imageCoverSize = system.domEngine.getImageCoverSize(this.background.videoStream, this.canvas.width, this.canvas.height);
+        const x = imageCoverSize.x + (imageCoverSize.width - motionTracker.x);
+        const y = motionTracker.y - imageCoverSize.y;
+        return { x, y };
+    }
+
     renderBackground = () => {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -120,9 +141,9 @@ class SceneEngine {
             const imageCoverSize = system.domEngine.getImageCoverSize(this.background.image, this.canvas.width, this.canvas.height);
             this.ctx.drawImage(this.background.image, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
         };
-        if (this.background.video && this.background.video !== '') {
-            const imageCoverSize = system.domEngine.getImageCoverSize(this.background.video, this.canvas.width, this.canvas.height);
-            this.ctx.drawImage(this.background.video, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
+        if (this.background.video && this.background.video !== '' && this.background.videoStream) {
+            const imageCoverSize = system.domEngine.getImageCoverSize(this.background.videoStream, this.canvas.width, this.canvas.height);
+            this.ctx.drawImage(this.background.videoStream, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
         };
     }
 
@@ -174,6 +195,7 @@ class SceneEngine {
             sceneObject.init(
                 this.ctx,
                 this.canvas,
+                this
             )
         });
         this.pause = false;
