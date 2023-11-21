@@ -9,7 +9,7 @@ const jsFiles = [
 function concatJs() {
   return gulp.src(jsFiles)
     .pipe(concat('trackerEngine.js'))
-    .pipe(gulp.dest('release/js'));
+    .pipe(gulp.dest(['release/js', 'dist/release/js']));
 }
 
 exports.default = concatJs;
