@@ -27,8 +27,12 @@ body {
   z-index: 1;
 }
 
-#teacher-toggle-button, #debug-console-toggle-button {
+#teacher-toggle-button, #debug-console-toggle-button, #debug-webcam-toggle-button {
   z-index: 1010;
+}
+
+#tracking-engine {
+  z-index: 1005;
 }
 
 #system {
@@ -114,4 +118,36 @@ body {
 #debug-console.active {
   opacity: 1;
   left: 0;
+}
+
+#tracking-engine {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  opacity: 1;
+  height: 200px;
+}
+
+#tracking-engine.active {
+  left: 0px;
+}
+
+#debug-webcam-toggle-button {
+  height: 35px;
+  width: 35px;
+}
+
+#tracking-engine-debug-view {
+  position: relative;
+  width: 250px;
+  height: 200px;
+}
+
+.tracking-video {
+  position: absolute;
+  border-radius: 3px;
+  width: 250px;
+  height: 200px;
+  box-shadow: 0 2px 3px 0 rgb(0, 0, 0), 0 4px 10px 0 #00000030;
+  background: #333;
 }

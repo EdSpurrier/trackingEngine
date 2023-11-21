@@ -57,7 +57,11 @@ const elementsToStore = [
     "debug-console-content",
     "debug-timeline-title",
     'debug-timeline-button-left',
-    'debug-timeline-button-right'
+    'debug-timeline-button-right',
+    'tracking-engine-webcam-video',
+    'tracking-engine-canvas',
+    'tracking-engine',
+    'debug-webcam-toggle-button'
 ]
 
 
@@ -82,6 +86,10 @@ class DomEngine {
             this.openConsole();
         });
 
+        this.addEventListener('debug-webcam-toggle-button', 'click', ()=> { 
+            this.toggleWebcamView();
+        });
+
         window.addEventListener('resize', () => {
             this.windowResize();
         });
@@ -102,6 +110,10 @@ class DomEngine {
 
     storeElementById = (element, id) => {
         this.elements[element] = document.getElementById(id);
+    }
+
+    getElement = (element) => {
+        return this.elements[element];
     }
 
     loading = (state, callBack = () => {}) => {
@@ -319,6 +331,11 @@ class DomEngine {
         this.setElementState('task', false);
         this.showTeacher();
     }
+
+    toggleWebcamView = () => {
+        this.toggleClass('tracking-engine', 'active');
+    }
+
 
     openConsole = () => {
         this.toggleClass('debug-console', 'active');

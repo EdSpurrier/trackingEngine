@@ -77,14 +77,21 @@
             </div>
           </div>
 
+
+          <div id="tracking-engine" class="flex align-start duration-500">
+            <div id="tracking-engine-debug-view">
+              <video id="tracking-engine-webcam-video" autoplay="autoplay" class="tracking-video"></video>
+              <canvas id="tracking-engine-canvas" class="tracking-video"></canvas>  
+            </div>
+            
+            <div id="debug-webcam-toggle-button" class="rounded-br-md bg-green-500 opacity-100 hover:scale-110 pointer-events-auto cursor aspect-square flex justify-center items-center duration-100 cursor-pointer">
+              <i class="fa-solid fa-camera fa-xs" style="color: #000;"></i>
+            </div>
+          </div>
+
           
 
-
           <div id="debug" class="hidden">
-            <div id="tracking-engine">
-              <video class="videobox canvasbox" autoplay="autoplay" id="webcam-video"></video>
-              <canvas id="tracking-canvas" class="canvasbox"></canvas>
-            </div>
 
             <div id="debug-console-toggle-button" class="rounded-md bg-green-500 fixed h-7 w-7 bottom-2 left-2 opacity-100 hover:scale-110 pointer-events-auto cursor aspect-square flex justify-center items-center duration-100 cursor-pointer">
               <i class="fa-solid fa-terminal fa-xs" style="color: #000;"></i>

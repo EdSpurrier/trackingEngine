@@ -35,13 +35,15 @@ class System {
         deltaTime: 0,
     };
     active = false;
-    
+
 
     constructor() {
         this.time.start = new Date();
+
+
         this.debugConsoleLog(this.constructor.name, 'System Constructed')
     }
-    
+
     calculateTime = () => {
         this.time.current = new Date();
         this.time.elapsed = this.time.current - this.time.start;
@@ -54,7 +56,7 @@ class System {
             message: message
         });
         this.log(className, message);
-        if(this.domEngine) {
+        if (this.domEngine) {
             this.domEngine.consoleLogUpdate(this.consoleLog);
         }
     }
@@ -84,7 +86,7 @@ class System {
             lesson: lesson,
         })
         this.log(`ERROR: ${name} - ${message}`)
-        
+
         if (lesson) {
             this.teacherEngine.setActiveLesson(lesson);
         }
@@ -112,16 +114,26 @@ class System {
 
 
     isSystemReady = () => {
-        if (
-            this.domEngine &&
-            this.teacherEngine
-            ) {
+
+        let ready = false;
+
+        if (this.domEngine &&
+            this.teacherEngine &&
+            this.errorEngine &&
+            this.trackingEngine) {
+            if (this.trackingEngine.isLoaded()) {
+                ready = true;
+            }
+        }
+
+        if (ready) {
             this.systemReady();
         } else {
             setTimeout(() => {
                 this.isSystemReady();
             }, 100);
         }
+        
     }
 
     setAppReady = (app) => {
@@ -141,6 +153,13 @@ class System {
         });
         this.errorEngine = new ErrorEngine();
         system.debugConsoleLog(this.constructor.name, 'System Initialized');
+
+        this.trackingEngine = new TrackingEngine({
+            modelType: 'handTrack',
+        });
+
+        this.trackingEngine.init();
+
         this.isSystemReady();
 
         this.log(this.constructor.name, '-----------------------------');

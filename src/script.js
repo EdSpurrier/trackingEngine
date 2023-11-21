@@ -14,10 +14,7 @@ const app = new App({
 });
 
 
-//  Create the tracking engine
-const trackingEngine = new TrackingEngine({
-    modelType: 'handTrack',
-});
+
 
 
 // Create a new Timeline

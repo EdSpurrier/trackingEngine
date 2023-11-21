@@ -45,19 +45,22 @@ class TrackingEngine {
             }),            
         ]
 
-        this.video      = system.domEngine.getCanvas('webcam-video');
-        const { canvas, ctx } = system.domEngine.getCanvas('scene');
+        this.video              = system.domEngine.getElement('tracking-engine-webcam-video');
+        const { canvas, ctx }   = system.domEngine.getCanvas('tracking-engine-canvas');
         this.canvas = canvas;
         this.ctx = ctx;
 
 
-        this.video      = document.getElementById("webcam-video");
+/*         this.video      = document.getElementById("webcam-video");
         this.canvas     = document.getElementById('tracking-canvas');
-        this.ctx        = this.canvas.getContext('2d');
+        this.ctx        = this.canvas.getContext('2d'); */
         this.handData = document.getElementById("handData");
         this.handTrack = handTrack;
     }
 
+    isLoaded = () => {
+        return this.model !== null;
+    }
 
     loadHandTrackModel = () => {
         this.handTrack.load(modelParams).then(lmodel => {
@@ -86,6 +89,7 @@ class TrackingEngine {
     }
 
     startVideo = () => {
+        console.log(this.video)
         this.handTrack.startVideo(this.video).then((status) => {
             system.log(this.constructor.name,"Webcam Stream:", status);
             if (status) {
