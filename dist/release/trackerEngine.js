@@ -2323,6 +2323,7 @@ class App {
             return false;
         };
 
+        system.domEngine.set
         system.domEngine.setAppBackgroundColor(this.backgroundColor);
         system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Constructed`);
     }
