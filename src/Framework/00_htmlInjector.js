@@ -4,7 +4,7 @@ var prod = true;
 
 
 // Insert CSS
-const motionEngineCSS = `
+const trackingEngineCSS = `
 
 /* SITE */
 *,
@@ -27,9 +27,7 @@ body {
   overflow: hidden;
 }
 
-/*
- *  HEIRARCHY
-*/
+/* HEIRARCHY */
 #app {
   z-index: 1;
 }
@@ -184,7 +182,7 @@ body {
 
 
 //  Inject HTML
-const motionEngineHTML = `
+const trackingEngineHTML = `
 
 <div id="app-wrap" class="layer text-white bg-zinc-950">
 <div id="empty-app" class="layer flex justify-center items-center">
@@ -347,14 +345,11 @@ const motionEngineHTML = `
 
 
 
+const style = document.createElement('style');
+style.innerHTML = trackingEngineCSS;
+document.head.appendChild(style);
 
-if (prod) {
-    const style = document.createElement('style');
-    style.innerHTML = motionEngineCSS;
-    document.head.appendChild(style);
-
-    //  Add HTML to #scene-engine
-    const sceneEngineHTML = document.getElementById('scene-engine');
-    sceneEngineHTML.innerHTML = motionEngineHTML;
-}
+//  Add HTML to #scene-engine
+const sceneEngineHTML = document.getElementById('app');
+sceneEngineHTML.innerHTML = trackingEngineHTML;
 
