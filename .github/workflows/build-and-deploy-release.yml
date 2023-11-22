@@ -64,13 +64,15 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+      - name: Zip files
+        run: zip -r trackingEngine.zip ./version/
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./path/to/asset.zip
-          asset_name: asset.zip
+          asset_path: ./version/trackingEngine.zip
+          asset_name: trackingEngine.zip
           asset_content_type: application/zip
 
