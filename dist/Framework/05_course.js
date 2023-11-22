@@ -71,34 +71,82 @@
 
 
 const courseData = {
-    name: 'Application',
-    description: 'Learn how to create an application',
+    name: `Augmented Reality
+            JavaScript
+            Web
+            Application
+        `,
+    description: 'Learn how to create an Augmented Reality JS Application',
     lessons: [
         {
-            name: 'Introduction to the Application',
+            complete: true,
+            name: 'Coding your Application',
+            menuName: 'Application',
             className: 'App',
-            description: 'Learn how to create an application',
-            tasks: [
+            goal: 'Learn how to create an application',
+            description: `The Application is the core of the application and is used to create the application and maintain the application and its settings`,
+            content: [
+                `First lets create a new App (Application)`,
+                `"const" means constant, which means that the value of the variable cannot be changed`,
+                `"app" is the name of the variable that we are creating`,
+                `"new" means that we are creating a new instance of the App class`,
+                `We are passing in the metaData object to the App class`,
+                `The metaData object contains information about the application`
+            ],   
+            steps: [
                 {
-                    name: 'Create a new application',
-                    description: 'Learn how to create a new application',
-                    code: `
-                            // Create a new application
-                            const app = new App(
-                                metaData = {
-                                    name: 'Application Name',
-                                    version: '0.0.1',
-                                    description: 'Description of the application',
-                                    developer: 'Developer Name',
-                                    company: 'Company Name',
-                                },
-                            );
-                        `,
+                    text: [
+                        `Make these changes in the 'JS' panel (either above or on the left)`,
+                    ],
+code: `<span class="text-green-500">// Create a new application
+const app = new App(
+    metaData = {
+       name: 'Application Name',
+        version: '0.0.1',
+        description: 'Description of the application',
+        developer: 'Developer Name',
+        company: 'Company Name',
+    },
+);</span>`
                 },
-            ],
+                {
+                    text: [
+                        `Replace the metaData with your own metaData`,
+                    ],
+code: `// Create a new application
+const app = new App(
+    metaData = {
+            name:  <span class="text-green-500">'My Awesome Application'</span>,
+            version:  <span class="text-green-500">'0.0.1'</span>,
+            description:  <span class="text-green-500">'Does things that you couldn't beleive'</span>,
+            developer:  <span class="text-green-500">'John Black'</span>,
+            company:  <span class="text-green-500">'AR Inc'</span>,
+    },
+);`
+                },
+                {
+                    text: [
+                        `Next we need to initialize the application`,
+                        `We do this by calling the init function`,
+                        `Add this code to the very end of your 'JS'.`,
+                        `Always make sure that it is the last function to be called`,
+                    ],
+code: 
+`<span class="text-green-500">// Initialize the application
+app.init();</span>`
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `Your Application splash screen should now show your metaData`,
+                    ],
+                }
+            ]
         },
         {
+            complete: false,
             name: 'Introduction to the Timeline',
+            menuName: 'Timeline',
             className: 'Timeline',
             description: 'Learn how to create a timeline',
             tasks: [
@@ -122,7 +170,9 @@ const courseData = {
         },
 
         {
+            complete: false,
             name: 'Introduction to the App Screen',
+            menuName: 'App Screen',
             className: 'Screen',
             description: 'Learn how to create an app screen',
             tasks: [
@@ -159,8 +209,11 @@ const courseData = {
 
 
         {
+            complete: false,
             name: 'Introduction to the Scene Engine',
+            menuName: 'Scene Engine',
             description: 'Learn how to create a scene engine',
+            className: 'Scene',
             tasks: [
                 {
                     name: 'Add a new scene and add it to the timeline',

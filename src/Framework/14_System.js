@@ -108,7 +108,7 @@ class System {
 
     systemReady = () => {
 
-        this.teacherEngine.openTeachAtLesson('App')
+        //this.teacherEngine.openTeachAtLesson('App')
 
         this.debugConsoleLog(this.constructor.name, 'System Ready');
         this.active = true;
@@ -163,6 +163,7 @@ class System {
         this.teacherEngine = new TeacherEngine({
             course: courseData,
         });
+        
         this.errorEngine = new ErrorEngine();
         system.debugConsoleLog(this.constructor.name, 'System Initialized');
 

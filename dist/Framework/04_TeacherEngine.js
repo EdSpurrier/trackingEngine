@@ -46,6 +46,7 @@ class Course {
 class TeacherEngine {
     activeLesson = null;
     course = null;
+    state = false;
 
     constructor({
         course
@@ -59,55 +60,60 @@ class TeacherEngine {
         system.domEngine.addEventListener('error-button', 'click', ()=> { 
             this.showLesson();
         });
-        
+    
+
         this.loadCourse(course);
+
+        this.toggleTeacher();
     }
+
 
     toggleTeacher = () => {
         system.log(this.constructor.name,'Toggle Teacher');
-        system.domEngine.toggleTeacher();
+        this.state = !this.state;
+        system.domEngine.setTeacherState(this.state);
     }
 
-    openTeacher = () => {
+/*     openTeacher = () => {
         system.log(this.constructor.name,'Opening Teacher');
-        system.domEngine.openTeacher();
-    }
+        system.domEngine.setTeacherState(true);
+    } */
 
-    openTeachAtLesson = (lesson) => {
+/*     openTeachAtLesson = (lesson) => {
         this.setActiveLesson(lesson);
         this.openTeacher();
-    }
+    } */
 
 
     loadCourse = (course) => {
         system.log(this.constructor.name,'Loading Course');
         this.course = course;
+        system.domEngine.renderCourseMenu(this.course);
     }
 
-    renderLessonList = (lessonList) => {
-        system.log(this.constructor.name,'Rendering Lesson List');
-        system.domEngine.renderLessonList(lessonList);
+    selectLesson = (lesson) => {
+        system.log(this.constructor.name,'Select Lesson');
+        this.setActiveLesson(lesson);
+        system.domEngine.showLesson();
     }
 
     setActiveLesson = (lesson) => {
         
         this.activeLesson = this.course.lessons.filter((courseLesson) => {
-            return courseLesson.className === lesson;
+            return courseLesson.className === lesson.className;
         })[0];
 
-        console.log(this.activeLesson)
-        return;
+        system.domEngine.setLessonActive(this.activeLesson);
 
-
-        system.log(this.constructor.name,`Setting Active Lesson ${lesson.name} ${lesson.task?`Task ${lesson.task}`:``}`);
-        this.activeLesson = lesson;
+        system.log(this.constructor.name, `Set Active Lesson ${this.activeLesson}`)
+        console.log('setActiveLesson', this.activeLesson)
     }
 
-    showLesson = () => {
+/*     showLesson = () => {
         if (this.activeLesson) {
             system.domEngine.showLesson(this.activeLesson);
         }
-    }
+    } */
 
     
     start = () => {

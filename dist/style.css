@@ -44,12 +44,9 @@ body {
 }
 
 #system {
-  z-index: 1000;
+  z-index: 1004;
 }
 
-#debug-console {
-  z-index: 1005;
-}
 
 /* TEACHER */
 #course {
@@ -65,6 +62,9 @@ body {
 }
 /* ------- */
 
+#debug-console {
+  z-index: 100;
+}
 
 
 /* RUNTIME */
@@ -117,7 +117,7 @@ body {
 
 #debug-console {
   opacity: 0;
-  height: calc(100vh-250px);
+  height: calc(100vh - 250px);
   width: 400px;
   left: -400px;
   overflow-y: auto;
@@ -126,6 +126,101 @@ body {
 #debug-console.active {
   opacity: 1;
   left: 0;
+}
+
+.bg-yellow {
+  background-color: #E9B824;
+}
+
+.text-yellow {
+  color: #E9B824;
+}
+
+.bg-orange {
+  background-color: #ffc31e;
+}
+
+#teacher {
+  opacity: 0;
+  transition: 0.25s;
+}
+
+#teacher.active {
+  opacity: 1;
+
+
+}
+
+
+#teacher.active #course,
+#teacher.active #lesson {
+  pointer-events: all;
+}
+
+
+.lesson-list-item.active, .lesson-list-item.active:hover {
+  background-color: #ffc107;
+  color: #333;
+  left: 0px;
+
+}
+
+.lesson-list-item {
+  transition: 0.25s;
+  position: relative;
+  left: 20px;
+}
+
+.lesson-list-item:hover {
+  background-color: #ffbb00;
+  color: #333;
+  left: 0px;
+}
+
+.bg-pale-yellow {
+  background-color: rgb(255, 219, 99);
+}
+
+.text-pale-yellow {
+  color: #FFE17B;
+}
+
+#lesson {
+  opacity: 0;
+  top: 50px;
+}
+
+#lesson.active {
+  opacity: 1;
+  top: 0px;
+}
+
+#course {
+  opacity: 0;
+  width: 200px;
+  right: -200px;
+  overflow-y: auto;
+}
+
+#teacher.active #course {
+  opacity: 1;
+  right: 0;
+}
+
+.lesson-list-item {
+  padding: 10px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.lesson-list-item.complete .incomplete,
+.lesson-list-item .complete {
+  display: none;
+}
+
+.lesson-list-item.complete .complete,
+.lesson-list-item .incomplete {
+  display: inline-block;
 }
 
 #tracking-engine {

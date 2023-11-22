@@ -31,18 +31,14 @@ const elementsToStore = [
     "course-title",
     "lesson-list",
     "course-footer",
+
     "lesson",
     "lesson-title",
-    "lesson-content",
+    "lesson-goal",
     "lesson-description",
-    "task",
-    "task-title",
-    "task-content",
-    "task-description",
-    "task-steps",
-    "task-footer",
-    "lesson-controls",
-    "lesson-footer",
+    "lesson-content",
+    "lesson-steps",
+
     "teacher",
     "runtime",
     "screen",
@@ -55,6 +51,7 @@ const elementsToStore = [
     "teacher-toggle-button",
     "debug-console",
     "debug-console-content",
+    "debug-timeline",
     "debug-timeline-title",
     'debug-timeline-button-left',
     'debug-timeline-button-right',
@@ -142,11 +139,6 @@ class DomEngine {
         this.elements['app'].style.backgroundColor = color;
     }
 
-    showLesson = (lesson) => {
-        this.insertText('lesson-title', lesson.name);
-        this.insertMarkup('lesson-content', lesson.content);
-        this.insertMarkup('lesson-description', lesson.description);
-    }
 
 
     hideScene = (callBack) => {
@@ -329,28 +321,121 @@ class DomEngine {
         this.elements[element].addEventListener(event, callBack);
     }
 
-    hideTeacher = () => {
-        this.setElementState('teacher', false);
+
+
+    renderCourseMenu = (course) => {
+        this.insertText('course-title', course.name);
+        this.insertHtml('lesson-list', '');
+        this.elements['lesson-buttons'] = [];
+        course.lessons.forEach((lesson) => {
+            // Create the lesson menu item
+            const lessonMenuItem = document.createElement('div');
+            lessonMenuItem.className = `${lesson.complete?'complete':''} rounded-l-lg bg-yellow lesson-list-item lesson-button-${lesson.className} cursor-pointer p-4 flex justify-start items-center gap-3`;
+            lessonMenuItem.setAttribute('data-lesson', lesson.className);
+            lessonMenuItem.innerHTML = `
+            <div>
+                <i class="complete fa-solid fa-circle-check text-green-800 fa-2xl"></i>
+                <i class="incomplete fa-solid fa-circle-xmark text-yellow-900 opacity-40 fa-2xl"></i>
+            </div>
+            <div>${lesson.menuName}</div>
+            `;
+
+            this.elements['lesson-list'].appendChild(lessonMenuItem);
+            this.elements[`lesson-button-${lesson.className}`] = lessonMenuItem;
+            this.elements['lesson-buttons'].push(lessonMenuItem);
+
+
+            // Add the click event listener
+            lessonMenuItem.addEventListener('click', () => {
+                system.teacherEngine.selectLesson(lesson);
+            });
+
+        });
     }
 
-    showTeacher = () => {
-        this.setElementState('teacher', true);
+    setLessonItemComplete = (lesson) => {
+        this.elements[`lesson-button-${lesson.className}`].classList.add('complete');
+    }
+
+    setLessonListItemActive = (lesson) => {
+        this.elements['lesson-buttons'].forEach((lessonButton) => {
+            if (lessonButton.classList.contains('active')) {
+                lessonButton.classList.remove('active');
+            }
+        });
+
+        this.elements[`lesson-button-${lesson}`].classList.add('active');
     }
 
 
-    showLesson = (lesson) => {
+    /*
+        "lesson",
+        "lesson-title",
+        "lesson-goal",
+        "lesson-description",
+        "lesson-content",
+        "lesson-steps",
+    */
+
+
+    setLessonActive = (lesson) => {
+        this.setLessonListItemActive(lesson.className)
+
         this.insertText('lesson-title', lesson.name);
-        this.insertMarkup('lesson-content', lesson.content);
-        this.insertMarkup('lesson-description', lesson.description);
+        this.insertText('lesson-goal', lesson.goal);
 
-        this.setElementState('error-console', false);
 
-        this.setElementState('course', false);
+        this.insertHtml('lesson-content', '');
+        lesson.content.forEach((content) => {
+            this.appendHtml('lesson-content', `<div class="flex items-center"><i class="fa-solid fa-angle-right fa-sm mr-2"></i> ${content}</div>`);
+        });
 
-        this.setElementState('lesson', true);
+        let stepNumber = 1;
+        lesson.steps.forEach((step) => {
+            console.log(step.text)
+            let stepHTML = `
+            <div class="lesson-step">
+                <div class="flex items-start mb-4">
+                    <b class="mr-2">${stepNumber}.</b>
+                    <div>
+            `;
+            step.text.forEach((text) => {
+                stepHTML += `<div class="font-bold not-italic">${text}</div>`;
+            });
+            stepHTML += `</div>`;
 
-        this.setElementState('task', false);
-        this.showTeacher();
+            stepHTML += `</div>`;
+            if (step.code) {    
+                stepHTML += `
+                <div class="lesson-step-code bg-gray-900 text-yellow-300 rounded-lg p-8 text-left mb-4">
+                    <pre><code>${step.code}</code></pre>
+                </div>
+                `;
+            }           
+
+            this.appendHtml('lesson-steps', stepHTML);
+            
+            stepNumber++;
+        });
+
+    }
+
+    showLesson = () => {
+        this.classListToggle('lesson', 'active', true);
+    }
+
+
+    classListToggle = (element, className, state) => {
+        if (state) {
+            this.elements[element].classList.add(className);
+        } else {
+            this.elements[element].classList.remove(className);
+        }
+    }
+
+
+    setTeacherState = (state) => {
+        this.classListToggle('teacher', 'active', state);
     }
 
     showTrackingEngine = () => {
@@ -379,7 +464,10 @@ class DomEngine {
     }
 
     timelineTitleUpdate = (title) => {
-        this.insertText('debug-timeline-title', title);
+        if (title !== '') {
+            this.setElementState('debug-timeline', true);
+            this.insertText('debug-timeline-title', title);
+        }
     }
 
     setDebugState = (state) => {
@@ -401,11 +489,4 @@ class DomEngine {
         this.setElementState('error-console', true);
     }
 
-    toggleTeacher = () => {
-        this.toggleClass('teacher', 'active');
-    }
-
-    openTeacher = () => {
-        this.setElementState('teacher', true);
-    }
 }
