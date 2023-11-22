@@ -88,7 +88,7 @@ class System {
         this.log(`ERROR: ${name} - ${message}`)
 
         if (lesson) {
-            this.teacherEngine.setActiveLesson(lesson);
+            this.teacherEngine.activateLessonByClassName(lesson);
         }
 
         this.domEngine.showError(name, message, lesson);
@@ -101,15 +101,13 @@ class System {
 
     trySystemStart = () => {
         if (this.active && this.appReady) {
+            this.teacherEngine.checkStage();
             this.log(this.constructor.name, '-----------------------------');
             this.start();
         }
     }
 
     systemReady = () => {
-
-        //this.teacherEngine.openTeachAtLesson('App')
-
         this.debugConsoleLog(this.constructor.name, 'System Ready');
         this.active = true;
         this.domEngine.loading(false, this.trySystemStart());
@@ -164,7 +162,7 @@ class System {
             course: courseData,
         });
 
-        this.teacherEngine.checkStage();
+        
         
         this.errorEngine = new ErrorEngine();
         system.debugConsoleLog(this.constructor.name, 'System Initialized');

@@ -489,4 +489,10 @@ class DomEngine {
         this.setElementState('error-console', true);
     }
 
+    
+    hideError = () => {
+        this.setElementState('error-console', false);
+    }
+
+
 }

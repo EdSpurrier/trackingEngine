@@ -42,10 +42,13 @@ class App {
         system.debugConsoleLog(this.constructor.name, 'Timeline Added');
     }
 
-
+    initialized = false;
 
     init = () => {
         system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Init`);
+        
+        this.initialized = true;
+
         setTimeout(() => {
             system.setAppReady(this);
         }, 750);

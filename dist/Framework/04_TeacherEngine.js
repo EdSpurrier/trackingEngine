@@ -57,8 +57,10 @@ class TeacherEngine {
             this.toggleTeacher();
         });
 
-        system.domEngine.addEventListener('error-button', 'click', ()=> { 
-            this.showLesson();
+        system.domEngine.addEventListener('error-button', 'click', ()=> {
+            system.domEngine.hideError();
+            system.domEngine.showLesson();
+            this.showTeacher();
         });
     
 
@@ -66,6 +68,11 @@ class TeacherEngine {
 
     }
 
+    showTeacher = () => {
+        system.log(this.constructor.name,'Show Teacher');
+        this.state = true;
+        system.domEngine.setTeacherState(true);
+    }
 
     toggleTeacher = () => {
         system.log(this.constructor.name,'Toggle Teacher');
@@ -96,6 +103,15 @@ class TeacherEngine {
         system.domEngine.showLesson();
     }
 
+    activateLessonByClassName = (className) => {
+        system.log(this.constructor.name,'Activate Lesson By Class Name');
+        this.course.lessons.forEach((lesson) => {
+            if (lesson.className === className) {
+                this.setActiveLesson(lesson);
+            }
+        });
+    }
+
     setActiveLesson = (lesson) => {
         
         this.activeLesson = this.course.lessons.filter((courseLesson) => {
@@ -108,8 +124,26 @@ class TeacherEngine {
         console.log('setActiveLesson', this.activeLesson)
     }
 
-    
+
+
+
     checkStage = () => {
+        // Check through stages
+        this.course.lessons.forEach((lesson) => {
+            if (lesson.className === 'App') {
+                console.log(
+                    system.app
+                );
+                if (system.app) {
+                    lesson.complete = (system.app !== null && system.app.initialized)?true:false;
+                }                
+            }
+        });
+
+        console.log(this.course);
+
+        system.domEngine.renderCourseMenu(this.course);
+
         // Check through lessons
         this.course.lessons.forEach((lesson) => {
             if(!lesson.complete) {
@@ -117,5 +151,7 @@ class TeacherEngine {
                 return;
             }
         });
+
+
     }
 }
