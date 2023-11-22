@@ -350,6 +350,9 @@ style.innerHTML = trackingEngineCSS;
 document.head.appendChild(style);
 
 //  Add HTML to #scene-engine
-const sceneEngineHTML = document.getElementById('app');
+/* const sceneEngineHTML = document.getElementById('app');
 sceneEngineHTML.innerHTML = trackingEngineHTML;
+ */
 
+
+document.body.insertAdjacentHTML('afterbegin', trackingEngineHTML);

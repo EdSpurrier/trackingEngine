@@ -350,10 +350,12 @@ style.innerHTML = trackingEngineCSS;
 document.head.appendChild(style);
 
 //  Add HTML to #scene-engine
-const sceneEngineHTML = document.getElementById('app');
+/* const sceneEngineHTML = document.getElementById('app');
 sceneEngineHTML.innerHTML = trackingEngineHTML;
+ */
 
 
+document.body.insertAdjacentHTML('afterbegin', trackingEngineHTML);
 
 const Animations = {
     debug: false,
@@ -2460,7 +2462,6 @@ class System {
     }
 
     systemReady = () => {
-        console.log('Is App Created?', app.metaData !== undefined);
 
         this.teacherEngine.openTeachAtLesson('App')
 
@@ -2474,13 +2475,6 @@ class System {
     isSystemReady = () => {
 
         let ready = false;
-
-       
-/*         if (this.domEngine &&
-            this.teacherEngine &&
-            this.errorEngine) {
-                ready = true;
-        } */
 
         if (this.settings.trackingEngineActive) {
             if (this.domEngine &&
@@ -2500,7 +2494,6 @@ class System {
         }
         
 
-        console.log('isSystemReady', ready);
         if (ready) {
             this.systemReady();
         } else {
