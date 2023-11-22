@@ -64,7 +64,6 @@ class TeacherEngine {
 
         this.loadCourse(course);
 
-        this.toggleTeacher();
     }
 
 
@@ -109,14 +108,14 @@ class TeacherEngine {
         console.log('setActiveLesson', this.activeLesson)
     }
 
-/*     showLesson = () => {
-        if (this.activeLesson) {
-            system.domEngine.showLesson(this.activeLesson);
-        }
-    } */
-
     
-    start = () => {
-        system.log(this.constructor.name,'Teacher Engine Start');
+    checkStage = () => {
+        // Check through lessons
+        this.course.lessons.forEach((lesson) => {
+            if(!lesson.complete) {
+                this.selectLesson(lesson);
+                return;
+            }
+        });
     }
 }

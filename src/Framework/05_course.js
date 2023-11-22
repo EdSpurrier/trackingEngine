@@ -79,7 +79,7 @@ const courseData = {
     description: 'Learn how to create an Augmented Reality JS Application',
     lessons: [
         {
-            complete: true,
+            complete: false,
             name: 'Coding your Application',
             menuName: 'Application',
             className: 'App',
@@ -143,7 +143,7 @@ app.init();</span>`
                 }
             ]
         },
-        {
+        /* {
             complete: false,
             name: 'Introduction to the Timeline',
             menuName: 'Timeline',
@@ -257,6 +257,6 @@ app.init();</span>`
                 }
             ]
 
-        }
+        } */
     ]
 }

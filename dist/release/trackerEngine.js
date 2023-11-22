@@ -654,7 +654,6 @@ class TeacherEngine {
 
         this.loadCourse(course);
 
-        this.toggleTeacher();
     }
 
 
@@ -699,15 +698,15 @@ class TeacherEngine {
         console.log('setActiveLesson', this.activeLesson)
     }
 
-/*     showLesson = () => {
-        if (this.activeLesson) {
-            system.domEngine.showLesson(this.activeLesson);
-        }
-    } */
-
     
-    start = () => {
-        system.log(this.constructor.name,'Teacher Engine Start');
+    checkStage = () => {
+        // Check through lessons
+        this.course.lessons.forEach((lesson) => {
+            if(!lesson.complete) {
+                this.selectLesson(lesson);
+                return;
+            }
+        });
     }
 }
 
@@ -792,7 +791,7 @@ const courseData = {
     description: 'Learn how to create an Augmented Reality JS Application',
     lessons: [
         {
-            complete: true,
+            complete: false,
             name: 'Coding your Application',
             menuName: 'Application',
             className: 'App',
@@ -856,7 +855,7 @@ app.init();</span>`
                 }
             ]
         },
-        {
+        /* {
             complete: false,
             name: 'Introduction to the Timeline',
             menuName: 'Timeline',
@@ -970,7 +969,7 @@ app.init();</span>`
                 }
             ]
 
-        }
+        } */
     ]
 }
 
@@ -2344,6 +2343,8 @@ class System {
         this.teacherEngine = new TeacherEngine({
             course: courseData,
         });
+
+        this.teacherEngine.checkStage();
         
         this.errorEngine = new ErrorEngine();
         system.debugConsoleLog(this.constructor.name, 'System Initialized');

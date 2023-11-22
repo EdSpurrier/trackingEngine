@@ -163,6 +163,8 @@ class System {
         this.teacherEngine = new TeacherEngine({
             course: courseData,
         });
+
+        this.teacherEngine.checkStage();
         
         this.errorEngine = new ErrorEngine();
         system.debugConsoleLog(this.constructor.name, 'System Initialized');
