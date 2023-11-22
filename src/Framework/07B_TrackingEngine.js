@@ -222,6 +222,7 @@ class TrackingEngine {
     }
 
     init = () => {
+        system.domEngine.showTrackingEngine();
         this.loadModel();
     }
 

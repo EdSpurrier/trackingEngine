@@ -45,8 +45,11 @@ class Course {
 
 class TeacherEngine {
     activeLesson = null;
+    course = null;
 
-    constructor() {
+    constructor({
+        course
+    }) {
         system.log(this.constructor.name,'Teacher Engine Constructed');
 
         system.domEngine.addEventListener('debug-console-toggle-button', 'click', ()=> { 
@@ -57,11 +60,23 @@ class TeacherEngine {
             this.showLesson();
         });
         
+        this.loadCourse(course);
     }
+
+    openTeacher = () => {
+        system.log(this.constructor.name,'Opening Teacher');
+        system.domEngine.openTeacher();
+    }
+
+    openTeachAtLesson = (lesson) => {
+        this.setActiveLesson(lesson);
+        this.openTeacher();
+    }
+
 
     loadCourse = (course) => {
         system.log(this.constructor.name,'Loading Course');
-        system.domEngine.loadCourse(courseJSON);
+        this.course = course;
     }
 
     renderLessonList = (lessonList) => {
@@ -70,6 +85,15 @@ class TeacherEngine {
     }
 
     setActiveLesson = (lesson) => {
+        
+        this.activeLesson = this.course.lessons.filter((courseLesson) => {
+            return courseLesson.className === lesson;
+        })[0];
+
+        console.log(this.activeLesson)
+        return;
+
+
         system.log(this.constructor.name,`Setting Active Lesson ${lesson.name} ${lesson.task?`Task ${lesson.task}`:``}`);
         this.activeLesson = lesson;
     }
@@ -80,6 +104,7 @@ class TeacherEngine {
         }
     }
 
+    
     start = () => {
         system.log(this.constructor.name,'Teacher Engine Start');
     }

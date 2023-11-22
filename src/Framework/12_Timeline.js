@@ -115,7 +115,7 @@ class Timeline {
         if(
             !system.errorEngine.checkStates({
                 classObject: this,
-                lesson: 'Screen',
+                lesson: 'Timeline',
                 states: [(this.timeline.length !== 0)],
             })
         ) {

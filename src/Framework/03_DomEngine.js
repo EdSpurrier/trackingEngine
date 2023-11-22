@@ -353,6 +353,10 @@ class DomEngine {
         this.showTeacher();
     }
 
+    showTrackingEngine = () => {
+        this.setElementState('tracking-engine', true);
+    }
+
     toggleWebcamView = () => {
         this.toggleClass('tracking-engine', 'active');
     }
@@ -385,8 +389,6 @@ class DomEngine {
     showWebcamBlocked = () => {
         this.setElementState('webcam-blocked', true);
         this.setElementState('tracking-engine-webcam-blocked', true);
-        
-
     }
 
     showError = (name, message) => {
@@ -397,5 +399,9 @@ class DomEngine {
         );
 
         this.setElementState('error-console', true);
+    }
+
+    openTeacher = () => {
+
     }
 }

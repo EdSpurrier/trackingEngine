@@ -70,14 +70,14 @@
 
 
 
-const course = {
-    name: 'Application Core',
-    description: 'Learn how to create an application core',
+const courseData = {
+    name: 'Application',
+    description: 'Learn how to create an application',
     lessons: [
         {
-            name: 'Introduction to the Application Core',
-            className: 'AppCore',
-            description: 'Learn how to create an application core',
+            name: 'Introduction to the Application',
+            className: 'App',
+            description: 'Learn how to create an application',
             tasks: [
                 {
                     name: 'Create a new application',

@@ -6,25 +6,25 @@
 */
 
 const debugConsoleOutput = {
-    System: false,
-    ErrorEngine: false,
-    TeacherEngine: false,
-    App: false,
-    DomEngine: false,
-    Object: false,
-    Timeline: false,
-    Screen: false,
-    Scene: false,
-    MotionTracker: false,
-    TriggerZone: false,
-    SceneEngine: false,
+    System: true,
+    ErrorEngine: true,
+    TeacherEngine: true,
+    App: true,
+    DomEngine: true,
+    Object: true,
+    Timeline: true,
+    Screen: true,
+    Scene: true,
+    MotionTracker: true,
+    TriggerZone: true,
+    SceneEngine: true,
 }
 
 
 class System {
     settings = {
         debug: true,
-
+        trackingEngineActive: false
     };
     consoleLog = [];
     errorLog = [];
@@ -107,26 +107,47 @@ class System {
     }
 
     systemReady = () => {
+        console.log('Is App Created?', app.metaData !== undefined);
+
+        this.teacherEngine.openTeachAtLesson('App')
+
         this.debugConsoleLog(this.constructor.name, 'System Ready');
         this.active = true;
         this.domEngine.loading(false, this.trySystemStart());
     }
 
+    
 
     isSystemReady = () => {
 
         let ready = false;
 
-        if (this.domEngine &&
+       
+/*         if (this.domEngine &&
             this.teacherEngine &&
-            this.errorEngine &&
-            this.trackingEngine) {
-                
-            if (this.trackingEngine.isLoaded()) {
+            this.errorEngine) {
                 ready = true;
+        } */
+
+        if (this.settings.trackingEngineActive) {
+            if (this.domEngine &&
+                this.teacherEngine &&
+                this.errorEngine && 
+                this.trackingEngine) {
+                if (this.trackingEngine.isLoaded()) {
+                    ready = true;
+                }
+            }
+        } else {
+            if (this.domEngine &&
+                this.teacherEngine &&
+                this.errorEngine) {
+                    ready = true;
             }
         }
+        
 
+        console.log('isSystemReady', ready);
         if (ready) {
             this.systemReady();
         } else {
@@ -134,7 +155,6 @@ class System {
                 this.isSystemReady();
             }, 100);
         }
-
     }
 
     setAppReady = (app) => {
@@ -150,17 +170,19 @@ class System {
     init = () => {
         this.domEngine = new DomEngine();
         this.teacherEngine = new TeacherEngine({
-            course: course,
+            course: courseData,
         });
         this.errorEngine = new ErrorEngine();
         system.debugConsoleLog(this.constructor.name, 'System Initialized');
 
-        this.trackingEngine = new TrackingEngine({
-            modelType: 'handTrack',
-        });
+        if (this.settings.trackingEngineActive) {
+            this.trackingEngine = new TrackingEngine({
+                modelType: 'handTrack',
+            });
 
-        this.trackingEngine.init();
-
+            this.trackingEngine.init();
+        }
+        
         this.isSystemReady();
 
         this.log(this.constructor.name, '-----------------------------');

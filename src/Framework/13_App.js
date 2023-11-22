@@ -53,7 +53,9 @@ class App {
 
     start = () => {
         system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Start`);
-        this.timeline.start();   
+        if (this.timeline) {
+            this.timeline.start();
+        }
     }
 
 
