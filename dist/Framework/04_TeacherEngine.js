@@ -52,8 +52,8 @@ class TeacherEngine {
     }) {
         system.log(this.constructor.name,'Teacher Engine Constructed');
 
-        system.domEngine.addEventListener('debug-console-toggle-button', 'click', ()=> { 
-            this.openTeacher();
+        system.domEngine.addEventListener('teacher-toggle-button', 'click', ()=> { 
+            this.toggleTeacher();
         });
 
         system.domEngine.addEventListener('error-button', 'click', ()=> { 
@@ -61,6 +61,11 @@ class TeacherEngine {
         });
         
         this.loadCourse(course);
+    }
+
+    toggleTeacher = () => {
+        system.log(this.constructor.name,'Toggle Teacher');
+        system.domEngine.toggleTeacher();
     }
 
     openTeacher = () => {

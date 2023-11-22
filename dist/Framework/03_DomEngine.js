@@ -401,7 +401,11 @@ class DomEngine {
         this.setElementState('error-console', true);
     }
 
-    openTeacher = () => {
+    toggleTeacher = () => {
+        this.toggleClass('teacher', 'active');
+    }
 
+    openTeacher = () => {
+        this.setElementState('teacher', true);
     }
 }
