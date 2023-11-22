@@ -1150,34 +1150,6 @@ const courseData = {
 }
 
 
-class Error {
-    constructor({
-        className,
-        name,
-        message,
-        lesson,        
-        conditions,
-    }) {
-        this.className = className;
-        this.name = name;
-        this.message = message;
-        this.lesson = lesson;
-        this.conditions = {
-            defined: [],   //  List of properties that must be defined
-        }
-        
-        system.log(this.constructor.name,'Error Constructed')
-    }
-
-    check = () => {
-        system.log(this.constructor.name,'Error Check')
-        system.errorEngine.checkError(this);
-    }
-
-}
-
-
-
 
 
 class ErrorEngine {
