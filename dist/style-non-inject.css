@@ -1,0 +1,266 @@
+
+/* SITE */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+}
+
+/*
+ *  HEIRARCHY
+*/
+#app {
+  z-index: 1;
+}
+
+#loading-screen {
+  z-index: 10000;
+
+}
+
+#teacher-toggle-button, #debug-console-toggle-button, #debug-webcam-toggle-button {
+  z-index: 1010;
+}
+#tracking-engine-webcam-blocked {
+  z-index: 1006;
+}
+
+#tracking-engine {
+  z-index: 1005;
+}
+
+#system {
+  z-index: 1004;
+}
+
+
+/* TEACHER */
+#course {
+  z-index: 300;
+}
+
+#lesson {
+  z-index: 250;
+}
+
+#teacher {
+  z-index: 200;
+}
+/* ------- */
+
+#debug-console {
+  z-index: 100;
+}
+
+
+/* RUNTIME */
+#debug {
+  z-index: 90;
+}
+
+#screen {
+  z-index: 90;
+}
+
+#scene {
+  z-index: 90;
+}
+
+#runtime {
+  z-index: 10;
+}
+/* ------- */
+
+#app {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
+}
+
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+#app-wrap {
+  position: relative;
+}
+
+
+#system {
+    
+}
+
+#debug-console {
+  opacity: 0;
+  height: calc(100vh - 250px);
+  width: 400px;
+  left: -400px;
+  overflow-y: auto;
+}
+
+#debug-console.active {
+  opacity: 1;
+  left: 0;
+}
+
+.bg-yellow {
+  background-color: #E9B824;
+}
+
+.text-yellow {
+  color: #E9B824;
+}
+
+.bg-orange {
+  background-color: #ffc31e;
+}
+
+#teacher {
+  opacity: 0;
+  transition: 0.25s;
+}
+
+#teacher.active {
+  opacity: 1;
+
+
+}
+
+
+#teacher.active #course,
+#teacher.active #lesson {
+  pointer-events: all;
+}
+
+
+.lesson-list-item.active, .lesson-list-item.active:hover {
+  background-color: #ffc107;
+  color: #333;
+  left: 0px;
+
+}
+
+.lesson-list-item {
+  transition: 0.25s;
+  position: relative;
+  left: 20px;
+}
+
+.lesson-list-item:hover {
+  background-color: #ffbb00;
+  color: #333;
+  left: 0px;
+}
+
+.bg-pale-yellow {
+  background-color: rgb(255, 219, 99);
+}
+
+.text-pale-yellow {
+  color: #FFE17B;
+}
+
+#lesson {
+  opacity: 0;
+  top: 50px;
+}
+
+#lesson.active {
+  opacity: 1;
+  top: 0px;
+}
+
+#course {
+  opacity: 0;
+  width: 200px;
+  right: -200px;
+  overflow-y: auto;
+}
+
+#teacher.active #course {
+  opacity: 1;
+  right: 0;
+}
+
+.lesson-list-item {
+  padding: 10px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.lesson-list-item.complete .incomplete,
+.lesson-list-item .complete {
+  display: none;
+}
+
+.lesson-list-item.complete .complete,
+.lesson-list-item .incomplete {
+  display: inline-block;
+}
+
+#tracking-engine {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  opacity: 1;
+  height: 200px;
+}
+
+#tracking-engine.active {
+  left: 0px;
+}
+
+#debug-webcam-toggle-button {
+  height: 35px;
+  width: 35px;
+}
+
+#tracking-engine-debug-view {
+  position: relative;
+  width: 250px;
+  height: 200px;
+}
+
+#webcam-blocked {
+
+}
+
+
+
+#icon-camera-block {
+  font-size: 25px;
+}
+
+.tracking-video {
+  position: absolute;
+  border-radius: 3px;
+  width: 250px;
+  height: 200px;
+  box-shadow: 0 2px 3px 0 rgb(0, 0, 0), 0 4px 10px 0 #00000030;
+  background: #333;
+}

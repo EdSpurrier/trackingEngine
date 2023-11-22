@@ -941,6 +941,9 @@ class DomEngine {
             this.appendHtml('lesson-content', `<div class="flex items-center"><i class="fa-solid fa-angle-right fa-sm mr-2"></i> ${content}</div>`);
         });
 
+
+        this.insertHtml('lesson-steps', '');
+        
         let stepNumber = 1;
         lesson.steps.forEach((step) => {
             console.log(step.text)
