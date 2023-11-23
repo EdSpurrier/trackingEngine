@@ -1357,7 +1357,11 @@ class TeacherEngine {
 
 
     checkStage = () => {
+
         // Check through stages
+
+        let sceneCreated = false;
+
         this.course.lessons.forEach((lesson) => {
             if (lesson.className === 'GettingStarted') {
                 lesson.complete = !location.href.includes('edspurrier');             
@@ -1393,6 +1397,9 @@ class TeacherEngine {
                 }  
             }
 
+
+
+
             if (lesson.className === 'Scene') {
                 if (system.app) {                    
                     if (system.app.timeline) {
@@ -1402,10 +1409,54 @@ class TeacherEngine {
                                     return (step instanceof Scene);
                                 }
                             ).length > 0)?true:false;
+
+                            sceneCreated = lesson.complete;
                         }
                     }
                 }  
             }
+
+
+            if (sceneCreated) {
+                if (lesson.className === 'MotionTracker') {
+                    let motionTrackerCreated = false;
+            
+                    system.app.timeline.timeline.forEach((step) => {
+                        if (step instanceof Scene) {
+                            if (step.sceneEngine) {
+                                step.sceneEngine.sceneObjects.forEach((sceneObject) => {
+                                    if (sceneObject instanceof MotionTracker) {
+                                        motionTrackerCreated = true;
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                    lesson.complete = motionTrackerCreated;
+                }
+            }
+
+            if (sceneCreated) {
+                if (lesson.className === 'TriggerZone') {
+                    let triggerZoneCreated = false;
+            
+                    system.app.timeline.timeline.forEach((step) => {
+                        if (step instanceof Scene) {
+                            if (step.sceneEngine) {
+                                step.sceneEngine.sceneObjects.forEach((sceneObject) => {
+                                    if (sceneObject instanceof TriggerZone) {
+                                        triggerZoneCreated = true;
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                    lesson.complete = triggerZoneCreated;
+                }
+            }
+            
         });
 
         if (this.course.lessons.every((lesson) => {
@@ -1421,7 +1472,6 @@ class TeacherEngine {
         // Check through lessons
         this.course.lessons.forEach((lesson) => {
             if(!lesson.complete && lessonToSelect === null) {
-                console.log('selecting', lesson);
                 lessonToSelect = lesson;
                 this.selectLesson(lesson);
                 return;
@@ -1509,28 +1559,6 @@ class TeacherEngine {
 
 
 
-
-
-//  Important Notes
-
-//  The AppCore is the core of the application and is used to create the application and maintain the application and its settings
-
-//  ChatGPT is a GPT-3 powered chatbot that can be used to create a chatbot for your application
-
-//  The Scene Engine is a scene that can be used to create a environment for users to interact within your application
-
-//  The Motion Tracker is a tracker that can be used to track the position of a users mouse or hand or other body part
-
-//  The Trigger Zone is a zone that can be used to trigger an event when a user enters the zone with their mouse or hand or other body part part
-
-//  The Overlay is a overlay that can be used to display information to the user
-
-//  The Application Splash Screen is a screen that can be used to display information to the user
-
-
-
-
-
 const courseData = {
     name: `Augmented Reality
             JavaScript
@@ -1604,7 +1632,7 @@ const courseData = {
                     text: [
                         `Make these changes in the 'JS' panel (either above or on the left)`,
                     ],
-code: `<span class="text-green-500">// Create a new application
+code: `<span class="text-green-500 font-bold">// Create a new application
 const app = new App({
     metaData : {
         name: 'Application Name',
@@ -1624,7 +1652,7 @@ const app = new App({
                         `Debugging is turned off by default`,
                         `You can turn on debugging by setting the debug setting to true`,
                     ],
-code: `// Create a new application
+code: `<span class="text-yellow-700">// Create a new application
 const app = new App({
     metaData : {
         name: 'Application Name',
@@ -1634,25 +1662,25 @@ const app = new App({
         company: 'Company Name',
     },
     backgroundColor : '#3a00a7',
-    debug: <span class="text-green-500">true</span>
-});`
+    debug: <span class="text-green-500 font-bold">true</span>
+});</span>`
                 },
                 {
                     text: [
                         `Replace the metaData with your own metaData`,
                     ],
-code: `// Create a new application
+code: `<span class="text-yellow-700">// Create a new application
 const app = new App({
     metaData : {
-        name:  <span class="text-green-500">'My Awesome Application'</span>,
-        version:  <span class="text-green-500">'0.0.1'</span>,
-        description:  <span class="text-green-500">'Does things that you couldn't beleive'</span>,
-        developer:  <span class="text-green-500">'John Black'</span>,
-        company:  <span class="text-green-500">'AR Inc'</span>,
+        name:  <span class="text-green-500 font-bold">'My Awesome Application'</span>,
+        version:  <span class="text-green-500 font-bold">'0.0.1'</span>,
+        description:  <span class="text-green-500 font-bold">'Does things that you couldn't beleive'</span>,
+        developer:  <span class="text-green-500 font-bold">'John Black'</span>,
+        company:  <span class="text-green-500 font-bold">'AR Inc'</span>,
     },
     backgroundColor : '#3a00a7',
     debug: false
-});`
+});</span>`
                 },
                 {
                     text: [
@@ -1661,7 +1689,7 @@ const app = new App({
                         `You can use a color name or a hex color code`,
                         `<a href="https://htmlcolorcodes.com/color-picker/" class="underline italic step-button" target="_blank">HTML Color Picker</a>`,
                     ],
-code: `// Create a new application
+code: `<span class="text-yellow-700">// Create a new application
 const app = new App({
     metaData : {
         name:  'My Awesome Application',
@@ -1670,9 +1698,9 @@ const app = new App({
         developer:  'John Black',
         company:  'AR Inc',
     },
-    backgroundColor : <span class="text-green-500">'#000000'</span>,
+    backgroundColor : <span class="text-green-500 font-bold">'#000000'</span>,
     debug: false
-});`
+});</span>`
                 },
                 {
                     text: [
@@ -1682,7 +1710,7 @@ const app = new App({
                         `Always make sure that it is the last function to be called`,
                     ],
 code: 
-`<span class="text-green-500">// Initialize the application
+`<span class="text-green-500 font-bold">// Initialize the application
 app.init();</span>`
                 },
                 {
@@ -1718,7 +1746,7 @@ app.init();</span>`
                         `This should be before the app.init() function`,
                         `And after the app variable has been created`,
                     ],
-code: `<span class="text-green-500">// Create a new timeline
+code: `<span class="text-green-500 font-bold">// Create a new timeline
 const timeline = new Timeline();</span>`,
                 },
                 {
@@ -1727,7 +1755,7 @@ const timeline = new Timeline();</span>`,
                         `This should be after the timeline variable has been created`,
                         `And before the app.init() function`,
                     ],
-code: `<span class="text-green-500">// Add the timeline to the application
+code: `<span class="text-green-500 font-bold">// Add the timeline to the application
 app.addTimeline(timeline);</span>`,
                 },
                 {
@@ -1763,7 +1791,7 @@ app.addTimeline(timeline);</span>`,
                         `This should be before the app.init() function`,
                         `And after the <b>app</b> and <b>timeline</b> variable has been created`,
                     ],
-code: `<span class="text-green-500">// Create a new screen
+code: `<span class="text-green-500 font-bold">// Create a new screen
 const screen = new Screen({
     name: 'Screen Name',
     backgroundColor: '#39FF14',
@@ -1781,7 +1809,7 @@ const screen = new Screen({
                         `This should be after the screen variable has been created`,
                         `And before the app.init() function`,
                     ],
-code: `<span class="text-green-500">// Add the screen to the timeline
+code: `<span class="text-green-500 font-bold">// Add the screen to the timeline
 timeline.addTimelineStep(screen);</span>`,
                 },
                 {
@@ -1789,7 +1817,18 @@ timeline.addTimelineStep(screen);</span>`,
                         `The screen should now be showing on the screen`,
                         `You can change the content and look of the screen`,
                         `The title, body and buttonText are text values`,                        
-                    ]
+                    ],
+                    code: `<span class="text-yellow-700">// Create a new screen
+const screen = new Screen({
+    name: <span class="text-green-500 font-bold">'Screen Name'</span>,
+    backgroundColor: <span class="text-green-500 font-bold">'#39FF14'</span>,
+    textColor: <span class="text-green-500 font-bold">'black'</span>,
+    buttonColor: <span class="text-green-500 font-bold">'green'</span>,
+    popupBackgroundColor: <span class="text-green-500 font-bold">'yellow'</span>,
+    title: <span class="text-green-500 font-bold">'Screen Title'</span>,
+    content: <span class="text-green-500 font-bold">`+'`'+`This is the screen content`+'`'+`</span>,
+    buttonText: <span class="text-green-500 font-bold">'Click Me!'</span>,
+});</span>`,
                 },
 
 
@@ -1800,6 +1839,30 @@ timeline.addTimelineStep(screen);</span>`,
                         `<a href="https://htmlcolorcodes.com/color-picker/" class="underline italic step-button" target="_blank">HTML Color Picker</a>`,
                     ]
 
+                },                
+                {
+                    text: [
+                        `To create multiple screens you can copy and paste the screen code`,
+                        `Make sure to change the name of the variable of the new screen`,
+                    ],
+code: `<span class="text-yellow-700">// Create a new screen
+const <span class="text-green-500 font-bold">secondScreen</span> = new Screen({
+    ....
+});</span>`,
+                },
+                {
+                    text: [
+                        `You may also leave the buttonText empty and`,
+                        `this will hide the button on the screen`,
+                    ],
+code: `<span class="text-yellow-700">buttonText: <span class="text-green-500 font-bold">''</span>,`,
+                },
+
+                {
+                    text: [
+                        `You may also want to create a final screen for your application`,
+                        `This is a screen that is shown when the application is complete`,
+                    ],
                 },
                 {
                     text: [
@@ -1828,12 +1891,10 @@ timeline.addTimelineStep(screen);</span>`,
                         `This should be before the app.init() function`,
                         `And after the <b>app</b> and <b>timeline</b> variable has been created`,
                     ],
-code: `<span class="text-green-500">//  Create a new scene
+code: `<span class="text-green-500 font-bold">//  Create a new scene
 const scene = new Scene({
     name: 'Simple Mouse Tracking Scene',
     backgroundColor: '#333',
-    motionTrackers: [],
-    triggerZones: [],
 });`
                 },
                 {
@@ -1842,7 +1903,7 @@ const scene = new Scene({
                         `This should be after the scene variable has been created`,
                         `And before the app.init() function`,
                     ],
-code: `<span class="text-green-500">// Add the scene to the timeline
+code: `<span class="text-green-500 font-bold">// Add the scene to the timeline
 timeline.addTimelineStep(scene);</span>`
                 },
                 {
@@ -1853,7 +1914,151 @@ timeline.addTimelineStep(scene);</span>`
                 }
             ],
 
+        },
+        {
+            complete: false,
+            name: 'Introduction to the Motion Tracker',
+            menuName: 'Motion Tracker',
+            className: 'MotionTracker',
+            goal: 'Learn how to create a Motion Tracker',
+            description: `The Motion Tracker is a tracker that can be used to track the position of a users mouse or hand or other body part`,
+            content: [
+                `Now lets create our first Motion Tracker`,
+                `The Motion Tracker is a scene object that follows the position of the chosen tracking type`,
+                `In this instance we are going to create a Motion Tracker that tracks the mouse`,
+                `Motion Trackers can be controlled by the user to move around the scene`,
+                `Motion Trackers can be used to trigger events when they enter a Trigger Zone`,
+            ],
+            steps: [
+                {
+                    text: [
+                        `Make these changes in the 'JS' panel (either above or on the left)`,
+                        `This should be before the app.init() function`,
+                        `And after the <b>app</b> and <b>timeline</b> variable has been created`,
+                    ],
+code: `<span class="text-green-500 font-bold">//  Create a new motion tracker
+const motionTracker = new MotionTracker({
+    radius: 30,
+    color: '#00b7ff',
+    trackingType: 'mouse',
+});</span>`
+                },
+                {
+                    text: [
+                        `Add the motion tracker to the scene`,
+                        `This should be after the motionTracker variable has been created`,
+                        `And before the app.init() function`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the motion tracker to the scene
+scene.addSceneObject(motionTracker);</span>`
+                },
+                {
+                    text: [
+                        `You can modify the motion tracker settings`,
+                        `The radius is the size of the motion tracker`,
+                        `The color is the color of the motion tracker`,
+                    ],
+code: `<span class="text-yellow-700">//  Create a new motion tracker
+const motionTracker = new MotionTracker({
+    radius: <span class="text-green-500 font-bold">30</span>,
+    color: <span class="text-green-500 font-bold">'#00b7ff'</span>,
+    trackingType: 'mouse',
+});</span>`
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
+                }
+            ],
+
+        },
+        {
+            complete: false,
+            name: 'Introduction to the Trigger Zone',
+            menuName: 'Trigger Zone',
+            className: 'TriggerZone',
+            goal: 'Learn how to create a Trigger Zone',
+            description: `The Trigger Zone is a zone that can be used to trigger an event when a user enters the zone with their mouse or hand or other body part part`,
+            content: [
+                `Now lets create our first Trigger Zone`,
+                `This is similar to creating a Motion Tracker`,
+                `However a Trigger Zone is an object that has a set position within the scene`,
+                `A Trigger Zone is interactive is triggered when a motion tracker enters the zone`,
+            ],
+            steps: [
+                {
+                    text: [
+                        `Make these changes in the 'JS' panel (either above or on the left)`,
+                        `This should be before the app.init() function`,
+                        `And after the <b>app</b> and <b>timeline</b> variable has been created`,
+                    ],
+code: `<span class="text-green-500 font-bold">//  Create a new trigger zone
+const triggerZone = new TriggerZone({
+    percentageX: 50,
+    percentageY: 50,
+    radius: 40,
+    inactiveColor: '#ff0000',
+    activeColor: '#00ff00',
+    triggerType: 'mouse',
+});
+`
+                },
+                {
+                    text: [
+                        `Add the trigger zone to the scene`,
+                        `This should be after the triggerZone variable has been created`,
+                        `And before the app.init() function`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the trigger zone to the scene
+scene.addSceneObject(triggerZone);</span>`
+                },
+                {
+                    text: [
+                        `You can modify the trigger zone settings`,
+                        `The percentageX is the horizontal position of the trigger zone`,
+                        `The percentageY is the vertical position of the trigger zone`,
+                        `The radius is the size of the trigger zone`,
+                        `The inactiveColor is the color of the trigger zone when it is inactive`,
+                        `The activeColor is the color of the trigger zone when it has been triggered and is active`,
+                        `The triggerType is the type of tracking that the trigger zone uses`,
+                    ],
+code: `<span class="text-yellow-700">//  Create a new trigger zone
+const triggerZone = new TriggerZone({
+    percentageX: <span class="text-green-500 font-bold">50</span>,
+    percentageY: <span class="text-green-500 font-bold">50</span>,
+    radius: <span class="text-green-500 font-bold">40</span>,
+    inactiveColor:  <span class="text-green-500 font-bold">'#ff0000'</span>,
+    activeColor:  <span class="text-green-500 font-bold">'#00ff00'</span>,
+    triggerType: 'mouse',
+});</span>
+`
+                },
+                {
+                    text: [
+                        `To create multiple Trigger Zones you can copy and paste the Trigger Zone code`,
+                        `Make sure to change the name of the variable of the new Trigger Zone`,
+                        `Make sure to change the percentageX and percentageY`,
+                        `of the new Trigger Zone so that they dont overlay each other`,
+                    ],
+code: `<span class="text-yellow-700">// Create a new trigger zone
+const <span class="text-green-500 font-bold">secondScreenTriggerZone</span> = new TriggerZone({
+    percentageX: <span class="text-green-500 font-bold">75</span>,
+    percentageY: <span class="text-green-500 font-bold">75</span>,
+    ....
+});</span>`,
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
+                }
+            ],
+
         }
+    
 
 
     ]
@@ -2223,23 +2428,12 @@ class MotionTracker {
         radius,
         color,
         trackingType,
-        settings,
-        
     }) {
         this.radius = radius,
         this.color = color,
         this.trackingType = trackingType,
-        this.settings = settings;
 
-        if (
-            !system.errorEngine.checkDefinedProperties({
-                classObject: this,
-                lesson: 'MotionTracker',
-                properties: ['radius', 'color', 'trackingType', 'settings'],
-            }) 
-        ) {
-            return false;
-        };
+
 
         system.debugConsoleLog(this.constructor.name, 'MotionTracker Constructed');
     }
@@ -2268,7 +2462,6 @@ class MotionTracker {
         x,
         y,
     ) => {
-        console.log(x, y, this.trackingType);
         this.x = x
         this.y = y
         this.tracked = true
@@ -2339,6 +2532,18 @@ class MotionTracker {
         this.ctx = ctx
         this.initialized = true;
 
+
+        if (
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'MotionTracker',
+                properties: ['radius', 'color', 'trackingType'],
+            }) 
+        ) {
+            return false;
+        };
+
+
         if(this.trackingType === 'mouse') {
             window.addEventListener('pointermove', (event) => {
                 if (!this.initialized) {
@@ -2377,23 +2582,7 @@ class TriggerZone {
         this.activeColor = activeColor
         this.triggerType = triggerType
 
-        if (
-            !system.errorEngine.checkDefinedProperties({
-                classObject: this,
-                lesson: 'TriggerZone',
-                properties: [
-                    'percentageX',
-                    'percentageY',
-                    'radius',
-                    'inactiveColor',
-                    'activeColor',
-                    'triggerType'
-                ],
-            }) 
-        ) {
-            return false;
-        };
-
+        
         system.debugConsoleLog(this.constructor.name, `TriggerZone ${this.name} Constructed`);
 
     }
@@ -2458,6 +2647,26 @@ class TriggerZone {
     init = (ctx, canvas) => {
         this.ctx = ctx
         this.canvas = canvas
+
+        if (
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'TriggerZone',
+                properties: [
+                    'percentageX',
+                    'percentageY',
+                    'radius',
+                    'inactiveColor',
+                    'activeColor',
+                    'triggerType'
+                ],
+            }) 
+        ) {
+            return false;
+        };
+
+
+
         this.reset()
         this.calculateCanvasPosition()
     }
@@ -2466,7 +2675,7 @@ class TriggerZone {
 
 class SceneEngine {
     fps = 0;
-
+    sceneObjects = [];
 
     constructor({
         sceneObjects,
@@ -2621,6 +2830,13 @@ class SceneEngine {
         //  calculate fps
         this.calculateFps();
 
+/*         if(this.scene.countDownFrame > 0) {
+            console.log('this.countDownFrame', this.scene.countDownFrame)
+            console.log('this.delta', this.delta)
+            this.scene.countDownFrame -= (this.delta/1000) || 0;
+            return;
+        } */
+
         //  update sceneObjects
         this.sceneObjects.forEach(sceneObject => {
             sceneObject.update(this.sceneObjects);
@@ -2713,6 +2929,15 @@ class Scene {
     }
 
 
+    addSceneObject = (sceneObject) => {
+        if (sceneObject instanceof TriggerZone) {
+            this.triggerZones.push(sceneObject);
+        } else if (sceneObject instanceof MotionTracker) {
+            this.motionTrackers.push(sceneObject);
+        }
+    }
+
+
     checkAllTriggersTriggered = () => {
         return this.triggerZones.every((triggerZone) => {
             return triggerZone.triggered;
@@ -2723,6 +2948,10 @@ class Scene {
         if (!this.state.active) {
             return;
         }
+
+/*         if (this.countDownFrame > 0) {
+            return;
+        } */
 
         if(this.triggerZones.length === 0 || this.motionTrackers.length === 0) {
             return;
@@ -2761,7 +2990,13 @@ class Scene {
         this.timeline = timeline;
     }
 
+    countDownFrame = 0;
+
+    
+
     init = () => {
+
+        this.countDownFrame = 3;
 
 
         if(
@@ -2808,6 +3043,8 @@ class Scene {
             return false;
         }
 
+        system.teacherEngine.checkStage();
+
         system.debugConsoleLog(this.constructor.name, `Scene[${this.name}] Init`)
         this.render();
         this.sceneEngine.init(this);
@@ -2842,8 +3079,7 @@ class Screen {
         this.content = content;
         this.title = title;
         this.buttonText = buttonText;
-        
-        console.log('Screen', this);
+
         system.debugConsoleLog(this.constructor.name, `Screen ${this.name} Constructed`)
     }
 

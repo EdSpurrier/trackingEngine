@@ -1,7 +1,7 @@
 
 class SceneEngine {
     fps = 0;
-
+    sceneObjects = [];
 
     constructor({
         sceneObjects,
@@ -155,6 +155,13 @@ class SceneEngine {
     updateSystem = () => {
         //  calculate fps
         this.calculateFps();
+
+/*         if(this.scene.countDownFrame > 0) {
+            console.log('this.countDownFrame', this.scene.countDownFrame)
+            console.log('this.delta', this.delta)
+            this.scene.countDownFrame -= (this.delta/1000) || 0;
+            return;
+        } */
 
         //  update sceneObjects
         this.sceneObjects.forEach(sceneObject => {

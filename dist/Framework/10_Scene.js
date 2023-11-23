@@ -29,6 +29,15 @@ class Scene {
     }
 
 
+    addSceneObject = (sceneObject) => {
+        if (sceneObject instanceof TriggerZone) {
+            this.triggerZones.push(sceneObject);
+        } else if (sceneObject instanceof MotionTracker) {
+            this.motionTrackers.push(sceneObject);
+        }
+    }
+
+
     checkAllTriggersTriggered = () => {
         return this.triggerZones.every((triggerZone) => {
             return triggerZone.triggered;
@@ -39,6 +48,10 @@ class Scene {
         if (!this.state.active) {
             return;
         }
+
+/*         if (this.countDownFrame > 0) {
+            return;
+        } */
 
         if(this.triggerZones.length === 0 || this.motionTrackers.length === 0) {
             return;
@@ -77,7 +90,13 @@ class Scene {
         this.timeline = timeline;
     }
 
+    countDownFrame = 0;
+
+    
+
     init = () => {
+
+        this.countDownFrame = 3;
 
 
         if(
@@ -123,6 +142,8 @@ class Scene {
         if(this.sceneError) {
             return false;
         }
+
+        system.teacherEngine.checkStage();
 
         system.debugConsoleLog(this.constructor.name, `Scene[${this.name}] Init`)
         this.render();

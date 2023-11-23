@@ -21,8 +21,7 @@ class Screen {
         this.content = content;
         this.title = title;
         this.buttonText = buttonText;
-        
-        console.log('Screen', this);
+
         system.debugConsoleLog(this.constructor.name, `Screen ${this.name} Constructed`)
     }
 

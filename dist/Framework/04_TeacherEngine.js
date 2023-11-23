@@ -127,7 +127,11 @@ class TeacherEngine {
 
 
     checkStage = () => {
+
         // Check through stages
+
+        let sceneCreated = false;
+
         this.course.lessons.forEach((lesson) => {
             if (lesson.className === 'GettingStarted') {
                 lesson.complete = !location.href.includes('edspurrier');             
@@ -163,6 +167,9 @@ class TeacherEngine {
                 }  
             }
 
+
+
+
             if (lesson.className === 'Scene') {
                 if (system.app) {                    
                     if (system.app.timeline) {
@@ -172,10 +179,54 @@ class TeacherEngine {
                                     return (step instanceof Scene);
                                 }
                             ).length > 0)?true:false;
+
+                            sceneCreated = lesson.complete;
                         }
                     }
                 }  
             }
+
+
+            if (sceneCreated) {
+                if (lesson.className === 'MotionTracker') {
+                    let motionTrackerCreated = false;
+            
+                    system.app.timeline.timeline.forEach((step) => {
+                        if (step instanceof Scene) {
+                            if (step.sceneEngine) {
+                                step.sceneEngine.sceneObjects.forEach((sceneObject) => {
+                                    if (sceneObject instanceof MotionTracker) {
+                                        motionTrackerCreated = true;
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                    lesson.complete = motionTrackerCreated;
+                }
+            }
+
+            if (sceneCreated) {
+                if (lesson.className === 'TriggerZone') {
+                    let triggerZoneCreated = false;
+            
+                    system.app.timeline.timeline.forEach((step) => {
+                        if (step instanceof Scene) {
+                            if (step.sceneEngine) {
+                                step.sceneEngine.sceneObjects.forEach((sceneObject) => {
+                                    if (sceneObject instanceof TriggerZone) {
+                                        triggerZoneCreated = true;
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                    lesson.complete = triggerZoneCreated;
+                }
+            }
+            
         });
 
         if (this.course.lessons.every((lesson) => {
@@ -191,7 +242,6 @@ class TeacherEngine {
         // Check through lessons
         this.course.lessons.forEach((lesson) => {
             if(!lesson.complete && lessonToSelect === null) {
-                console.log('selecting', lesson);
                 lessonToSelect = lesson;
                 this.selectLesson(lesson);
                 return;

@@ -14,23 +14,12 @@ class MotionTracker {
         radius,
         color,
         trackingType,
-        settings,
-        
     }) {
         this.radius = radius,
         this.color = color,
         this.trackingType = trackingType,
-        this.settings = settings;
 
-        if (
-            !system.errorEngine.checkDefinedProperties({
-                classObject: this,
-                lesson: 'MotionTracker',
-                properties: ['radius', 'color', 'trackingType', 'settings'],
-            }) 
-        ) {
-            return false;
-        };
+
 
         system.debugConsoleLog(this.constructor.name, 'MotionTracker Constructed');
     }
@@ -59,7 +48,6 @@ class MotionTracker {
         x,
         y,
     ) => {
-        console.log(x, y, this.trackingType);
         this.x = x
         this.y = y
         this.tracked = true
@@ -129,6 +117,18 @@ class MotionTracker {
         this.canvas = canvas
         this.ctx = ctx
         this.initialized = true;
+
+
+        if (
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'MotionTracker',
+                properties: ['radius', 'color', 'trackingType'],
+            }) 
+        ) {
+            return false;
+        };
+
 
         if(this.trackingType === 'mouse') {
             window.addEventListener('pointermove', (event) => {

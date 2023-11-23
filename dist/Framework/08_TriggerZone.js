@@ -21,23 +21,7 @@ class TriggerZone {
         this.activeColor = activeColor
         this.triggerType = triggerType
 
-        if (
-            !system.errorEngine.checkDefinedProperties({
-                classObject: this,
-                lesson: 'TriggerZone',
-                properties: [
-                    'percentageX',
-                    'percentageY',
-                    'radius',
-                    'inactiveColor',
-                    'activeColor',
-                    'triggerType'
-                ],
-            }) 
-        ) {
-            return false;
-        };
-
+        
         system.debugConsoleLog(this.constructor.name, `TriggerZone ${this.name} Constructed`);
 
     }
@@ -102,6 +86,26 @@ class TriggerZone {
     init = (ctx, canvas) => {
         this.ctx = ctx
         this.canvas = canvas
+
+        if (
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'TriggerZone',
+                properties: [
+                    'percentageX',
+                    'percentageY',
+                    'radius',
+                    'inactiveColor',
+                    'activeColor',
+                    'triggerType'
+                ],
+            }) 
+        ) {
+            return false;
+        };
+
+
+
         this.reset()
         this.calculateCanvasPosition()
     }
