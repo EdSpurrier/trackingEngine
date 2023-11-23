@@ -38,6 +38,34 @@
 
 
 
+//  Lesson: Planning Your Application
+//  Task:   Write down a list of features that you want your application to have
+//  Task:   Create a wireframe of your application
+//  Task:   Create a flowchart of your application
+//  Task:   Create a list of the assets that you will need for your application
+//  Task:   Images, Videos, Audio, 3D Models, Textures, Fonts, etc
+//  Task:   Create a list of the technologies that you will need for your application
+//  Task:   Limitations of Prototyping
+
+
+
+//  Task:   Write down a list of things that you want your application to be able to do
+//  Task:   Write down a list of things that you want your application to be able to do
+
+
+//  Lesson: Test Your Application
+//  Task:   Write down a test plan for your application
+//  Task:   Test your application
+//  Task:   Fix any bugs that you find
+//  Task:   Test your application again
+//  Task:   Fix any bugs that you find
+//  Task:   Repeat until you have no bugs
+//  Task:   Submit Your Test Log
+
+
+
+
+
 //  Lesson: Introduction to the Event
 //  Task:   Add a new event to the timeline that triggers when the Trigger Zone is triggered
 //  Task:   Modify and add settings to the Event
@@ -78,6 +106,64 @@ const courseData = {
         `,
     description: 'Learn how to create an Augmented Reality JS Application',
     lessons: [
+
+        {
+            complete: false,
+            name: 'Getting Started',
+            menuName: 'Getting Started',
+            className: 'GettingStarted',
+            goal: 'Learn how to get started with the course',
+            description: `The Getting Started is the first step towards learning how to create an Augmented Reality JS Application`,
+            content: [
+                `First lets sign up to CodePen with a free account.`,
+                `CodePen is a free online code editor that allows you to create and share code snippets.`,
+                `CodePen is a great tool for learning how to code and is used by millions of developers around the world.`,
+                `CodePen is also used by many companies to create and share code snippets.`,
+            ],
+            steps: [
+                    {
+                        text: [
+                            `Go to <a href="https://codepen.io/" class="underline italic" target="_blank">CodePen.io</a>`,
+                        ],
+                    },
+                    {
+                        text: [
+                            `Click on the "Sign Up" button`,
+                        ],
+                    },
+                    {
+                        text: [
+                            `Enter your details and click on the "Sign Up" button`,
+                        ],
+                    },
+                    {
+                        text: [
+                            `Let's now <span class="underline">FORK</span> this CodePen`,
+                            `Click on the "Fork" button on the bottom right of this CodePen`,
+                        ],
+                        image: `https://www.freecodecamp.org/news/content/images/2021/10/Screen-Shot-2021-10-30-at-12.36.47-AM.png`,
+                    }                    
+            ]
+
+
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         {
             complete: false,
             name: 'Coding your Application',

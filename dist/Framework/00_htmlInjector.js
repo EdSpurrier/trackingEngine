@@ -154,10 +154,11 @@ body {
 
 #teacher.active {
   opacity: 1;
-
-
 }
 
+.lesson-step-image  {
+    max-width: 300px;
+}
 
 #teacher.active #course,
 #teacher.active #lesson {

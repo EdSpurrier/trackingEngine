@@ -392,7 +392,7 @@ class DomEngine {
 
 
         this.insertHtml('lesson-steps', '');
-        
+
         let stepNumber = 1;
         lesson.steps.forEach((step) => {
             console.log(step.text)
@@ -415,6 +415,13 @@ class DomEngine {
                 </div>
                 `;
             }           
+            if (step.image) {    
+                stepHTML += `
+                <div class="lesson-step-image overflow-hidden rounded-lg mb-4 mx-auto text-center">
+                    <img src="${step.image}" />
+                </div>
+                `;
+            }     
 
             this.appendHtml('lesson-steps', stepHTML);
             
