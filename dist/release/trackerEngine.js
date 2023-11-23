@@ -1193,12 +1193,7 @@ class TeacherEngine {
         // Check through stages
         this.course.lessons.forEach((lesson) => {
             if (lesson.className === 'GettingStarted') {
-                console.log(
-                    system.app
-                );
-                if (system.app) {
-                    lesson.complete = (!location.href.includes('edspurrier'))?true:false;
-                }                
+                lesson.complete = (!location.href.includes('edspurrier'))?true:false;             
             }
             if (lesson.className === 'App') {
                 console.log(
