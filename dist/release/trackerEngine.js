@@ -1116,27 +1116,27 @@ class DomEngine {
         let stepNumber = 1;
         lesson.steps.forEach((step) => {
             let stepHTML = `
-            <div class="lesson-step">
-                <div class="flex items-start mb-4">
+            <div class="lesson-step mt-4">
+                <div class="flex items-start">
                     <b class="mr-2 not-italic font-bold">${stepNumber}.</b>
                     <div>
             `;
             step.text.forEach((text) => {
-                stepHTML += `<div class="not-italic">${text}</div>`;
+                stepHTML += `<div class="not-italic text-md mb-1">${text}</div>`;
             });
             stepHTML += `</div>`;
 
             stepHTML += `</div>`;
             if (step.code) {    
                 stepHTML += `
-                <div class="lesson-step-code bg-gray-900 text-yellow-300 rounded-lg p-8 text-left mb-4">
+                <div class="lesson-step-code bg-gray-900 text-yellow-300 rounded-lg p-8 text-left mx-5 mt-6 mb-10">
                     <pre><code>${step.code}</code></pre>
                 </div>
                 `;
             }           
             if (step.image) {    
                 stepHTML += `
-                <div class="lesson-step-image overflow-hidden rounded-lg mb-4 mx-auto text-center">
+                <div class="lesson-step-image overflow-hidden rounded-lg mx-auto text-center mt-6 mb-8">
                     <img src="${step.image}" />
                 </div>
                 `;
@@ -1392,6 +1392,20 @@ class TeacherEngine {
                     }
                 }  
             }
+
+            if (lesson.className === 'Scene') {
+                if (system.app) {                    
+                    if (system.app.timeline) {
+                        if (system.app.timeline.timeline) {
+                            lesson.complete = (system.app.timeline.timeline.filter(
+                                (step) => {
+                                    return (step instanceof Scene);
+                                }
+                            ).length > 0)?true:false;
+                        }
+                    }
+                }  
+            }
         });
 
         if (this.course.lessons.every((lesson) => {
@@ -1600,8 +1614,28 @@ const app = new App({
         company: 'Company Name',
     },
     backgroundColor : '#3a00a7',
-    debug: true
+    debug: false
 });</span>`
+                },
+                {
+                    text: [
+                        `Debugging is a way to find and fix problems in your code`,
+                        `You can use the debug setting to turn on debugging`,
+                        `Debugging is turned off by default`,
+                        `You can turn on debugging by setting the debug setting to true`,
+                    ],
+code: `// Create a new application
+const app = new App({
+    metaData : {
+        name: 'Application Name',
+        version: '0.0.1',
+        description: 'Description of the application',
+        developer: 'Developer Name',
+        company: 'Company Name',
+    },
+    backgroundColor : '#3a00a7',
+    debug: <span class="text-green-500">true</span>
+});`
                 },
                 {
                     text: [
@@ -1617,7 +1651,7 @@ const app = new App({
         company:  <span class="text-green-500">'AR Inc'</span>,
     },
     backgroundColor : '#3a00a7',
-    debug: true
+    debug: false
 });`
                 },
                 {
@@ -1637,7 +1671,7 @@ const app = new App({
         company:  'AR Inc',
     },
     backgroundColor : <span class="text-green-500">'#000000'</span>,
-    debug: true
+    debug: false
 });`
                 },
                 {
@@ -1711,7 +1745,7 @@ app.addTimeline(timeline);</span>`,
             menuName: 'Screen',
             className: 'Screen',
             goal: 'Learn how to create a screen',
-            description: `The Screen is a screen that can be used to create a screen for your application`,
+            description: `The Screen is a screen that can be played in the applications timeline`,
             content: [
                 `First lets create a new Screen`,
                 `"const" means constant, which means that the value of the variable cannot be changed`,
@@ -1739,7 +1773,6 @@ const screen = new Screen({
     title: 'Screen Title',
     content: `+'`'+`This is the screen content`+'`'+`,
     buttonText: 'Click Me!',
-    debug: true,
 });</span>`,
                 },
                 {
@@ -1776,6 +1809,51 @@ timeline.addTimelineStep(screen);</span>`,
                 }
             ],
         },
+        {
+            complete: false,
+            name: 'Introduction to the Interactive Scene',
+            menuName: 'Scene',
+            className: 'Scene',
+            goal: 'Learn how to create an Interactive Scene',
+            description: `The Scene is a screen that can be played in the applications timeline`,
+            content: [
+                `Now lets create our first interactive Scene`,
+                `This is similar to creating a Screen for the timeline`,
+                `However the Scene is interactive and includes Motion Trackers and Trigger Zones`,
+            ],
+            steps: [
+                {
+                    text: [
+                        `Make these changes in the 'JS' panel (either above or on the left)`,
+                        `This should be before the app.init() function`,
+                        `And after the <b>app</b> and <b>timeline</b> variable has been created`,
+                    ],
+code: `<span class="text-green-500">//  Create a new scene
+const scene = new Scene({
+    name: 'Simple Mouse Tracking Scene',
+    backgroundColor: '#333',
+    motionTrackers: [],
+    triggerZones: [],
+});`
+                },
+                {
+                    text: [
+                        `Add the scene to the timeline`,
+                        `This should be after the scene variable has been created`,
+                        `And before the app.init() function`,
+                    ],
+code: `<span class="text-green-500">// Add the scene to the timeline
+timeline.addTimelineStep(scene);</span>`
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
+                }
+            ],
+
+        }
 
 
     ]
@@ -2392,12 +2470,14 @@ class SceneEngine {
 
     constructor({
         sceneObjects,
-        background,
+        backgroundColor,
+        backgroundImage,
         scene,
         debug,
     }) {
 
-        this.background = background;
+        this.backgroundColor = backgroundColor;
+        this.backgroundImage = backgroundImage;
         this.sceneObjects = sceneObjects;
         this.scene = scene;
         this.debug = debug;
@@ -2412,8 +2492,8 @@ class SceneEngine {
         
         system.domEngine.onWindowResize(this.resizeCanvas);
 
-        if (this.background.video) {
-            this.background.videoStream = system.domEngine.getElement('tracking-engine-webcam-video');
+        /* if (this.background.video) {
+            this.background.videoStream = system.domEngine.getElement('tracking-engine-webcam-video'); */
             /* this.background.videoStream.addEventListener('play', function() {
                 var $this = this; //cache
                 (function loop() {
@@ -2423,7 +2503,7 @@ class SceneEngine {
                     }
                 })();
             }, 0); */
-        }
+/*         } */
 
         system.debugConsoleLog(this.constructor.name, 'SceneEngine Constructed');
     }
@@ -2520,18 +2600,19 @@ class SceneEngine {
     renderBackground = () => {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (this.background.color && this.background.color !== '') {
-            this.ctx.fillStyle = this.background.color;
+        if (this.backgroundColor && this.backgroundColor !== '') {
+            this.ctx.fillStyle = this.backgroundColor;
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         };
-        if (this.background.image && this.background.image !== '') {
-            const imageCoverSize = system.domEngine.getImageCoverSize(this.background.image, this.canvas.width, this.canvas.height);
-            this.ctx.drawImage(this.background.image, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
+        if (this.backgroundImage && this.backgroundImage !== '') {
+            const imageCoverSize = system.domEngine.getImageCoverSize(this.backgroundImage, this.canvas.width, this.canvas.height);
+            this.ctx.drawImage(this.backgroundImage, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
         };
-        if (this.background.video && this.background.video !== '' && this.background.videoStream) {
+        
+/*         if (this.background.video && this.background.video !== '' && this.background.videoStream) {
             const imageCoverSize = system.domEngine.getImageCoverSize(this.background.videoStream, this.canvas.width, this.canvas.height);
             this.ctx.drawImage(this.background.videoStream, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
-        };
+        }; */
     }
 
 
@@ -2610,9 +2691,11 @@ class Scene {
     }
     sceneError = false;
 
+
     constructor({
         name,
-        background,
+        backgroundColor,
+        backgroundImage,
         triggerZones = [],
         motionTrackers = [],
         debug,
@@ -2620,44 +2703,11 @@ class Scene {
         this.name = name;
         this.triggerZones = triggerZones;
         this.motionTrackers = motionTrackers;
-        this.background = background;
+        this.backgroundColor = backgroundColor;
+        this.backgroundImage = backgroundImage;
         this.debug = debug;
 
-        if(
-            !system.errorEngine.checkDefinedProperties({
-                classObject: this,
-                lesson: 'Scene',
-                properties: ['name', 'background', 'triggerZones', 'motionTrackers', 'debug'],
-            })
-        ) {
-            this.sceneError = true;
-            return false;
-        };
-
-        if(
-            !system.errorEngine.checkStates({
-                classObject: null,
-                lesson: 'TriggerZones',
-                states: [(triggerZones !== 0)],
-            }) ||
-            !system.errorEngine.checkStates({
-                classObject: null,
-                lesson: 'MotionTrackers',
-                states: [(motionTrackers !== 0)],
-            })
-        ) {
-            this.sceneError = true;
-            return false;
-        }
-
-        const sceneObjects = [...motionTrackers, ...triggerZones];
-
-        this.sceneEngine = new SceneEngine({
-            sceneObjects,
-            background,
-            scene: this,
-            debug,
-        });
+        
 
         system.debugConsoleLog(this.constructor.name, `Scene ${this.name} Constructed`);
     }
@@ -2673,6 +2723,11 @@ class Scene {
         if (!this.state.active) {
             return;
         }
+
+        if(this.triggerZones.length === 0 || this.motionTrackers.length === 0) {
+            return;
+        }
+
         if (this.checkAllTriggersTriggered()) {
             this.state.active = false;
             this.complete();         
@@ -2707,6 +2762,48 @@ class Scene {
     }
 
     init = () => {
+
+
+        if(
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'Scene',
+                properties: ['name', 'backgroundColor', 'triggerZones', 'motionTrackers'],
+            })
+        ) {
+            this.sceneError = true;
+            return false;
+        };
+
+        if(
+            !system.errorEngine.checkStates({
+                classObject: null,
+                lesson: 'TriggerZones',
+                states: [(this.triggerZones !== 0)],
+            }) ||
+            !system.errorEngine.checkStates({
+                classObject: null,
+                lesson: 'MotionTrackers',
+                states: [(this.motionTrackers !== 0)],
+            })
+        ) {
+            this.sceneError = true;
+            return false;
+        }
+
+        const sceneObjects = [...this.motionTrackers, ...this.triggerZones];
+
+        const backgroundImage = (this.backgroundImage)?this.backgroundImage:null;
+        const backgroundColor = (this.backgroundColor)?this.backgroundColor:null;
+
+        this.sceneEngine = new SceneEngine({
+            sceneObjects,
+            backgroundColor,
+            backgroundImage,
+            scene: this,
+            debug,
+        });
+
         if(this.sceneError) {
             return false;
         }

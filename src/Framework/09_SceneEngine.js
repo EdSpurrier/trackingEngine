@@ -5,12 +5,14 @@ class SceneEngine {
 
     constructor({
         sceneObjects,
-        background,
+        backgroundColor,
+        backgroundImage,
         scene,
         debug,
     }) {
 
-        this.background = background;
+        this.backgroundColor = backgroundColor;
+        this.backgroundImage = backgroundImage;
         this.sceneObjects = sceneObjects;
         this.scene = scene;
         this.debug = debug;
@@ -25,8 +27,8 @@ class SceneEngine {
         
         system.domEngine.onWindowResize(this.resizeCanvas);
 
-        if (this.background.video) {
-            this.background.videoStream = system.domEngine.getElement('tracking-engine-webcam-video');
+        /* if (this.background.video) {
+            this.background.videoStream = system.domEngine.getElement('tracking-engine-webcam-video'); */
             /* this.background.videoStream.addEventListener('play', function() {
                 var $this = this; //cache
                 (function loop() {
@@ -36,7 +38,7 @@ class SceneEngine {
                     }
                 })();
             }, 0); */
-        }
+/*         } */
 
         system.debugConsoleLog(this.constructor.name, 'SceneEngine Constructed');
     }
@@ -133,18 +135,19 @@ class SceneEngine {
     renderBackground = () => {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (this.background.color && this.background.color !== '') {
-            this.ctx.fillStyle = this.background.color;
+        if (this.backgroundColor && this.backgroundColor !== '') {
+            this.ctx.fillStyle = this.backgroundColor;
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         };
-        if (this.background.image && this.background.image !== '') {
-            const imageCoverSize = system.domEngine.getImageCoverSize(this.background.image, this.canvas.width, this.canvas.height);
-            this.ctx.drawImage(this.background.image, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
+        if (this.backgroundImage && this.backgroundImage !== '') {
+            const imageCoverSize = system.domEngine.getImageCoverSize(this.backgroundImage, this.canvas.width, this.canvas.height);
+            this.ctx.drawImage(this.backgroundImage, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
         };
-        if (this.background.video && this.background.video !== '' && this.background.videoStream) {
+        
+/*         if (this.background.video && this.background.video !== '' && this.background.videoStream) {
             const imageCoverSize = system.domEngine.getImageCoverSize(this.background.videoStream, this.canvas.width, this.canvas.height);
             this.ctx.drawImage(this.background.videoStream, imageCoverSize.x, imageCoverSize.y, imageCoverSize.width, imageCoverSize.height);
-        };
+        }; */
     }
 
 

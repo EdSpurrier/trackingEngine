@@ -7,9 +7,11 @@ class Scene {
     }
     sceneError = false;
 
+
     constructor({
         name,
-        background,
+        backgroundColor,
+        backgroundImage,
         triggerZones = [],
         motionTrackers = [],
         debug,
@@ -17,44 +19,11 @@ class Scene {
         this.name = name;
         this.triggerZones = triggerZones;
         this.motionTrackers = motionTrackers;
-        this.background = background;
+        this.backgroundColor = backgroundColor;
+        this.backgroundImage = backgroundImage;
         this.debug = debug;
 
-        if(
-            !system.errorEngine.checkDefinedProperties({
-                classObject: this,
-                lesson: 'Scene',
-                properties: ['name', 'background', 'triggerZones', 'motionTrackers', 'debug'],
-            })
-        ) {
-            this.sceneError = true;
-            return false;
-        };
-
-        if(
-            !system.errorEngine.checkStates({
-                classObject: null,
-                lesson: 'TriggerZones',
-                states: [(triggerZones !== 0)],
-            }) ||
-            !system.errorEngine.checkStates({
-                classObject: null,
-                lesson: 'MotionTrackers',
-                states: [(motionTrackers !== 0)],
-            })
-        ) {
-            this.sceneError = true;
-            return false;
-        }
-
-        const sceneObjects = [...motionTrackers, ...triggerZones];
-
-        this.sceneEngine = new SceneEngine({
-            sceneObjects,
-            background,
-            scene: this,
-            debug,
-        });
+        
 
         system.debugConsoleLog(this.constructor.name, `Scene ${this.name} Constructed`);
     }
@@ -70,6 +39,11 @@ class Scene {
         if (!this.state.active) {
             return;
         }
+
+        if(this.triggerZones.length === 0 || this.motionTrackers.length === 0) {
+            return;
+        }
+
         if (this.checkAllTriggersTriggered()) {
             this.state.active = false;
             this.complete();         
@@ -104,6 +78,48 @@ class Scene {
     }
 
     init = () => {
+
+
+        if(
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'Scene',
+                properties: ['name', 'backgroundColor', 'triggerZones', 'motionTrackers'],
+            })
+        ) {
+            this.sceneError = true;
+            return false;
+        };
+
+        if(
+            !system.errorEngine.checkStates({
+                classObject: null,
+                lesson: 'TriggerZones',
+                states: [(this.triggerZones !== 0)],
+            }) ||
+            !system.errorEngine.checkStates({
+                classObject: null,
+                lesson: 'MotionTrackers',
+                states: [(this.motionTrackers !== 0)],
+            })
+        ) {
+            this.sceneError = true;
+            return false;
+        }
+
+        const sceneObjects = [...this.motionTrackers, ...this.triggerZones];
+
+        const backgroundImage = (this.backgroundImage)?this.backgroundImage:null;
+        const backgroundColor = (this.backgroundColor)?this.backgroundColor:null;
+
+        this.sceneEngine = new SceneEngine({
+            sceneObjects,
+            backgroundColor,
+            backgroundImage,
+            scene: this,
+            debug,
+        });
+
         if(this.sceneError) {
             return false;
         }

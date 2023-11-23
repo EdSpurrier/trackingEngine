@@ -162,6 +162,20 @@ class TeacherEngine {
                     }
                 }  
             }
+
+            if (lesson.className === 'Scene') {
+                if (system.app) {                    
+                    if (system.app.timeline) {
+                        if (system.app.timeline.timeline) {
+                            lesson.complete = (system.app.timeline.timeline.filter(
+                                (step) => {
+                                    return (step instanceof Scene);
+                                }
+                            ).length > 0)?true:false;
+                        }
+                    }
+                }  
+            }
         });
 
         if (this.course.lessons.every((lesson) => {

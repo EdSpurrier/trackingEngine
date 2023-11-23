@@ -428,27 +428,27 @@ class DomEngine {
         let stepNumber = 1;
         lesson.steps.forEach((step) => {
             let stepHTML = `
-            <div class="lesson-step">
-                <div class="flex items-start mb-4">
+            <div class="lesson-step mt-4">
+                <div class="flex items-start">
                     <b class="mr-2 not-italic font-bold">${stepNumber}.</b>
                     <div>
             `;
             step.text.forEach((text) => {
-                stepHTML += `<div class="not-italic">${text}</div>`;
+                stepHTML += `<div class="not-italic text-md mb-1">${text}</div>`;
             });
             stepHTML += `</div>`;
 
             stepHTML += `</div>`;
             if (step.code) {    
                 stepHTML += `
-                <div class="lesson-step-code bg-gray-900 text-yellow-300 rounded-lg p-8 text-left mb-4">
+                <div class="lesson-step-code bg-gray-900 text-yellow-300 rounded-lg p-8 text-left mx-5 mt-6 mb-10">
                     <pre><code>${step.code}</code></pre>
                 </div>
                 `;
             }           
             if (step.image) {    
                 stepHTML += `
-                <div class="lesson-step-image overflow-hidden rounded-lg mb-4 mx-auto text-center">
+                <div class="lesson-step-image overflow-hidden rounded-lg mx-auto text-center mt-6 mb-8">
                     <img src="${step.image}" />
                 </div>
                 `;

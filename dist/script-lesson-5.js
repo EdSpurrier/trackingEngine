@@ -11,7 +11,7 @@ const app = new App({
         developer: 'Edweird',
         company: 'AR Us',
     },
-    backgroundColor : '#3a00a7',
+    backgroundColor : '#1b1525',
     debug: true
 });
 
@@ -22,17 +22,40 @@ const timeline = new Timeline();
 //-------------------------------//
 // Add Timeline Steps Here
 
+
+//  Create a new scene
+const scene = new Scene({
+    name: 'Simple Mouse Tracking Scene',
+    backgroundColor: '#1f1f22',
+    motionTrackers: [],
+    triggerZones: [],
+});
+
+
+
+
+// Add new scene to timeline
+timeline.addTimelineStep(scene);
+
+
+
+
+
+
+
+
+
+
 // Create a new screen
 const screen = new Screen({
-    name: 'Introduction',
-    backgroundColor: '#39FF14',
-    textColor: 'black',
-    buttonColor: 'green',
-    popupBackgroundColor: 'yellow',
+    name: 'Title Screen',
+    backgroundColor: '#1f2518',
+    textColor: '#fff',
+    buttonColor: '#205dcf',
+    popupBackgroundColor: '#003636',
     title: 'Screen Title',
     content: `This is the screen content`,
     buttonText: 'Click Me!',
-    debug: true,
 });
 
 // Add the screen as a step to the timeline

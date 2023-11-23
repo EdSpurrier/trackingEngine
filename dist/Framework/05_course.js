@@ -181,8 +181,28 @@ const app = new App({
         company: 'Company Name',
     },
     backgroundColor : '#3a00a7',
-    debug: true
+    debug: false
 });</span>`
+                },
+                {
+                    text: [
+                        `Debugging is a way to find and fix problems in your code`,
+                        `You can use the debug setting to turn on debugging`,
+                        `Debugging is turned off by default`,
+                        `You can turn on debugging by setting the debug setting to true`,
+                    ],
+code: `// Create a new application
+const app = new App({
+    metaData : {
+        name: 'Application Name',
+        version: '0.0.1',
+        description: 'Description of the application',
+        developer: 'Developer Name',
+        company: 'Company Name',
+    },
+    backgroundColor : '#3a00a7',
+    debug: <span class="text-green-500">true</span>
+});`
                 },
                 {
                     text: [
@@ -198,7 +218,7 @@ const app = new App({
         company:  <span class="text-green-500">'AR Inc'</span>,
     },
     backgroundColor : '#3a00a7',
-    debug: true
+    debug: false
 });`
                 },
                 {
@@ -218,7 +238,7 @@ const app = new App({
         company:  'AR Inc',
     },
     backgroundColor : <span class="text-green-500">'#000000'</span>,
-    debug: true
+    debug: false
 });`
                 },
                 {
@@ -292,7 +312,7 @@ app.addTimeline(timeline);</span>`,
             menuName: 'Screen',
             className: 'Screen',
             goal: 'Learn how to create a screen',
-            description: `The Screen is a screen that can be used to create a screen for your application`,
+            description: `The Screen is a screen that can be played in the applications timeline`,
             content: [
                 `First lets create a new Screen`,
                 `"const" means constant, which means that the value of the variable cannot be changed`,
@@ -320,7 +340,6 @@ const screen = new Screen({
     title: 'Screen Title',
     content: `+'`'+`This is the screen content`+'`'+`,
     buttonText: 'Click Me!',
-    debug: true,
 });</span>`,
                 },
                 {
@@ -357,6 +376,51 @@ timeline.addTimelineStep(screen);</span>`,
                 }
             ],
         },
+        {
+            complete: false,
+            name: 'Introduction to the Interactive Scene',
+            menuName: 'Scene',
+            className: 'Scene',
+            goal: 'Learn how to create an Interactive Scene',
+            description: `The Scene is a screen that can be played in the applications timeline`,
+            content: [
+                `Now lets create our first interactive Scene`,
+                `This is similar to creating a Screen for the timeline`,
+                `However the Scene is interactive and includes Motion Trackers and Trigger Zones`,
+            ],
+            steps: [
+                {
+                    text: [
+                        `Make these changes in the 'JS' panel (either above or on the left)`,
+                        `This should be before the app.init() function`,
+                        `And after the <b>app</b> and <b>timeline</b> variable has been created`,
+                    ],
+code: `<span class="text-green-500">//  Create a new scene
+const scene = new Scene({
+    name: 'Simple Mouse Tracking Scene',
+    backgroundColor: '#333',
+    motionTrackers: [],
+    triggerZones: [],
+});`
+                },
+                {
+                    text: [
+                        `Add the scene to the timeline`,
+                        `This should be after the scene variable has been created`,
+                        `And before the app.init() function`,
+                    ],
+code: `<span class="text-green-500">// Add the scene to the timeline
+timeline.addTimelineStep(scene);</span>`
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
+                }
+            ],
+
+        }
 
 
     ]

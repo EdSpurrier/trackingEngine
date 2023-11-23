@@ -24,7 +24,7 @@ const timeline = new Timeline();
 
 // Create a new screen
 const screen = new Screen({
-    name: 'Screen Name',
+    name: 'Introduction',
     backgroundColor: '#39FF14',
     textColor: 'black',
     buttonColor: 'green',

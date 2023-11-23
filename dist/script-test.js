@@ -74,29 +74,6 @@ const triggerZone = new TriggerZone({
 });
 
 
-//  Create a new scene
-const scene = new Scene({
-    name: 'Simple Mouse Tracking Scene',
-    background: {
-        color: '#1f1f22',
-        video: true,
-    },
-    motionTrackers: [
-        motionTracker,
-    ],
-    triggerZones: [
-        triggerZone,
-    ],
-    debug: true,
-});
-
-
-
-
-// Add new scene to timeline
-timeline.addTimelineStep(scene);
-
-
 
 
 
