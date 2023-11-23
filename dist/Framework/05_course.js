@@ -185,30 +185,34 @@ const courseData = {
                         `Make these changes in the 'JS' panel (either above or on the left)`,
                     ],
 code: `<span class="text-green-500">// Create a new application
-const app = new App(
-    metaData = {
-       name: 'Application Name',
+const app = new App({
+    metaData : {
+        name: 'Application Name',
         version: '0.0.1',
         description: 'Description of the application',
         developer: 'Developer Name',
         company: 'Company Name',
     },
-);</span>`
+    backgroundColor : '#000000',
+    debug: true
+});</span>`
                 },
                 {
                     text: [
                         `Replace the metaData with your own metaData`,
                     ],
 code: `// Create a new application
-const app = new App(
-    metaData = {
-            name:  <span class="text-green-500">'My Awesome Application'</span>,
-            version:  <span class="text-green-500">'0.0.1'</span>,
-            description:  <span class="text-green-500">'Does things that you couldn't beleive'</span>,
-            developer:  <span class="text-green-500">'John Black'</span>,
-            company:  <span class="text-green-500">'AR Inc'</span>,
+const app = new App({
+    metaData : {
+        name:  <span class="text-green-500">'My Awesome Application'</span>,
+        version:  <span class="text-green-500">'0.0.1'</span>,
+        description:  <span class="text-green-500">'Does things that you couldn't beleive'</span>,
+        developer:  <span class="text-green-500">'John Black'</span>,
+        company:  <span class="text-green-500">'AR Inc'</span>,
     },
-);`
+    backgroundColor : '#000000',
+    debug: true
+});`
                 },
                 {
                     text: [

@@ -2,7 +2,7 @@
 //  Task:   Create a new application                                
 //  Task:   Add the meta data to the application         
 
-//  Create a new Application
+// Create a new application
 const app = new App({
     metaData : {
         name: 'Application Name',
@@ -15,6 +15,5 @@ const app = new App({
     debug: true
 });
 
-
-// Initialize application
+// Initialize the application
 app.init();
