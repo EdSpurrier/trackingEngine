@@ -17,9 +17,11 @@ class MotionTracker {
     }) {
         this.radius = radius,
         this.color = color,
-        this.trackingType = trackingType,
+        this.trackingType = trackingType;
 
-
+        if(trackingType === 'hand' || trackingType === 'face') {
+            system.setTrackingEngineActive();
+        }
 
         system.debugConsoleLog(this.constructor.name, 'MotionTracker Constructed');
     }
@@ -53,7 +55,138 @@ class MotionTracker {
         this.tracked = true
     }
 
+    setPercentagePosition = (
+        x,
+        y,
+    ) => {
+        this.percentageX = x
+        this.percentageY = y
+    }
+
+    calculateDistance = (
+        position1 = {
+            x,
+            y,
+        },
+        position2 = {
+            x,
+            y,
+        }
+        ) => {
+        var deltaX = position2.x - position1.x;
+        var deltaY = position2.y - position1.y;
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+
+
+    getClosestTrackedHand = () => {
+        let closestHand = null;
+        let closestDistance = 100000;
+
+        if (system.trackingEngine.trackedBodyParts['hand-1'].tracked) {
+
+         
+
+            //  calculate the distance between the tracked body part center and the current position
+            const distance = this.calculateDistance(system.trackingEngine.trackedBodyParts['hand-1'].percentagePosition, {
+                x: this.percentageX,
+                y: this.percentageY,
+            });
+
+            closestDistance = distance;
+            closestHand = system.trackingEngine.trackedBodyParts['hand-1'];
+
+        }
+
+        if (system.trackingEngine.trackedBodyParts['hand-2'].tracked) {
+            
+            //  calculate the distance between the tracked body part center and the current position
+            const distance = this.calculateDistance(system.trackingEngine.trackedBodyParts['hand-2'].percentagePosition, {
+                x: this.percentageX,
+                y: this.percentageY,
+            });
+
+            if (distance < closestDistance) {
+                closestHand = system.trackingEngine.trackedBodyParts['hand-2'];
+                closestDistance = distance;
+            }
+        }
+
+        return closestHand;
+    }
+
+    smoothPosition = (
+        x,
+        y,
+    ) => {
+        
+        if (this.x === null || this.y === null) {
+            this.setPosition(x, y);
+            return;
+        }
+
+        const closestTrackedHand = this.getClosestTrackedHand();
+
+        if (closestTrackedHand === null) {
+            this.setPosition(x, y);
+            return;
+        }
+
+        const distance = Math.sqrt(
+            Math.pow(closestTrackedHand.centerPoint.x - x, 2) + 
+            Math.pow(closestTrackedHand.centerPoint.y - y, 2)
+        );
+
+        if (distance > 100) {
+            this.setPosition(x, y);
+            return;
+        }
+
+        const smoothFactor = 0.2;
+        const smoothX = (x - this.x) * smoothFactor;
+        const smoothY = (y - this.y) * smoothFactor;
+
+        this.setPosition(
+            this.x + smoothX,
+            this.y + smoothY,
+        )
+
+
+    }
+
+
     getBodyPartTracking = () => {
+        if (this.trackingType === 'face') {
+            if (system.trackingEngine.trackedBodyParts['face'].tracked) {
+
+                this.smoothPosition(
+                    system.trackingEngine.trackedBodyParts['face'].percentagePosition.x * (this.canvas.width/100),
+                    system.trackingEngine.trackedBodyParts['face'].percentagePosition.y * (this.canvas.height/100),
+                )
+
+/*                 this.setPercentagePosition(
+                    system.trackingEngine.trackedBodyParts['face'].percentagePosition.x,
+                    system.trackingEngine.trackedBodyParts['face'].percentagePosition.y,
+                ) */
+
+
+
+                system.trackingEngine.trackedBodyParts['face'].tracked = false;
+            }
+        } else if (this.trackingType === 'hand') {
+
+            if (system.trackingEngine.trackedBodyParts['hand-1'].tracked) {
+                this.smoothPosition(
+                    system.trackingEngine.trackedBodyParts['hand-1'].percentagePosition.x * (this.canvas.width/100),
+                    system.trackingEngine.trackedBodyParts['hand-1'].percentagePosition.y * (this.canvas.height/100),
+                )
+                system.trackingEngine.trackedBodyParts['hand-1'].tracked = false;
+            }
+        }
+
+    }
+
+/*     getBodyPartTracking = () => {
 
         if (this.trackingType === 'hand') {
             
@@ -77,11 +210,11 @@ class MotionTracker {
 
         }
     }
-
+ */
 
     update = () => {
         this.getBodyPartTracking()
-        this.render();
+        this.render(); 
         this.storePercentagePosition()
     }
 

@@ -21,7 +21,10 @@ class TriggerZone {
         this.activeColor = activeColor
         this.triggerType = triggerType
 
-        
+        if(triggerType === 'hand' || triggerType === 'face') {
+            system.setTrackingEngineActive();
+        }
+
         system.debugConsoleLog(this.constructor.name, `TriggerZone ${this.name} Constructed`);
 
     }

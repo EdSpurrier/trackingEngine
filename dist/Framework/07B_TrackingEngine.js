@@ -42,6 +42,10 @@ class TrackingEngine {
                 width: 0,
                 height: 0,
             },
+            percentagePosition : {
+                x: 0,
+                y: 0,
+            },
             tracked: false,
             pose: '',
     
@@ -61,6 +65,10 @@ class TrackingEngine {
                 width: 0,
                 height: 0,
             },
+            percentagePosition : {
+                x: 0,
+                y: 0,
+            },
             tracked: false,
             pose: '',
         },
@@ -78,6 +86,10 @@ class TrackingEngine {
             canvasSize: {
                 width: 0,
                 height: 0,
+            },
+            percentagePosition : {
+                x: 0,
+                y: 0,
             },
             tracked: false,
             pose: '',
@@ -136,6 +148,11 @@ class TrackingEngine {
                     width: this.canvas.width,
                     height: this.canvas.height,
                 };
+                this.trackedBodyParts['face'].percentagePosition = {
+                    x: this.trackedBodyParts['face'].centerPoint.x / (this.canvas.width/100),
+                    y: this.trackedBodyParts['face'].centerPoint.y / (this.canvas.height/100),
+                };
+
                 this.trackedBodyParts['face'].tracked = true;
                 
             }
@@ -150,6 +167,12 @@ class TrackingEngine {
                         width: this.canvas.width,
                         height: this.canvas.height,
                     };
+
+                    this.trackedBodyParts['hand-1'].percentagePosition = {
+                        x: this.trackedBodyParts['hand-1'].centerPoint.x / (this.canvas.width/100),
+                        y: this.trackedBodyParts['hand-1'].centerPoint.y / (this.canvas.height/100),
+                    };
+
                     this.trackedBodyParts['hand-1'].tracked = true;
                     this.trackedBodyParts['hand-1'].updated = true;
                 } else if (!this.trackedBodyParts['hand-2'].updated) {
@@ -162,6 +185,12 @@ class TrackingEngine {
                         width: this.canvas.width,
                         height: this.canvas.height,
                     };
+
+                    this.trackedBodyParts['hand-2'].percentagePosition = {
+                        x: this.trackedBodyParts['hand-2'].centerPoint.x / (this.canvas.width/100),
+                        y: this.trackedBodyParts['hand-2'].centerPoint.y / (this.canvas.height/100),
+                    };
+                    
                     this.trackedBodyParts['hand-2'].tracked = true;
                     this.trackedBodyParts['hand-2'].updated = true;
                 }

@@ -1,5 +1,3 @@
-
-
 //  Create a new Application
 const app = new App({
     metaData : {
@@ -21,35 +19,7 @@ const app = new App({
 const timeline = new Timeline();
 
 
-//  Create new app screen
-const screen = new Screen({
-    name: 'Title Screen',
-    backgroundColor: '#39FF14',
-    popupBackgroundColor: '#003636',
-    buttonColor: '#c300ff',
-    textColor: '#fff',
-    content: {
-        title: 'Screen Title',
-        body: 'Screen Body',
-        button: `Let's Go!`,
-    }
-});
 
-
-/* // Add new app screen to timeline
-timeline.addTimelineStep(screen); */
-
-
-//  Create a new motion tracker
-/* const motionTracker = new MotionTracker({
-    radius: 30,
-    color: '#00b7ff',
-    trackingType: 'mouse',
-    settings: {
-        hideCursor: false,
-        alwaysDisplay: false,
-    }
-}); */
 
 const motionTracker = new MotionTracker({
     radius: 30,
@@ -78,7 +48,7 @@ const triggerZone = new TriggerZone({
 
 
 //  Create new app screen
-const screen2 = new Screen({
+const finishScreen = new Screen({
     name: 'Complete',
     textColor: '#0d0053',
     backgroundColor: '#0d0053',
@@ -91,9 +61,9 @@ const screen2 = new Screen({
     }
 });
 
-/* 
+ 
 // Add new app screen to timeline
-timeline.addTimelineStep(screen2); */
+timeline.addTimelineStep(finishScreen);
 
 
 

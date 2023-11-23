@@ -156,24 +156,34 @@ class System {
     }
 
 
+    setTrackingEngineActive = () => {
+        if (this.settings.trackingEngineActive) {
+            return;
+        }
+
+        this.settings.trackingEngineActive = true;
+
+        if (this.settings.trackingEngineActive) {
+            this.trackingEngine = new TrackingEngine({
+                modelType: 'handTrack',
+            });
+            this.trackingEngine.init();
+        }
+
+    }
+
     init = () => {
         this.domEngine = new DomEngine();
         this.teacherEngine = new TeacherEngine({
             course: courseData,
         });
 
-        
+        console.log('this.settings.trackingEngineActive', this.settings.trackingEngineActive);
         
         this.errorEngine = new ErrorEngine();
         system.debugConsoleLog(this.constructor.name, 'System Initialized');
 
-        if (this.settings.trackingEngineActive) {
-            this.trackingEngine = new TrackingEngine({
-                modelType: 'handTrack',
-            });
-
-            this.trackingEngine.init();
-        }
+        
         
         this.isSystemReady();
 
