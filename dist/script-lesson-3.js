@@ -5,13 +5,13 @@
 //  Create a new Application
 const app = new App({
     metaData : {
-        name: 'Cool App!',
+        name: 'Augmentd!',
         version: '9.1.2',
         description: 'This is the coolest',
         developer: 'Edweird',
         company: 'AR Us',
     },
-    backgroundColor : '#3a00a7',
+    backgroundColor : '#4d0fb1',
     debug: true
 });
 
@@ -22,24 +22,24 @@ const timeline = new Timeline();
 //-------------------------------//
 // Add Timeline Steps Here
 
-// Create a new screen
 const screen = new Screen({
     name: 'Screen Name',
-    backgroundColor: '#39FF14',
+    backgroundColor: 'pink',
     textColor: 'black',
     buttonColor: 'green',
     popupBackgroundColor: 'yellow',
     title: 'Screen Title',
-    content: `This is the screen content`,
-    buttonText: 'Click Me!',
+    content: `
+        <img src="https://placekitten.com/200/300" />
+        <p>This is the screen content</p>
+    `,
+    buttonText: `Click Me!`,
     debug: true,
 });
 
+
 // Add the screen as a step to the timeline
 timeline.addTimelineStep(screen);
-
-
-
 
 
 // End of Timeline Steps

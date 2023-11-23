@@ -198,9 +198,7 @@ class TrackingEngine {
         });
     }
 
-    startVideo = () => {
-        console.log(this.video)
-        
+    startVideo = () => {       
         this.handTrack.startVideo(this.video).then((status) => {
             system.log(this.constructor.name,`Webcam Stream: ${status?'true':'false'}`);
 

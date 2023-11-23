@@ -1,8 +1,7 @@
-console.log('Version XX2');
+console.log('Version XX3');
 
 
 var prod = true;
-
 
 
 // Insert CSS
@@ -29,6 +28,44 @@ body {
   overflow: hidden;
 }
 
+:root {
+--scrollbar-width: 4px;
+--scrollbar-color-bg: #535048;
+--scrollbar-color-thumb: rgb(238, 118, 62);
+--scrollbar-color-thumb-hover: #f7914d;
+}
+
+/* WebKit-based browsers */
+::-webkit-scrollbar {
+width: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+box-shadow: inset 0 0 5px var(--scrollbar-color-bg);
+border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+background: var(--scrollbar-color-thumb);
+border-radius: 0;
+transition: 0.25s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: var(--scrollbar-color-thumb-hover);
+}
+
+/* Firefox */
+* {
+scrollbar-width: thin;
+scrollbar-color: var(--scrollbar-color-thumb) var(--scrollbar-color-bg);
+}
+
+/* IE/Edge (limited support) */
+body {
+-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
 /*
  *  HEIRARCHY
 */
@@ -41,11 +78,17 @@ body {
 
 }
 
+
+
 #teacher-toggle-button, #debug-console-toggle-button, #debug-webcam-toggle-button {
-  z-index: 1010;
+  z-index: 1020;
 }
 #tracking-engine-webcam-blocked {
-  z-index: 1006;
+  z-index: 1016;
+}
+
+#splash-screen {
+    z-index: 1010
 }
 
 #tracking-engine {
@@ -59,34 +102,34 @@ body {
 
 /* TEACHER */
 #course {
-  z-index: 300;
+  z-index: 40;
 }
 
 #lesson {
-  z-index: 250;
+  z-index: 35;
 }
 
 #teacher {
-  z-index: 200;
+  z-index: 30;
 }
 /* ------- */
 
 #debug-console {
-  z-index: 100;
+  z-index: 25;
 }
 
 
 /* RUNTIME */
 #debug {
-  z-index: 90;
+  z-index: 21;
 }
 
 #screen {
-  z-index: 90;
+  z-index: 20;
 }
 
 #scene {
-  z-index: 90;
+  z-index: 20;
 }
 
 #runtime {
@@ -276,6 +319,21 @@ body {
 }
 
 
+
+.step-button {
+  background: black;
+  padding: 8px 10px;
+  border-radius: 5px;
+  color: rgb(255, 219, 99);
+  transition: 0.25s;
+  margin: 5px auto;
+  display: inline-flex;
+}
+
+.step-button:hover {
+  opacity: 0.8;
+}
+
 `;
 
 
@@ -454,6 +512,15 @@ const trackingEngineHTML = `
 
     <!-- START - APP -->
     <div id="runtime" class="layer">
+
+        <div id="splash-screen" class="bg-stone-900 layer flex flex-col justify-center items-center p-6">
+            <div class="flex flex-col justify-center items-center text-white">
+                <div id="application-name" class="text-5xl"></div>
+                <div id="application-version" class="text-xs mb-4"></div>
+                <div id="application-company" class="text-2xl"></div>
+                
+            </div>
+        </div>
 
       <div id="screen" class="layer hidden flex flex-col justify-center items-center p-6">
         <div id="screen-container"

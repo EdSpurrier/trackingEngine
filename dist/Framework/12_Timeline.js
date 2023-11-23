@@ -112,7 +112,7 @@ class Timeline {
 
     start() {
         system.debugConsoleLog(this.constructor.name, 'Timeline Start')
-        if(
+/*         if(
             !system.errorEngine.checkStates({
                 classObject: this,
                 lesson: 'Timeline',
@@ -120,8 +120,12 @@ class Timeline {
             })
         ) {
             return false;
-        }
+        } */
 
+        if(this.timeline.length === 0) {
+            system.log(this.constructor.name, 'Timeline has no steps');
+            return false;
+        };
         this.timelineStep = 0;
         this.setTimelineStepActive();
     }

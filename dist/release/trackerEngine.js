@@ -1,8 +1,7 @@
-console.log('Version XX2');
+console.log('Version XX3');
 
 
 var prod = true;
-
 
 
 // Insert CSS
@@ -29,6 +28,44 @@ body {
   overflow: hidden;
 }
 
+:root {
+--scrollbar-width: 4px;
+--scrollbar-color-bg: #535048;
+--scrollbar-color-thumb: rgb(238, 118, 62);
+--scrollbar-color-thumb-hover: #f7914d;
+}
+
+/* WebKit-based browsers */
+::-webkit-scrollbar {
+width: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+box-shadow: inset 0 0 5px var(--scrollbar-color-bg);
+border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+background: var(--scrollbar-color-thumb);
+border-radius: 0;
+transition: 0.25s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: var(--scrollbar-color-thumb-hover);
+}
+
+/* Firefox */
+* {
+scrollbar-width: thin;
+scrollbar-color: var(--scrollbar-color-thumb) var(--scrollbar-color-bg);
+}
+
+/* IE/Edge (limited support) */
+body {
+-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
 /*
  *  HEIRARCHY
 */
@@ -41,11 +78,17 @@ body {
 
 }
 
+
+
 #teacher-toggle-button, #debug-console-toggle-button, #debug-webcam-toggle-button {
-  z-index: 1010;
+  z-index: 1020;
 }
 #tracking-engine-webcam-blocked {
-  z-index: 1006;
+  z-index: 1016;
+}
+
+#splash-screen {
+    z-index: 1010
 }
 
 #tracking-engine {
@@ -59,34 +102,34 @@ body {
 
 /* TEACHER */
 #course {
-  z-index: 300;
+  z-index: 40;
 }
 
 #lesson {
-  z-index: 250;
+  z-index: 35;
 }
 
 #teacher {
-  z-index: 200;
+  z-index: 30;
 }
 /* ------- */
 
 #debug-console {
-  z-index: 100;
+  z-index: 25;
 }
 
 
 /* RUNTIME */
 #debug {
-  z-index: 90;
+  z-index: 21;
 }
 
 #screen {
-  z-index: 90;
+  z-index: 20;
 }
 
 #scene {
-  z-index: 90;
+  z-index: 20;
 }
 
 #runtime {
@@ -276,6 +319,21 @@ body {
 }
 
 
+
+.step-button {
+  background: black;
+  padding: 8px 10px;
+  border-radius: 5px;
+  color: rgb(255, 219, 99);
+  transition: 0.25s;
+  margin: 5px auto;
+  display: inline-flex;
+}
+
+.step-button:hover {
+  opacity: 0.8;
+}
+
 `;
 
 
@@ -455,6 +513,15 @@ const trackingEngineHTML = `
     <!-- START - APP -->
     <div id="runtime" class="layer">
 
+        <div id="splash-screen" class="bg-stone-900 layer flex flex-col justify-center items-center p-6">
+            <div class="flex flex-col justify-center items-center text-white">
+                <div id="application-name" class="text-5xl"></div>
+                <div id="application-version" class="text-xs mb-4"></div>
+                <div id="application-company" class="text-2xl"></div>
+                
+            </div>
+        </div>
+
       <div id="screen" class="layer hidden flex flex-col justify-center items-center p-6">
         <div id="screen-container"
           class="text-center flex max-w-xl w-full flex-col justify-center items-center gap-8 p-8 rounded-lg">
@@ -549,6 +616,73 @@ const Animations = {
     },
 
 
+
+
+    splashShowHide: ({
+        screen,
+        name, 
+        version,
+        company,
+        callBack,
+        delay = 0,
+        update = () => {},
+        begin = () => {},
+        complete = () => {},
+    }) => {
+
+       
+        anime.set([name, version, company], {
+            opacity: 0
+        });
+
+        screen.classList.remove('hidden');
+
+        const onComplete = () => {
+            screen.classList.add('hidden');
+            callBack();
+        }
+
+
+        var animation = anime.timeline({
+            
+            delay: delay * 1000,
+            easing: 'easeOutExpo',
+            update: function(anim) {
+                /* system.log(this.constructor.name,'animating : '+(anim.progress.toFixed(2))+'%'); */
+                update(anim);
+            },
+            begin: function(anim) {
+                if(debug) system.log(this.constructor.name,'animation > began : ' + anim.began)
+                begin(anim);
+            },
+            complete: function(anim) {
+                if(debug) system.log(this.constructor.name,'animation > completed : ' + anim.completed);
+                complete(anim);
+            }
+        }).add({
+            targets: name,
+            opacity: 1,
+            duration: 500,
+        }, 800).add({
+            targets: company,
+            opacity: 1,
+            duration: 500,
+        }, 900).add({
+            targets: version,
+            opacity: 1,
+            duration: 500,
+        }, 1000).add({
+            targets: [name, version, company],
+            opacity: 0,
+            duration: 500,
+        }).add({
+            targets: screen,
+            opacity: 0,
+            duration: 700,
+        }, 2500);
+
+        animation.finished.then(onComplete);
+    },
     
 }
 
@@ -574,6 +708,7 @@ const Animations = {
 
 
 const elementsToStore = [
+    "runtime",
     "app-wrap",
     "system",
     "error-console",
@@ -585,16 +720,13 @@ const elementsToStore = [
     "course-title",
     "lesson-list",
     "course-footer",
-
     "lesson",
     "lesson-title",
     "lesson-goal",
     "lesson-description",
     "lesson-content",
     "lesson-steps",
-
     "teacher",
-    "runtime",
     "screen",
     "screen-container",
     "screen-title",
@@ -614,7 +746,12 @@ const elementsToStore = [
     'tracking-engine',
     'debug-webcam-toggle-button',
     'webcam-blocked',
-    "tracking-engine-webcam-blocked"
+    "tracking-engine-webcam-blocked",
+    'application-name',
+    'application-version',
+    'application-company',
+    'splash-screen',
+    'empty-app',
 ]
 
 
@@ -690,7 +827,7 @@ class DomEngine {
     }
 
     setAppBackgroundColor = (color) => {
-        this.elements['app'].style.backgroundColor = color;
+        this.elements['runtime'].style.backgroundColor = color;
     }
 
 
@@ -699,7 +836,7 @@ class DomEngine {
         Animations.fade({
             state: false,
             duration: 0.5,
-            delay: 1,
+            delay: 0.25,
             elements: [this.elements['scene']],
             callBack: () => {
                 callBack();
@@ -712,7 +849,7 @@ class DomEngine {
         Animations.fade({
             state: true,
             duration: 0.5,
-            delay: 1,
+            delay: 0.25,
             elements: [this.elements['scene']],
             callBack: () => {
                 system.log(this.constructor.name, `screen faded-${true? 'in' : 'out'}`);
@@ -720,15 +857,44 @@ class DomEngine {
         });
     }
 
+
+
+
+    showSplashScreen = () => {
+        // Set up splash screen
+        this.insertText('application-name', system.app.metaData.name);
+        this.insertText('application-version', system.app.metaData.version);
+        this.insertText('application-company', system.app.metaData.company);
+
+
+        Animations.splashShowHide({
+            delay: 0.5,
+            screen: this.elements['splash-screen'],
+            name: this.elements['application-name'],
+            version: this.elements['application-version'],
+            company: this.elements['application-company'],
+            callBack: () => {
+                system.app.startTimeline();
+                system.log(this.constructor.name, `SplashScreen faded-${true? 'in' : 'out'}`);
+            }
+        });
+    }
+
+
+    disableSpashScreen = () => {
+        this.elements['splash-screen'].classList.add('hidden');
+    }
+
+
     updateSceen = (screen) => {
         this.insertStyle('screen-container', 'color', screen.textColor)
         this.insertStyle('screen', 'background-color', screen.backgroundColor);
         this.insertStyle('screen-container', 'background-color', screen.popupBackgroundColor);
         this.insertStyle('screen-button', 'background-color', screen.buttonColor);
-        this.insertText('screen-title', screen.content.title);
-        this.insertHtml('screen-content', screen.content.body);
-        this.setElementState('screen-button', screen.content.button != '');
-        this.insertText('screen-button', screen.content.button);
+        this.insertText('screen-title', screen.title);
+        this.insertHtml('screen-content', screen.content);
+        this.setElementState('screen-button', screen.buttonText != '');
+        this.insertText('screen-button', screen.buttonText);
     }
 
     renderScreen = (screen, callBack) => {
@@ -737,7 +903,7 @@ class DomEngine {
         Animations.fade({
             state: true,
             duration: 0.5,
-            delay: 1,
+            delay: 0.25,
             elements: [this.elements['screen']],
             callBack: () => {
                 callBack();
@@ -750,7 +916,7 @@ class DomEngine {
         Animations.fade({
             state: false,
             duration: 0.5,
-            delay: 1,
+            delay: 0.25,
             elements: [this.elements['screen']],
             callBack: () => {
                 callBack();
@@ -941,7 +1107,7 @@ class DomEngine {
 
         this.insertHtml('lesson-content', '');
         lesson.content.forEach((content) => {
-            this.appendHtml('lesson-content', `<div class="flex items-center"><i class="fa-solid fa-angle-right fa-sm mr-2"></i> ${content}</div>`);
+            this.appendHtml('lesson-content', `<div class="flex items-center"><i class="fa-solid fa-angle-right fa-sm mr-2"></i> <div>${content}</div></div>`);
         });
 
 
@@ -949,15 +1115,14 @@ class DomEngine {
 
         let stepNumber = 1;
         lesson.steps.forEach((step) => {
-            console.log(step.text)
             let stepHTML = `
             <div class="lesson-step">
                 <div class="flex items-start mb-4">
-                    <b class="mr-2">${stepNumber}.</b>
+                    <b class="mr-2 not-italic font-bold">${stepNumber}.</b>
                     <div>
             `;
             step.text.forEach((text) => {
-                stepHTML += `<div class="font-bold not-italic">${text}</div>`;
+                stepHTML += `<div class="not-italic">${text}</div>`;
             });
             stepHTML += `</div>`;
 
@@ -1058,6 +1223,9 @@ class DomEngine {
         this.setElementState('error-console', false);
     }
 
+    hideEmptyAppScreen = () => {
+        this.setElementState('empty-app', false);
+    }
 
 }
 
@@ -1183,7 +1351,6 @@ class TeacherEngine {
         system.domEngine.setLessonActive(this.activeLesson);
 
         system.log(this.constructor.name, `Set Active Lesson ${this.activeLesson}`)
-        console.log('setActiveLesson', this.activeLesson)
     }
 
 
@@ -1193,31 +1360,60 @@ class TeacherEngine {
         // Check through stages
         this.course.lessons.forEach((lesson) => {
             if (lesson.className === 'GettingStarted') {
-                lesson.complete = (!location.href.includes('edspurrier'))?true:false;             
+                lesson.complete = !location.href.includes('edspurrier');             
             }
             if (lesson.className === 'App') {
-                console.log(
-                    system.app
-                );
                 if (system.app) {
-                    lesson.complete = (system.app !== null && system.app.initialized)?true:false;
-                }                
+                    lesson.complete = (system.app !== null && system.app.initialized)?true:false; 
+                }  
+                if (!lesson.complete) {
+                    system.domEngine.disableSpashScreen();
+                }
+            }
+
+            if (lesson.className === 'Timeline') {
+                if (system.app) {                    
+                    if (system.app.timeline) {
+                        lesson.complete = (system.app.timeline !== null && timeline)?true:false; 
+                    }
+                }  
+            }
+
+            if (lesson.className === 'Screen') {
+                if (system.app) {                    
+                    if (system.app.timeline) {
+                        if (system.app.timeline.timeline) {
+                            lesson.complete = (system.app.timeline.timeline.filter(
+                                (step) => {
+                                    return (step instanceof Screen);
+                                }
+                            ).length > 0)?true:false;
+                        }
+                    }
+                }  
             }
         });
 
-        console.log(this.course);
+        if (this.course.lessons.every((lesson) => {
+            return lesson.complete;
+        })) {
+            system.domEngine.disableSpashScreen();
+        }
+        
 
         system.domEngine.renderCourseMenu(this.course);
 
+        let lessonToSelect = null;
         // Check through lessons
         this.course.lessons.forEach((lesson) => {
-            if(!lesson.complete) {
+            if(!lesson.complete && lessonToSelect === null) {
+                console.log('selecting', lesson);
+                lessonToSelect = lesson;
                 this.selectLesson(lesson);
                 return;
             }
         });
-
-
+        
     }
 }
 
@@ -1374,19 +1570,6 @@ const courseData = {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         {
             complete: false,
             name: 'Coding your Application',
@@ -1416,7 +1599,7 @@ const app = new App({
         developer: 'Developer Name',
         company: 'Company Name',
     },
-    backgroundColor : '#000000',
+    backgroundColor : '#3a00a7',
     debug: true
 });</span>`
                 },
@@ -1433,7 +1616,27 @@ const app = new App({
         developer:  <span class="text-green-500">'John Black'</span>,
         company:  <span class="text-green-500">'AR Inc'</span>,
     },
-    backgroundColor : '#000000',
+    backgroundColor : '#3a00a7',
+    debug: true
+});`
+                },
+                {
+                    text: [
+                        `Set the backgroundColor to your own color`,
+                        `You can use a color picker to find a color that you like`,
+                        `You can use a color name or a hex color code`,
+                        `<a href="https://htmlcolorcodes.com/color-picker/" class="underline italic step-button" target="_blank">HTML Color Picker</a>`,
+                    ],
+code: `// Create a new application
+const app = new App({
+    metaData : {
+        name:  'My Awesome Application',
+        version:  '0.0.1',
+        description:  'Does things that you couldn't beleive',
+        developer:  'John Black',
+        company:  'AR Inc',
+    },
+    backgroundColor : <span class="text-green-500">'#000000'</span>,
     debug: true
 });`
                 },
@@ -1456,121 +1659,125 @@ app.init();</span>`
                 }
             ]
         },
-        /* {
+        {
             complete: false,
             name: 'Introduction to the Timeline',
             menuName: 'Timeline',
             className: 'Timeline',
-            description: 'Learn how to create a timeline',
-            tasks: [
+
+            goal: 'Learn how to create a timeline',
+            description: `The Timeline is a timeline that can be used to create a timeline for your application`,
+            content: [
+                `First lets create a new Timeline`,
+                `"const" means constant, which means that the value of the variable cannot be changed`,
+                `"timeline" is the name of the variable that we are creating`,
+                `"new" means that we are creating a new instance of the Timeline class`,
+                `"Timeline" is the name of the class that we are creating an instance of`,
+                `"app" is the name of the application that we are passing in as an argument`,
+                `"addTimeline" is a function that we are calling on the app`,
+                `"timeline" is the name of the variable that we are passing in as an argument`,
+            ],   
+            steps: [
                 {
-                    name: 'Create a new timeline',
-                    description: 'Learn how to create a new timeline',
-                    code: `
-                            // Create a new timeline
-                            const timeline = new Timeline();
-                        `,
+                    text: [
+                        `Make these changes in the 'JS' panel (either above or on the left)`,
+                        `This should be before the app.init() function`,
+                        `And after the app variable has been created`,
+                    ],
+code: `<span class="text-green-500">// Create a new timeline
+const timeline = new Timeline();</span>`,
                 },
                 {
-                    name: 'Add the timeline to the application',
-                    description: 'Learn how to add the timeline to the application',
-                    code: `
-                            // Add the timeline to the application
-                            app.addTimeline(timeline);
-                        `,
+                    text: [
+                        `Add the timeline to the application`,
+                        `This should be after the timeline variable has been created`,
+                        `And before the app.init() function`,
+                    ],
+code: `<span class="text-green-500">// Add the timeline to the application
+app.addTimeline(timeline);</span>`,
                 },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
+                }
             ],
         },
 
         {
             complete: false,
-            name: 'Introduction to the App Screen',
-            menuName: 'App Screen',
+            name: 'Introduction to the Screen',
+            menuName: 'Screen',
             className: 'Screen',
-            description: 'Learn how to create an app screen',
-            tasks: [
+            goal: 'Learn how to create a screen',
+            description: `The Screen is a screen that can be used to create a screen for your application`,
+            content: [
+                `First lets create a new Screen`,
+                `"const" means constant, which means that the value of the variable cannot be changed`,
+                `"screen" is the name of the variable that we are creating`,
+                `"new" means that we are creating a new instance of the Screen class`,
+                `"Screen" is the name of the class that we are creating an instance of`,
+                `"timeline" is the name of the timeline that we are passing in as an argument`,
+                `"addTimelineStep" is a function that we are calling on the timeline`,
+                `"screen" is the name of the variable that we are passing in as an argument`,
+            ],   
+            steps: [
                 {
-                    name: 'Create a new app screen and give it settings',
-                    description: 'Learn how to create a new app screen and give it settings',
-                    code: `
-                            // Create a new app screen and give it settings
-                            
-                        `,
+                    text: [
+                        `Make these changes in the 'JS' panel (either above or on the left)`,
+                        `This should be before the app.init() function`,
+                        `And after the <b>app</b> and <b>timeline</b> variable has been created`,
+                    ],
+code: `<span class="text-green-500">// Create a new screen
+const screen = new Screen({
+    name: 'Screen Name',
+    backgroundColor: '#39FF14',
+    textColor: 'black',
+    buttonColor: 'green',
+    popupBackgroundColor: 'yellow',
+    title: 'Screen Title',
+    content: `+'`'+`This is the screen content`+'`'+`,
+    buttonText: 'Click Me!',
+    debug: true,
+});</span>`,
                 },
                 {
-                    name: 'Add the new app screen to the timeline',
-                    description: 'Learn how to add the new app screen to the timeline',
-                    code: `
-                            // Add the new app screen to the timeline
-                            timeline.addTimelineStep(
-                                new Screen({
-                                    name: 'Screen Name',
-                                    settings: {
-                                        backgroundColor: '#39FF14',
-                                    },
-                                    content: {
-                                        title: 'Screen Title',
-                                        body: 'Screen Body',
-                                        button: 'Screen Button',
-                                    }
-                                })
-                            );
-                        `,
+                    text: [
+                        `Add the screen to the timeline`,
+                        `This should be after the screen variable has been created`,
+                        `And before the app.init() function`,
+                    ],
+code: `<span class="text-green-500">// Add the screen to the timeline
+timeline.addTimelineStep(screen);</span>`,
+                },
+                {
+                    text: [
+                        `The screen should now be showing on the screen`,
+                        `You can change the content and look of the screen`,
+                        `The title, body and buttonText are text values`,                        
+                    ]
+                },
+
+
+                {
+                    text: [
+                        `You can use a color picker to find a colors that you like`,
+                        `You can use a color name or a hex color code`,
+                        `<a href="https://htmlcolorcodes.com/color-picker/" class="underline italic step-button" target="_blank">HTML Color Picker</a>`,
+                    ]
+
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
                 }
             ],
         },
 
 
-        {
-            complete: false,
-            name: 'Introduction to the Scene Engine',
-            menuName: 'Scene Engine',
-            description: 'Learn how to create a scene engine',
-            className: 'Scene',
-            tasks: [
-                {
-                    name: 'Add a new scene and add it to the timeline',
-                    description: 'Learn how to add a new scene and add it to the timeline',
-                    code: `
-                            // Add a new scene and add it to the timeline
-                            timeline.addTimelineStep(
-                                new Scene({
-                                    name: 'Scene Name',
-                                    settings: {
-                                        backgroundColor: '#39FF14',
-                                    },
-                                    content: {
-                                        title: 'Scene Title',
-                                        body: 'Scene Body',
-                                        button: 'Scene Button',
-                                    }
-                                })
-                            );
-                        `,
-                },
-                {
-                    name: 'Add settings to the scene',
-                    description: 'Learn how to add settings to the scene',
-                    code: `
-                            // Add settings to the scene
-                            timeline.addTimelineStep(
-                                new Scene({
-                                    name: 'Scene Name',
-                                    settings: {
-                                        backgroundColor: '#39FF14',
-                                    },
-                                    content: {
-                                        title: 'Scene Title',
-                                        body: 'Scene Body',
-                                        button: 'Scene Button',
-                                    }
-                                })
-                            );
-                        `,
-                }
-            ]
-
-        } */
     ]
 }
 
@@ -1882,9 +2089,7 @@ class TrackingEngine {
         });
     }
 
-    startVideo = () => {
-        console.log(this.video)
-        
+    startVideo = () => {       
         this.handTrack.startVideo(this.video).then((status) => {
             system.log(this.constructor.name,`Webcam Stream: ${status?'true':'false'}`);
 
@@ -2526,7 +2731,9 @@ class Screen {
         textColor,
         popupBackgroundColor,
         backgroundColor,
+        title,
         content,
+        buttonText,
     }) {
 
         this.name = name;
@@ -2536,17 +2743,10 @@ class Screen {
         this.backgroundColor = backgroundColor,
         this.popupBackgroundColor = popupBackgroundColor,
         this.content = content;
-
-        if(
-            !system.errorEngine.checkDefinedProperties({
-                classObject: this,
-                lesson: 'Screen',
-                properties: ['name', 'textColor', 'content', 'buttonColor', 'backgroundColor', 'popupBackgroundColor'],
-            })
-        ) {
-            return false;
-        };
+        this.title = title;
+        this.buttonText = buttonText;
         
+        console.log('Screen', this);
         system.debugConsoleLog(this.constructor.name, `Screen ${this.name} Constructed`)
     }
 
@@ -2577,6 +2777,17 @@ class Screen {
     }
 
     init = () => {
+
+        if(
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'Screen',
+                properties: ['name', 'title', 'textColor', 'content', 'buttonColor', 'backgroundColor', 'popupBackgroundColor', 'buttonText'],
+            })
+        ) {
+            return false;
+        };
+
         system.debugConsoleLog(this.constructor.name, `Screen[${this.name}] Init`)
         this.render();
     }
@@ -2696,7 +2907,7 @@ class Timeline {
 
     start() {
         system.debugConsoleLog(this.constructor.name, 'Timeline Start')
-        if(
+/*         if(
             !system.errorEngine.checkStates({
                 classObject: this,
                 lesson: 'Timeline',
@@ -2704,8 +2915,12 @@ class Timeline {
             })
         ) {
             return false;
-        }
+        } */
 
+        if(this.timeline.length === 0) {
+            system.log(this.constructor.name, 'Timeline has no steps');
+            return false;
+        };
         this.timelineStep = 0;
         this.setTimelineStepActive();
     }
@@ -2749,6 +2964,7 @@ class App {
 
         system.domEngine.set
         system.domEngine.setAppBackgroundColor(this.backgroundColor);
+        
         system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Constructed`);
     }
 
@@ -2758,6 +2974,8 @@ class App {
     }
 
     initialized = false;
+
+
 
     init = () => {
         system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Init`);
@@ -2769,12 +2987,16 @@ class App {
         }, 750);
     }
 
-
-    start = () => {
-        system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Start`);
+    startTimeline = () => {
+        system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Start Timeline`);
         if (this.timeline) {
             this.timeline.start();
         }
+    }
+
+    start = () => {
+        system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Start`);
+        system.domEngine.showSplashScreen();
     }
 
 
@@ -2962,6 +3184,8 @@ class System {
         this.isSystemReady();
 
         this.log(this.constructor.name, '-----------------------------');
+
+        this.teacherEngine.checkStage();
     }
 
 

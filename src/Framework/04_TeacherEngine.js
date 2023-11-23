@@ -121,7 +121,6 @@ class TeacherEngine {
         system.domEngine.setLessonActive(this.activeLesson);
 
         system.log(this.constructor.name, `Set Active Lesson ${this.activeLesson}`)
-        console.log('setActiveLesson', this.activeLesson)
     }
 
 
@@ -131,30 +130,59 @@ class TeacherEngine {
         // Check through stages
         this.course.lessons.forEach((lesson) => {
             if (lesson.className === 'GettingStarted') {
-                lesson.complete = (!location.href.includes('edspurrier'))?true:false;             
+                lesson.complete = !location.href.includes('edspurrier');             
             }
             if (lesson.className === 'App') {
-                console.log(
-                    system.app
-                );
                 if (system.app) {
-                    lesson.complete = (system.app !== null && system.app.initialized)?true:false;
-                }                
+                    lesson.complete = (system.app !== null && system.app.initialized)?true:false; 
+                }  
+                if (!lesson.complete) {
+                    system.domEngine.disableSpashScreen();
+                }
+            }
+
+            if (lesson.className === 'Timeline') {
+                if (system.app) {                    
+                    if (system.app.timeline) {
+                        lesson.complete = (system.app.timeline !== null && timeline)?true:false; 
+                    }
+                }  
+            }
+
+            if (lesson.className === 'Screen') {
+                if (system.app) {                    
+                    if (system.app.timeline) {
+                        if (system.app.timeline.timeline) {
+                            lesson.complete = (system.app.timeline.timeline.filter(
+                                (step) => {
+                                    return (step instanceof Screen);
+                                }
+                            ).length > 0)?true:false;
+                        }
+                    }
+                }  
             }
         });
 
-        console.log(this.course);
+        if (this.course.lessons.every((lesson) => {
+            return lesson.complete;
+        })) {
+            system.domEngine.disableSpashScreen();
+        }
+        
 
         system.domEngine.renderCourseMenu(this.course);
 
+        let lessonToSelect = null;
         // Check through lessons
         this.course.lessons.forEach((lesson) => {
-            if(!lesson.complete) {
+            if(!lesson.complete && lessonToSelect === null) {
+                console.log('selecting', lesson);
+                lessonToSelect = lesson;
                 this.selectLesson(lesson);
                 return;
             }
         });
-
-
+        
     }
 }

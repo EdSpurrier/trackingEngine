@@ -20,6 +20,7 @@
 
 
 const elementsToStore = [
+    "runtime",
     "app-wrap",
     "system",
     "error-console",
@@ -31,16 +32,13 @@ const elementsToStore = [
     "course-title",
     "lesson-list",
     "course-footer",
-
     "lesson",
     "lesson-title",
     "lesson-goal",
     "lesson-description",
     "lesson-content",
     "lesson-steps",
-
     "teacher",
-    "runtime",
     "screen",
     "screen-container",
     "screen-title",
@@ -60,7 +58,12 @@ const elementsToStore = [
     'tracking-engine',
     'debug-webcam-toggle-button',
     'webcam-blocked',
-    "tracking-engine-webcam-blocked"
+    "tracking-engine-webcam-blocked",
+    'application-name',
+    'application-version',
+    'application-company',
+    'splash-screen',
+    'empty-app',
 ]
 
 
@@ -136,7 +139,7 @@ class DomEngine {
     }
 
     setAppBackgroundColor = (color) => {
-        this.elements['app'].style.backgroundColor = color;
+        this.elements['runtime'].style.backgroundColor = color;
     }
 
 
@@ -145,7 +148,7 @@ class DomEngine {
         Animations.fade({
             state: false,
             duration: 0.5,
-            delay: 1,
+            delay: 0.25,
             elements: [this.elements['scene']],
             callBack: () => {
                 callBack();
@@ -158,7 +161,7 @@ class DomEngine {
         Animations.fade({
             state: true,
             duration: 0.5,
-            delay: 1,
+            delay: 0.25,
             elements: [this.elements['scene']],
             callBack: () => {
                 system.log(this.constructor.name, `screen faded-${true? 'in' : 'out'}`);
@@ -166,15 +169,44 @@ class DomEngine {
         });
     }
 
+
+
+
+    showSplashScreen = () => {
+        // Set up splash screen
+        this.insertText('application-name', system.app.metaData.name);
+        this.insertText('application-version', system.app.metaData.version);
+        this.insertText('application-company', system.app.metaData.company);
+
+
+        Animations.splashShowHide({
+            delay: 0.5,
+            screen: this.elements['splash-screen'],
+            name: this.elements['application-name'],
+            version: this.elements['application-version'],
+            company: this.elements['application-company'],
+            callBack: () => {
+                system.app.startTimeline();
+                system.log(this.constructor.name, `SplashScreen faded-${true? 'in' : 'out'}`);
+            }
+        });
+    }
+
+
+    disableSpashScreen = () => {
+        this.elements['splash-screen'].classList.add('hidden');
+    }
+
+
     updateSceen = (screen) => {
         this.insertStyle('screen-container', 'color', screen.textColor)
         this.insertStyle('screen', 'background-color', screen.backgroundColor);
         this.insertStyle('screen-container', 'background-color', screen.popupBackgroundColor);
         this.insertStyle('screen-button', 'background-color', screen.buttonColor);
-        this.insertText('screen-title', screen.content.title);
-        this.insertHtml('screen-content', screen.content.body);
-        this.setElementState('screen-button', screen.content.button != '');
-        this.insertText('screen-button', screen.content.button);
+        this.insertText('screen-title', screen.title);
+        this.insertHtml('screen-content', screen.content);
+        this.setElementState('screen-button', screen.buttonText != '');
+        this.insertText('screen-button', screen.buttonText);
     }
 
     renderScreen = (screen, callBack) => {
@@ -183,7 +215,7 @@ class DomEngine {
         Animations.fade({
             state: true,
             duration: 0.5,
-            delay: 1,
+            delay: 0.25,
             elements: [this.elements['screen']],
             callBack: () => {
                 callBack();
@@ -196,7 +228,7 @@ class DomEngine {
         Animations.fade({
             state: false,
             duration: 0.5,
-            delay: 1,
+            delay: 0.25,
             elements: [this.elements['screen']],
             callBack: () => {
                 callBack();
@@ -387,7 +419,7 @@ class DomEngine {
 
         this.insertHtml('lesson-content', '');
         lesson.content.forEach((content) => {
-            this.appendHtml('lesson-content', `<div class="flex items-center"><i class="fa-solid fa-angle-right fa-sm mr-2"></i> ${content}</div>`);
+            this.appendHtml('lesson-content', `<div class="flex items-center"><i class="fa-solid fa-angle-right fa-sm mr-2"></i> <div>${content}</div></div>`);
         });
 
 
@@ -395,15 +427,14 @@ class DomEngine {
 
         let stepNumber = 1;
         lesson.steps.forEach((step) => {
-            console.log(step.text)
             let stepHTML = `
             <div class="lesson-step">
                 <div class="flex items-start mb-4">
-                    <b class="mr-2">${stepNumber}.</b>
+                    <b class="mr-2 not-italic font-bold">${stepNumber}.</b>
                     <div>
             `;
             step.text.forEach((text) => {
-                stepHTML += `<div class="font-bold not-italic">${text}</div>`;
+                stepHTML += `<div class="not-italic">${text}</div>`;
             });
             stepHTML += `</div>`;
 
@@ -504,5 +535,8 @@ class DomEngine {
         this.setElementState('error-console', false);
     }
 
+    hideEmptyAppScreen = () => {
+        this.setElementState('empty-app', false);
+    }
 
 }

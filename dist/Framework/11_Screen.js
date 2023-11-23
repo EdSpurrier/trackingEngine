@@ -7,7 +7,9 @@ class Screen {
         textColor,
         popupBackgroundColor,
         backgroundColor,
+        title,
         content,
+        buttonText,
     }) {
 
         this.name = name;
@@ -17,17 +19,10 @@ class Screen {
         this.backgroundColor = backgroundColor,
         this.popupBackgroundColor = popupBackgroundColor,
         this.content = content;
-
-        if(
-            !system.errorEngine.checkDefinedProperties({
-                classObject: this,
-                lesson: 'Screen',
-                properties: ['name', 'textColor', 'content', 'buttonColor', 'backgroundColor', 'popupBackgroundColor'],
-            })
-        ) {
-            return false;
-        };
+        this.title = title;
+        this.buttonText = buttonText;
         
+        console.log('Screen', this);
         system.debugConsoleLog(this.constructor.name, `Screen ${this.name} Constructed`)
     }
 
@@ -58,6 +53,17 @@ class Screen {
     }
 
     init = () => {
+
+        if(
+            !system.errorEngine.checkDefinedProperties({
+                classObject: this,
+                lesson: 'Screen',
+                properties: ['name', 'title', 'textColor', 'content', 'buttonColor', 'backgroundColor', 'popupBackgroundColor', 'buttonText'],
+            })
+        ) {
+            return false;
+        };
+
         system.debugConsoleLog(this.constructor.name, `Screen[${this.name}] Init`)
         this.render();
     }

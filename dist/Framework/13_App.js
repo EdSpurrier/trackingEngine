@@ -34,6 +34,7 @@ class App {
 
         system.domEngine.set
         system.domEngine.setAppBackgroundColor(this.backgroundColor);
+        
         system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Constructed`);
     }
 
@@ -43,6 +44,8 @@ class App {
     }
 
     initialized = false;
+
+
 
     init = () => {
         system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Init`);
@@ -54,12 +57,16 @@ class App {
         }, 750);
     }
 
-
-    start = () => {
-        system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Start`);
+    startTimeline = () => {
+        system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Start Timeline`);
         if (this.timeline) {
             this.timeline.start();
         }
+    }
+
+    start = () => {
+        system.debugConsoleLog(this.constructor.name, `App ${this.metaData.name} Start`);
+        system.domEngine.showSplashScreen();
     }
 
 

@@ -178,6 +178,8 @@ class System {
         this.isSystemReady();
 
         this.log(this.constructor.name, '-----------------------------');
+
+        this.teacherEngine.checkStage();
     }
 
 

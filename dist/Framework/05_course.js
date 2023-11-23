@@ -151,19 +151,6 @@ const courseData = {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         {
             complete: false,
             name: 'Coding your Application',
@@ -193,7 +180,7 @@ const app = new App({
         developer: 'Developer Name',
         company: 'Company Name',
     },
-    backgroundColor : '#000000',
+    backgroundColor : '#3a00a7',
     debug: true
 });</span>`
                 },
@@ -210,7 +197,27 @@ const app = new App({
         developer:  <span class="text-green-500">'John Black'</span>,
         company:  <span class="text-green-500">'AR Inc'</span>,
     },
-    backgroundColor : '#000000',
+    backgroundColor : '#3a00a7',
+    debug: true
+});`
+                },
+                {
+                    text: [
+                        `Set the backgroundColor to your own color`,
+                        `You can use a color picker to find a color that you like`,
+                        `You can use a color name or a hex color code`,
+                        `<a href="https://htmlcolorcodes.com/color-picker/" class="underline italic step-button" target="_blank">HTML Color Picker</a>`,
+                    ],
+code: `// Create a new application
+const app = new App({
+    metaData : {
+        name:  'My Awesome Application',
+        version:  '0.0.1',
+        description:  'Does things that you couldn't beleive',
+        developer:  'John Black',
+        company:  'AR Inc',
+    },
+    backgroundColor : <span class="text-green-500">'#000000'</span>,
     debug: true
 });`
                 },
@@ -233,120 +240,124 @@ app.init();</span>`
                 }
             ]
         },
-        /* {
+        {
             complete: false,
             name: 'Introduction to the Timeline',
             menuName: 'Timeline',
             className: 'Timeline',
-            description: 'Learn how to create a timeline',
-            tasks: [
+
+            goal: 'Learn how to create a timeline',
+            description: `The Timeline is a timeline that can be used to create a timeline for your application`,
+            content: [
+                `First lets create a new Timeline`,
+                `"const" means constant, which means that the value of the variable cannot be changed`,
+                `"timeline" is the name of the variable that we are creating`,
+                `"new" means that we are creating a new instance of the Timeline class`,
+                `"Timeline" is the name of the class that we are creating an instance of`,
+                `"app" is the name of the application that we are passing in as an argument`,
+                `"addTimeline" is a function that we are calling on the app`,
+                `"timeline" is the name of the variable that we are passing in as an argument`,
+            ],   
+            steps: [
                 {
-                    name: 'Create a new timeline',
-                    description: 'Learn how to create a new timeline',
-                    code: `
-                            // Create a new timeline
-                            const timeline = new Timeline();
-                        `,
+                    text: [
+                        `Make these changes in the 'JS' panel (either above or on the left)`,
+                        `This should be before the app.init() function`,
+                        `And after the app variable has been created`,
+                    ],
+code: `<span class="text-green-500">// Create a new timeline
+const timeline = new Timeline();</span>`,
                 },
                 {
-                    name: 'Add the timeline to the application',
-                    description: 'Learn how to add the timeline to the application',
-                    code: `
-                            // Add the timeline to the application
-                            app.addTimeline(timeline);
-                        `,
+                    text: [
+                        `Add the timeline to the application`,
+                        `This should be after the timeline variable has been created`,
+                        `And before the app.init() function`,
+                    ],
+code: `<span class="text-green-500">// Add the timeline to the application
+app.addTimeline(timeline);</span>`,
                 },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
+                }
             ],
         },
 
         {
             complete: false,
-            name: 'Introduction to the App Screen',
-            menuName: 'App Screen',
+            name: 'Introduction to the Screen',
+            menuName: 'Screen',
             className: 'Screen',
-            description: 'Learn how to create an app screen',
-            tasks: [
+            goal: 'Learn how to create a screen',
+            description: `The Screen is a screen that can be used to create a screen for your application`,
+            content: [
+                `First lets create a new Screen`,
+                `"const" means constant, which means that the value of the variable cannot be changed`,
+                `"screen" is the name of the variable that we are creating`,
+                `"new" means that we are creating a new instance of the Screen class`,
+                `"Screen" is the name of the class that we are creating an instance of`,
+                `"timeline" is the name of the timeline that we are passing in as an argument`,
+                `"addTimelineStep" is a function that we are calling on the timeline`,
+                `"screen" is the name of the variable that we are passing in as an argument`,
+            ],   
+            steps: [
                 {
-                    name: 'Create a new app screen and give it settings',
-                    description: 'Learn how to create a new app screen and give it settings',
-                    code: `
-                            // Create a new app screen and give it settings
-                            
-                        `,
+                    text: [
+                        `Make these changes in the 'JS' panel (either above or on the left)`,
+                        `This should be before the app.init() function`,
+                        `And after the <b>app</b> and <b>timeline</b> variable has been created`,
+                    ],
+code: `<span class="text-green-500">// Create a new screen
+const screen = new Screen({
+    name: 'Screen Name',
+    backgroundColor: '#39FF14',
+    textColor: 'black',
+    buttonColor: 'green',
+    popupBackgroundColor: 'yellow',
+    title: 'Screen Title',
+    content: `+'`'+`This is the screen content`+'`'+`,
+    buttonText: 'Click Me!',
+    debug: true,
+});</span>`,
                 },
                 {
-                    name: 'Add the new app screen to the timeline',
-                    description: 'Learn how to add the new app screen to the timeline',
-                    code: `
-                            // Add the new app screen to the timeline
-                            timeline.addTimelineStep(
-                                new Screen({
-                                    name: 'Screen Name',
-                                    settings: {
-                                        backgroundColor: '#39FF14',
-                                    },
-                                    content: {
-                                        title: 'Screen Title',
-                                        body: 'Screen Body',
-                                        button: 'Screen Button',
-                                    }
-                                })
-                            );
-                        `,
+                    text: [
+                        `Add the screen to the timeline`,
+                        `This should be after the screen variable has been created`,
+                        `And before the app.init() function`,
+                    ],
+code: `<span class="text-green-500">// Add the screen to the timeline
+timeline.addTimelineStep(screen);</span>`,
+                },
+                {
+                    text: [
+                        `The screen should now be showing on the screen`,
+                        `You can change the content and look of the screen`,
+                        `The title, body and buttonText are text values`,                        
+                    ]
+                },
+
+
+                {
+                    text: [
+                        `You can use a color picker to find a colors that you like`,
+                        `You can use a color name or a hex color code`,
+                        `<a href="https://htmlcolorcodes.com/color-picker/" class="underline italic step-button" target="_blank">HTML Color Picker</a>`,
+                    ]
+
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
                 }
             ],
         },
 
 
-        {
-            complete: false,
-            name: 'Introduction to the Scene Engine',
-            menuName: 'Scene Engine',
-            description: 'Learn how to create a scene engine',
-            className: 'Scene',
-            tasks: [
-                {
-                    name: 'Add a new scene and add it to the timeline',
-                    description: 'Learn how to add a new scene and add it to the timeline',
-                    code: `
-                            // Add a new scene and add it to the timeline
-                            timeline.addTimelineStep(
-                                new Scene({
-                                    name: 'Scene Name',
-                                    settings: {
-                                        backgroundColor: '#39FF14',
-                                    },
-                                    content: {
-                                        title: 'Scene Title',
-                                        body: 'Scene Body',
-                                        button: 'Scene Button',
-                                    }
-                                })
-                            );
-                        `,
-                },
-                {
-                    name: 'Add settings to the scene',
-                    description: 'Learn how to add settings to the scene',
-                    code: `
-                            // Add settings to the scene
-                            timeline.addTimelineStep(
-                                new Scene({
-                                    name: 'Scene Name',
-                                    settings: {
-                                        backgroundColor: '#39FF14',
-                                    },
-                                    content: {
-                                        title: 'Scene Title',
-                                        body: 'Scene Body',
-                                        button: 'Scene Button',
-                                    }
-                                })
-                            );
-                        `,
-                }
-            ]
-
-        } */
     ]
 }
