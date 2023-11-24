@@ -48,7 +48,7 @@ class TrackingEngine {
             },
             tracked: false,
             pose: '',
-    
+            motionTracker: null
         },
         'hand-2': {
             bbox: {
@@ -71,6 +71,7 @@ class TrackingEngine {
             },
             tracked: false,
             pose: '',
+            motionTracker: null
         },
         'face': {
             bbox: {
@@ -93,6 +94,7 @@ class TrackingEngine {
             },
             tracked: false,
             pose: '',
+            motionTracker: null
         },
     };
 
@@ -232,6 +234,8 @@ class TrackingEngine {
             system.log(this.constructor.name,`Webcam Stream: ${status?'true':'false'}`);
 
             this.checkIfWebcamBlocked();
+
+            system.domEngine.showWebcamView();
 
             if (status) {
                 system.log(this.constructor.name,'Running detection loop')

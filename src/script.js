@@ -26,30 +26,41 @@ const scene = new Scene({
 });
 
 
-const motionTracker = new MotionTracker({
+
+const motionTrackerFace = new MotionTracker({
+    radius: 30,
+    color: '#ae00ff',
+    trackingType: 'face',
+});
+
+// Add the motion tracker to the scene
+scene.addSceneObject(motionTrackerFace);
+
+
+const motionTrackerHand1 = new MotionTracker({
     radius: 30,
     color: '#00b7ff',
     trackingType: 'hand',
 });
 
 // Add the motion tracker to the scene
-scene.addSceneObject(motionTracker);
+scene.addSceneObject(motionTrackerHand1);
 
-const motionTracker2 = new MotionTracker({
+const motionTrackerHand2 = new MotionTracker({
     radius: 30,
     color: '#2600ff',
     trackingType: 'hand',
 });
 
 // Add the motion tracker to the scene
-scene.addSceneObject(motionTracker2);
+scene.addSceneObject(motionTrackerHand2);
 
 
 
 //  Create a new trigger zone
 const triggerZone = new TriggerZone({
-    percentageX: 50,
-    percentageY: 50,
+    percentageX: 25,
+    percentageY: 30,
     radius: 40,
     inactiveColor: '#ff0000',
     activeColor: '#00ff00',
@@ -59,6 +70,22 @@ const triggerZone = new TriggerZone({
 
 // Add the trigger zone to the scene
 scene.addSceneObject(triggerZone);
+
+
+//  Create a new trigger zone
+const triggerZone2 = new TriggerZone({
+    percentageX: 75,
+    percentageY: 50,
+    radius: 40,
+    inactiveColor: '#ff0000',
+    activeColor: '#00ff00',
+    triggerType: 'hand',
+});
+
+
+// Add the trigger zone to the scene
+scene.addSceneObject(triggerZone2);
+
 
 
 // Add the scene to the timeline

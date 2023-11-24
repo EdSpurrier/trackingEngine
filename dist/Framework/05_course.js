@@ -37,6 +37,20 @@
 //  Task:   Test the Trigger Zone
 
 
+//  Lesson: Motion Tracking The Hands
+//  Task:   Add a new Motion Tracker to the scene that tracks the hand
+//  Task:   Modify and add settings to the Motion Tracker
+//  Task:   Test the Motion Tracker
+//  Task:   Add a new Trigger Zone to the scene that triggers when the hand enters the zone
+//  Task:   Add a Motion Tracker to the scene that tracks the other hand
+
+//  Lesson: Motion Tracking The Face
+//  Task:   Add a new Motion Tracker to the scene that tracks the face
+//  Task:   Modify and add settings to the Motion Tracker
+//  Task:   Test the Motion Tracker
+//  Task:   Add a new Trigger Zone to the scene that triggers when the hand enters the zone
+
+
 
 //  Lesson: Planning Your Application
 //  Task:   Write down a list of features that you want your application to have
@@ -574,9 +588,172 @@ const <span class="text-green-500 font-bold">secondScreenTriggerZone</span> = ne
                 }
             ],
 
-        }
-    
+        },
+        {
+            complete: false,
+            name: 'Motion Tracking The Hands',
+            menuName: 'Motion Hands',
+            className: 'Hands',
+            content: [
+                        `Let's create a hand tracking system`,
+                        `First we need to create a new Motion Tracker`,
+                        `This Motion Tracker will track the hand`,
+                    ],
+            steps: [
+                    {
+                        text: [
+                            `Make these changes in the 'JS' panel (either above or on the left)`,
+                            `This should be before the app.init() function`,
+                            `And after the <b>app</b> and <b>timeline</b> variable has been created`,
+                        ],
 
+code: `<span class="text-green-500 font-bold">//  Create a new motion tracker
+const motionTrackerHand = new MotionTracker({
+    radius: 30,
+    color: '#00b7ff',
+    trackingType: 'hand',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Motion Tracker to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the motion tracker to the scene
+scene.addSceneObject(motionTrackerHand);</span>`
+                },
+                {
+                    text: [
+                        `Next we need to create a new Trigger Zone`,
+                        `This Trigger Zone will trigger when the hand enters the zone`,
+                    ],  
+code: `<span class="text-green-500 font-bold">//  Create a new trigger zone
+const triggerZoneHand = new TriggerZone({
+    percentageX: 25,
+    percentageY: 30,
+    radius: 40,
+    inactiveColor: '#ff0000',
+    activeColor: '#00ff00',
+    triggerType: 'hand',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Trigger Zone to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the trigger zone to the scene
+scene.addSceneObject(triggerZoneHand);</span>`
+                },
+                {
+                    text: [
+                        `Next we need to create a new Motion Tracker`,
+                        `This Motion Tracker will track the other hand`,
+                    ],
+code: `<span class="text-green-500 font-bold">//  Create a new motion tracker
+const motionTrackerHand2 = new MotionTracker({
+    radius: 30,
+    color: '#2600ff',
+    trackingType: 'hand',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Motion Tracker to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the motion tracker to the scene
+scene.addSceneObject(motionTrackerHand2);</span>`
+                },
+                {
+                    text: [
+                        `Next we need to create a new Trigger Zone`,
+                        `This Trigger Zone will trigger when the hand enters the zone`,
+                    ],
+code: `<span class="text-green-500 font-bold">//  Create a new trigger zone
+const triggerZoneHand2 = new TriggerZone({
+    percentageX: 75,
+    percentageY: 50,
+    radius: 40,
+    inactiveColor: '#ff0000',
+    activeColor: '#00ff00',
+    triggerType: 'hand',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Trigger Zone to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the trigger zone to the scene
+scene.addSceneObject(triggerZoneHand2);</span>`
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
+                }
+            ],
+        },
+        {
+            complete: false,
+            name: 'Motion Tracking The Face',
+            menuName: 'Motion Face',
+            className: 'Face',
+            content: [
 
+                        `Let's create a face tracking system`,
+                        `First we need to create a new Motion Tracker`,
+                        `This Motion Tracker will track the face`,
+                    ],
+            steps: [
+                    {
+                        text: [
+                            `Make these changes in the 'JS' panel (either above or on the left)`,
+                            `This should be before the app.init() function`,
+                            `And after the <b>app</b> and <b>timeline</b> variable has been created`,
+                        ],
+code: `<span class="text-green-500 font-bold">//  Create a new motion tracker
+const motionTrackerFace = new MotionTracker({
+    radius: 30,
+    color: '#ae00ff',
+    trackingType: 'face',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Motion Tracker to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the motion tracker to the scene
+scene.addSceneObject(motionTrackerFace);</span>`
+                },
+                {
+                    text: [
+                        `Next we need to create a new Trigger Zone`,
+                        `This Trigger Zone will trigger when the face enters the zone`,
+                    ],
+code: `<span class="text-green-500 font-bold">//  Create a new trigger zone
+const triggerZoneFace = new TriggerZone({
+    percentageX: 25,
+    percentageY: 30,
+    radius: 40,
+    inactiveColor: '#ff0000',
+    activeColor: '#00ff00',
+    triggerType: 'face',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Trigger Zone to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the trigger zone to the scene
+scene.addSceneObject(triggerZoneFace);</span>`
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
+                }
+            ],
+        },
+                        
     ]
 }

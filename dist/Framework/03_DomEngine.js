@@ -483,6 +483,10 @@ class DomEngine {
         this.setElementState('tracking-engine', true);
     }
 
+    showWebcamView = () => {
+        this.classListToggle('tracking-engine', 'active', true);
+    }
+
     toggleWebcamView = () => {
         this.toggleClass('tracking-engine', 'active');
     }

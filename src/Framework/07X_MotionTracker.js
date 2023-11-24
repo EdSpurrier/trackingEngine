@@ -95,6 +95,7 @@ class MotionTracker {
 
             closestDistance = distance;
             closestHand = system.trackingEngine.trackedBodyParts['hand-1'];
+            closestHand.otherHand = system.trackingEngine.trackedBodyParts['hand-2'];
 
         }
 
@@ -108,6 +109,7 @@ class MotionTracker {
 
             if (distance < closestDistance) {
                 closestHand = system.trackingEngine.trackedBodyParts['hand-2'];
+                closestHand.otherHand = system.trackingEngine.trackedBodyParts['hand-1'];
                 closestDistance = distance;
             }
         }
@@ -115,45 +117,30 @@ class MotionTracker {
         return closestHand;
     }
 
+    smoothedX = null;
+    smoothedY = null;
+
     smoothPosition = (
         x,
         y,
     ) => {
+
+        if (this.smoothedX === null || this.smoothedY === null) {
+            this.smoothedX = x;
+            this.smoothedY = y;
+        } else {
+            this.smoothedX = (this.smoothedX + x) / 2;
+            this.smoothedY = (this.smoothedY + y) / 2;
+        }
         
-        if (this.x === null || this.y === null) {
-            this.setPosition(x, y);
-            return;
-        }
-
-        const closestTrackedHand = this.getClosestTrackedHand();
-
-        if (closestTrackedHand === null) {
-            this.setPosition(x, y);
-            return;
-        }
-
-        const distance = Math.sqrt(
-            Math.pow(closestTrackedHand.centerPoint.x - x, 2) + 
-            Math.pow(closestTrackedHand.centerPoint.y - y, 2)
-        );
-
-        if (distance > 100) {
-            this.setPosition(x, y);
-            return;
-        }
-
-        const smoothFactor = 0.2;
-        const smoothX = (x - this.x) * smoothFactor;
-        const smoothY = (y - this.y) * smoothFactor;
-
         this.setPosition(
-            this.x + smoothX,
-            this.y + smoothY,
+            this.smoothedX,
+            this.smoothedY,
         )
-
-
     }
+    
 
+    lastHandTracked = null;
 
     getBodyPartTracking = () => {
         if (this.trackingType === 'face') {
@@ -164,53 +151,45 @@ class MotionTracker {
                     system.trackingEngine.trackedBodyParts['face'].percentagePosition.y * (this.canvas.height/100),
                 )
 
-/*                 this.setPercentagePosition(
+                this.setPercentagePosition(
                     system.trackingEngine.trackedBodyParts['face'].percentagePosition.x,
                     system.trackingEngine.trackedBodyParts['face'].percentagePosition.y,
-                ) */
-
-
+                )
 
                 system.trackingEngine.trackedBodyParts['face'].tracked = false;
             }
         } else if (this.trackingType === 'hand') {
+            if (system.trackingEngine.trackedBodyParts['hand-1'].tracked || system.trackingEngine.trackedBodyParts['hand-2'].tracked) {
 
-            if (system.trackingEngine.trackedBodyParts['hand-1'].tracked) {
-                this.smoothPosition(
-                    system.trackingEngine.trackedBodyParts['hand-1'].percentagePosition.x * (this.canvas.width/100),
-                    system.trackingEngine.trackedBodyParts['hand-1'].percentagePosition.y * (this.canvas.height/100),
-                )
-                system.trackingEngine.trackedBodyParts['hand-1'].tracked = false;
+                let closestHand = this.getClosestTrackedHand();
+                
+                if(!closestHand.motionTracker && closestHand.otherHand.motionTracker !== this) {
+                    closestHand.motionTracker = this;
+                } else if (closestHand.motionTracker !== this){
+                    return;
+                };
+
+
+                
+
+
+                if (closestHand !== null) {
+                    this.smoothPosition(
+                        closestHand.percentagePosition.x * (this.canvas.width/100),
+                        closestHand.percentagePosition.y * (this.canvas.height/100),
+                    )
+    
+                    this.setPercentagePosition(
+                        closestHand.percentagePosition.x,
+                        closestHand.percentagePosition.y,
+                    )
+                }
+
+                
             }
         }
 
     }
-
-/*     getBodyPartTracking = () => {
-
-        if (this.trackingType === 'hand') {
-            
-            if (system.trackingEngine.trackedBodyParts['hand-1'].tracked) {
-                const trackerPositionInBackgroundVideo = this.sceneEngine.getTrackerPositionInBackgroundVideo(system.trackingEngine.trackedBodyParts['hand-1'].centerPoint)
-
-                this.setPosition(
-                    trackerPositionInBackgroundVideo.x,
-                    trackerPositionInBackgroundVideo.y,
-                )
-                system.trackingEngine.trackedBodyParts['hand-1'].tracked = false;
-            } else if (system.trackingEngine.trackedBodyParts['hand-2'].tracked) {
-                const trackerPositionInBackgroundVideo = this.sceneEngine.getTrackerPositionInBackgroundVideo(system.trackingEngine.trackedBodyParts['hand-2'].centerPoint)
-
-                this.setPosition(
-                    trackerPositionInBackgroundVideo.x,
-                    trackerPositionInBackgroundVideo.y,
-                )
-                system.trackingEngine.trackedBodyParts['hand-2'].tracked = false;
-            }
-
-        }
-    }
- */
 
     update = () => {
         this.getBodyPartTracking()

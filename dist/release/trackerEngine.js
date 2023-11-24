@@ -1171,6 +1171,10 @@ class DomEngine {
         this.setElementState('tracking-engine', true);
     }
 
+    showWebcamView = () => {
+        this.classListToggle('tracking-engine', 'active', true);
+    }
+
     toggleWebcamView = () => {
         this.toggleClass('tracking-engine', 'active');
     }
@@ -1518,6 +1522,20 @@ class TeacherEngine {
 //  Task:   Add a new trigger zone to the scene that triggers when the mouse enters the zone
 //  Task:   Modify and add settings to the Trigger Zone
 //  Task:   Test the Trigger Zone
+
+
+//  Lesson: Motion Tracking The Hands
+//  Task:   Add a new Motion Tracker to the scene that tracks the hand
+//  Task:   Modify and add settings to the Motion Tracker
+//  Task:   Test the Motion Tracker
+//  Task:   Add a new Trigger Zone to the scene that triggers when the hand enters the zone
+//  Task:   Add a Motion Tracker to the scene that tracks the other hand
+
+//  Lesson: Motion Tracking The Face
+//  Task:   Add a new Motion Tracker to the scene that tracks the face
+//  Task:   Modify and add settings to the Motion Tracker
+//  Task:   Test the Motion Tracker
+//  Task:   Add a new Trigger Zone to the scene that triggers when the hand enters the zone
 
 
 
@@ -2057,10 +2075,173 @@ const <span class="text-green-500 font-bold">secondScreenTriggerZone</span> = ne
                 }
             ],
 
-        }
-    
+        },
+        {
+            complete: false,
+            name: 'Motion Tracking The Hands',
+            menuName: 'Motion Hands',
+            className: 'Hands',
+            content: [
+                        `Let's create a hand tracking system`,
+                        `First we need to create a new Motion Tracker`,
+                        `This Motion Tracker will track the hand`,
+                    ],
+            steps: [
+                    {
+                        text: [
+                            `Make these changes in the 'JS' panel (either above or on the left)`,
+                            `This should be before the app.init() function`,
+                            `And after the <b>app</b> and <b>timeline</b> variable has been created`,
+                        ],
 
+code: `<span class="text-green-500 font-bold">//  Create a new motion tracker
+const motionTrackerHand = new MotionTracker({
+    radius: 30,
+    color: '#00b7ff',
+    trackingType: 'hand',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Motion Tracker to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the motion tracker to the scene
+scene.addSceneObject(motionTrackerHand);</span>`
+                },
+                {
+                    text: [
+                        `Next we need to create a new Trigger Zone`,
+                        `This Trigger Zone will trigger when the hand enters the zone`,
+                    ],  
+code: `<span class="text-green-500 font-bold">//  Create a new trigger zone
+const triggerZoneHand = new TriggerZone({
+    percentageX: 25,
+    percentageY: 30,
+    radius: 40,
+    inactiveColor: '#ff0000',
+    activeColor: '#00ff00',
+    triggerType: 'hand',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Trigger Zone to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the trigger zone to the scene
+scene.addSceneObject(triggerZoneHand);</span>`
+                },
+                {
+                    text: [
+                        `Next we need to create a new Motion Tracker`,
+                        `This Motion Tracker will track the other hand`,
+                    ],
+code: `<span class="text-green-500 font-bold">//  Create a new motion tracker
+const motionTrackerHand2 = new MotionTracker({
+    radius: 30,
+    color: '#2600ff',
+    trackingType: 'hand',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Motion Tracker to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the motion tracker to the scene
+scene.addSceneObject(motionTrackerHand2);</span>`
+                },
+                {
+                    text: [
+                        `Next we need to create a new Trigger Zone`,
+                        `This Trigger Zone will trigger when the hand enters the zone`,
+                    ],
+code: `<span class="text-green-500 font-bold">//  Create a new trigger zone
+const triggerZoneHand2 = new TriggerZone({
+    percentageX: 75,
+    percentageY: 50,
+    radius: 40,
+    inactiveColor: '#ff0000',
+    activeColor: '#00ff00',
+    triggerType: 'hand',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Trigger Zone to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the trigger zone to the scene
+scene.addSceneObject(triggerZoneHand2);</span>`
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
+                }
+            ],
+        },
+        {
+            complete: false,
+            name: 'Motion Tracking The Face',
+            menuName: 'Motion Face',
+            className: 'Face',
+            content: [
 
+                        `Let's create a face tracking system`,
+                        `First we need to create a new Motion Tracker`,
+                        `This Motion Tracker will track the face`,
+                    ],
+            steps: [
+                    {
+                        text: [
+                            `Make these changes in the 'JS' panel (either above or on the left)`,
+                            `This should be before the app.init() function`,
+                            `And after the <b>app</b> and <b>timeline</b> variable has been created`,
+                        ],
+code: `<span class="text-green-500 font-bold">//  Create a new motion tracker
+const motionTrackerFace = new MotionTracker({
+    radius: 30,
+    color: '#ae00ff',
+    trackingType: 'face',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Motion Tracker to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the motion tracker to the scene
+scene.addSceneObject(motionTrackerFace);</span>`
+                },
+                {
+                    text: [
+                        `Next we need to create a new Trigger Zone`,
+                        `This Trigger Zone will trigger when the face enters the zone`,
+                    ],
+code: `<span class="text-green-500 font-bold">//  Create a new trigger zone
+const triggerZoneFace = new TriggerZone({
+    percentageX: 25,
+    percentageY: 30,
+    radius: 40,
+    inactiveColor: '#ff0000',
+    activeColor: '#00ff00',
+    triggerType: 'face',
+});</span>`
+                },
+                {
+                    text: [
+                        `Next we need to add the Trigger Zone to the scene`,
+                    ],
+code: `<span class="text-green-500 font-bold">// Add the trigger zone to the scene
+scene.addSceneObject(triggerZoneFace);</span>`
+                },
+                {
+                    text: [
+                        `Save & Reload`,
+                        `And Proceed to the next lesson...`,
+                    ],
+                }
+            ],
+        },
+                        
     ]
 }
 
@@ -2222,7 +2403,7 @@ class TrackingEngine {
             },
             tracked: false,
             pose: '',
-    
+            motionTracker: null
         },
         'hand-2': {
             bbox: {
@@ -2245,6 +2426,7 @@ class TrackingEngine {
             },
             tracked: false,
             pose: '',
+            motionTracker: null
         },
         'face': {
             bbox: {
@@ -2267,6 +2449,7 @@ class TrackingEngine {
             },
             tracked: false,
             pose: '',
+            motionTracker: null
         },
     };
 
@@ -2407,6 +2590,8 @@ class TrackingEngine {
 
             this.checkIfWebcamBlocked();
 
+            system.domEngine.showWebcamView();
+
             if (status) {
                 system.log(this.constructor.name,'Running detection loop')
                 this.runDetection();
@@ -2538,6 +2723,7 @@ class MotionTracker {
 
             closestDistance = distance;
             closestHand = system.trackingEngine.trackedBodyParts['hand-1'];
+            closestHand.otherHand = system.trackingEngine.trackedBodyParts['hand-2'];
 
         }
 
@@ -2551,6 +2737,7 @@ class MotionTracker {
 
             if (distance < closestDistance) {
                 closestHand = system.trackingEngine.trackedBodyParts['hand-2'];
+                closestHand.otherHand = system.trackingEngine.trackedBodyParts['hand-1'];
                 closestDistance = distance;
             }
         }
@@ -2558,45 +2745,30 @@ class MotionTracker {
         return closestHand;
     }
 
+    smoothedX = null;
+    smoothedY = null;
+
     smoothPosition = (
         x,
         y,
     ) => {
+
+        if (this.smoothedX === null || this.smoothedY === null) {
+            this.smoothedX = x;
+            this.smoothedY = y;
+        } else {
+            this.smoothedX = (this.smoothedX + x) / 2;
+            this.smoothedY = (this.smoothedY + y) / 2;
+        }
         
-        if (this.x === null || this.y === null) {
-            this.setPosition(x, y);
-            return;
-        }
-
-        const closestTrackedHand = this.getClosestTrackedHand();
-
-        if (closestTrackedHand === null) {
-            this.setPosition(x, y);
-            return;
-        }
-
-        const distance = Math.sqrt(
-            Math.pow(closestTrackedHand.centerPoint.x - x, 2) + 
-            Math.pow(closestTrackedHand.centerPoint.y - y, 2)
-        );
-
-        if (distance > 100) {
-            this.setPosition(x, y);
-            return;
-        }
-
-        const smoothFactor = 0.2;
-        const smoothX = (x - this.x) * smoothFactor;
-        const smoothY = (y - this.y) * smoothFactor;
-
         this.setPosition(
-            this.x + smoothX,
-            this.y + smoothY,
+            this.smoothedX,
+            this.smoothedY,
         )
-
-
     }
+    
 
+    lastHandTracked = null;
 
     getBodyPartTracking = () => {
         if (this.trackingType === 'face') {
@@ -2607,53 +2779,45 @@ class MotionTracker {
                     system.trackingEngine.trackedBodyParts['face'].percentagePosition.y * (this.canvas.height/100),
                 )
 
-/*                 this.setPercentagePosition(
+                this.setPercentagePosition(
                     system.trackingEngine.trackedBodyParts['face'].percentagePosition.x,
                     system.trackingEngine.trackedBodyParts['face'].percentagePosition.y,
-                ) */
-
-
+                )
 
                 system.trackingEngine.trackedBodyParts['face'].tracked = false;
             }
         } else if (this.trackingType === 'hand') {
+            if (system.trackingEngine.trackedBodyParts['hand-1'].tracked || system.trackingEngine.trackedBodyParts['hand-2'].tracked) {
 
-            if (system.trackingEngine.trackedBodyParts['hand-1'].tracked) {
-                this.smoothPosition(
-                    system.trackingEngine.trackedBodyParts['hand-1'].percentagePosition.x * (this.canvas.width/100),
-                    system.trackingEngine.trackedBodyParts['hand-1'].percentagePosition.y * (this.canvas.height/100),
-                )
-                system.trackingEngine.trackedBodyParts['hand-1'].tracked = false;
+                let closestHand = this.getClosestTrackedHand();
+                
+                if(!closestHand.motionTracker && closestHand.otherHand.motionTracker !== this) {
+                    closestHand.motionTracker = this;
+                } else if (closestHand.motionTracker !== this){
+                    return;
+                };
+
+
+                
+
+
+                if (closestHand !== null) {
+                    this.smoothPosition(
+                        closestHand.percentagePosition.x * (this.canvas.width/100),
+                        closestHand.percentagePosition.y * (this.canvas.height/100),
+                    )
+    
+                    this.setPercentagePosition(
+                        closestHand.percentagePosition.x,
+                        closestHand.percentagePosition.y,
+                    )
+                }
+
+                
             }
         }
 
     }
-
-/*     getBodyPartTracking = () => {
-
-        if (this.trackingType === 'hand') {
-            
-            if (system.trackingEngine.trackedBodyParts['hand-1'].tracked) {
-                const trackerPositionInBackgroundVideo = this.sceneEngine.getTrackerPositionInBackgroundVideo(system.trackingEngine.trackedBodyParts['hand-1'].centerPoint)
-
-                this.setPosition(
-                    trackerPositionInBackgroundVideo.x,
-                    trackerPositionInBackgroundVideo.y,
-                )
-                system.trackingEngine.trackedBodyParts['hand-1'].tracked = false;
-            } else if (system.trackingEngine.trackedBodyParts['hand-2'].tracked) {
-                const trackerPositionInBackgroundVideo = this.sceneEngine.getTrackerPositionInBackgroundVideo(system.trackingEngine.trackedBodyParts['hand-2'].centerPoint)
-
-                this.setPosition(
-                    trackerPositionInBackgroundVideo.x,
-                    trackerPositionInBackgroundVideo.y,
-                )
-                system.trackingEngine.trackedBodyParts['hand-2'].tracked = false;
-            }
-
-        }
-    }
- */
 
     update = () => {
         this.getBodyPartTracking()
@@ -2780,7 +2944,7 @@ class TriggerZone {
                 let dx = sceneObject.x - this.x
                 let dy = sceneObject.y - this.y
                 let distance = Math.sqrt(dx * dx + dy * dy)
-
+2
                 if (distance < sceneObject.radius + this.radius) {
                     this.trigger();
                 } else {
@@ -2804,7 +2968,7 @@ class TriggerZone {
     draw = () => {
         this.ctx.beginPath()
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-        this.ctx.fillStyle = this.color
+        this.ctx.fillStyle = this.triggered?this.activeColor:this.inactiveColor
         this.ctx.fill()
         this.ctx.closePath()
     }

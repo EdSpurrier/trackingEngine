@@ -57,7 +57,7 @@ class TriggerZone {
                 let dx = sceneObject.x - this.x
                 let dy = sceneObject.y - this.y
                 let distance = Math.sqrt(dx * dx + dy * dy)
-
+2
                 if (distance < sceneObject.radius + this.radius) {
                     this.trigger();
                 } else {
@@ -81,7 +81,7 @@ class TriggerZone {
     draw = () => {
         this.ctx.beginPath()
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-        this.ctx.fillStyle = this.color
+        this.ctx.fillStyle = this.triggered?this.activeColor:this.inactiveColor
         this.ctx.fill()
         this.ctx.closePath()
     }
